@@ -1,6 +1,8 @@
 # OPD App
 
 Aplikasi manajemen OPD berbasis Laravel untuk mengelola data instansi, pengguna, dan web app internal. Proyek ini sudah dilengkapi autentikasi modern (email verification/magic link) dan workflow manajemen OPD yang siap dikembangkan.
+Demo 43.128.85.195
+
 
 ## Daftar Isi
 1. [Fitur Utama](#fitur-utama)
