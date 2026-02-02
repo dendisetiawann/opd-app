@@ -1,59 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# OPD App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi manajemen OPD berbasis Laravel untuk mengelola data instansi, pengguna, dan web app internal. Proyek ini sudah dilengkapi autentikasi modern (email verification/magic link) dan workflow manajemen OPD yang siap dikembangkan.
 
-## About Laravel
+## Daftar Isi
+1. [Fitur Utama](#fitur-utama)
+2. [Tech Stack](#tech-stack)
+3. [Persyaratan Sistem](#persyaratan-sistem)
+4. [Instalasi Lokal](#instalasi-lokal)
+5. [Konfigurasi Environment](#konfigurasi-environment)
+6. [Menjalankan Aplikasi](#menjalankan-aplikasi)
+7. [Testing](#testing)
+8. [Pengiriman Email & Magic Link Gmail](#pengiriman-email--magic-link-gmail)
+9. [Lisensi](#lisensi)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
+- Manajemen pengguna berbasis role (admin & user) dengan relasi ke OPD.
+- Registrasi mendukung pemilihan OPD existing maupun pembuatan OPD baru.
+- Autentikasi Laravel Breeze/Fortify: login, registrasi, reset password, verifikasi email.
+- Sistem magic link verifikasi via email (SMTP Gmail).
+- UI Blade + Tailwind + Vite, siap dikustomisasi.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
+- **Backend**: PHP 8.2+, Laravel 10
+- **Frontend**: Blade, TailwindCSS, Vite
+- **Database**: MySQL / MariaDB
+- **Server**: Nginx + PHP-FPM
+- **Tools**: Composer, npm
 
-## Learning Laravel
+## Persyaratan Sistem
+- PHP 8.2 atau lebih baru
+- Composer 2.x
+- Node.js 18+ & npm
+- MySQL / MariaDB
+- Ekstensi PHP wajib: `bcmath`, `ctype`, `curl`, `dom`, `fileinfo`, `json`, `mbstring`, `openssl`, `pdo`, `tokenizer`, `xml`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Instalasi Lokal
+```bash
+git clone https://github.com/<org>/opd-app.git
+cd opd-app
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Konfigurasi Environment
+Edit `.env` sesuai kebutuhan:
+- **APP_URL**: `http://localhost` untuk lokal, `http://IP_VPS` atau URL Ngrok di server.
+- **Database**: `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
+- **Mail**: lihat [bagian mail](#pengiriman-email--magic-link-gmail) untuk setup SMTP Gmail.
 
-## Laravel Sponsors
+## Menjalankan Aplikasi
+```bash
+php artisan migrate --seed   # jika butuh data awal
+php artisan serve            # http://127.0.0.1:8000
+npm run dev                  # asset dev server
+npm run build                # build production asset
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Testing
+```bash
+php artisan test
+```
 
-### Premium Partners
+## Pengiriman Email & Magic Link Gmail
+Laravel otomatis mengirim email verifikasi ketika user registrasi (`event(new Registered($user))`). Pastikan `.env` terisi:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_ENCRYPTION=tls
+MAIL_USERNAME=akun@gmail.com
+MAIL_PASSWORD=<APP_PASSWORD_GMAIL>
+MAIL_FROM_ADDRESS=akun@gmail.com
+MAIL_FROM_NAME="OPD App"
+```
+- Aktifkan 2FA Gmail dan buat **App Password** khusus.
+- User dapat meminta link verifikasi ulang melalui endpoint `verification.send`.
+- Jika mail menggunakan queue, jalankan `php artisan queue:work --sleep=3 --tries=3` (bisa via systemd/supervisor).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Lisensi
+Proyek ini dirilis dengan lisensi [MIT](https://opensource.org/licenses/MIT). Mohon sertakan atribusi ke Laravel sesuai ketentuan.
