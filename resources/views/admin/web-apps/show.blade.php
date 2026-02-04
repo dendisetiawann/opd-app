@@ -1,262 +1,352 @@
-<x-app-layout>
+<x-admin-layout>
+    <x-slot name="header">
+        Detail Aplikasi
+    </x-slot>
 
     <!-- Main Container -->
-    <div class="py-12 bg-gray-50 min-h-screen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div class="space-y-8">
+        
+        <!-- Breadcrumb & Actions -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <a href="{{ route('admin.web-apps.index') }}" class="ml-1 text-sm font-medium text-gray-500 hover:text-blue-600 md:ml-2">Data Aplikasi</a>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <span class="ml-1 text-sm font-medium text-gray-800 md:ml-2">{{ Str::limit($webApp->nama_web_app, 20) }}</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
             
-            <!-- Back Button -->
-            <div>
-                <a href="{{ route('admin.web-apps.index') }}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 font-medium">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Kembali ke Daftar
-                </a>
-            </div>
+            <a href="{{ route('admin.web-apps.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Kembali
+            </a>
+        </div>
 
-            <!-- Header Info -->
-            <div class="relative bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 overflow-hidden shadow-xl sm:rounded-2xl">
-                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-blue-500 rounded-full opacity-10 blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-cyan-500 rounded-full opacity-10 blur-2xl"></div>
-                
-                <div class="relative p-8">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                        <div>
-                            <div class="inline-flex items-center space-x-2 bg-blue-500/20 px-3 py-1 rounded-full text-xs font-semibold text-blue-300 mb-3 border border-blue-500/30">
-                                <span>Detail Aplikasi</span>
-                            </div>
-                            <h3 class="text-2xl md:text-3xl font-bold text-white">{{ $webApp->nama_web_app }}</h3>
-                            <div class="mt-3 flex flex-wrap items-center gap-4 text-sm">
-                                <span class="inline-flex items-center text-green-300">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                    {{ $webApp->opd->nama_opd }}
-                                </span>
-                                <span class="inline-flex items-center text-gray-400">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                    {{ $webApp->user->name }}
-                                </span>
-                                <span class="inline-flex items-center text-gray-400">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                    {{ $webApp->created_at->format('d M Y, H:i') }}
-                                </span>
-                            </div>
+        <!-- Hero Card -->
+        <div class="relative bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 opacity-90"></div>
+            <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+            
+            <div class="relative p-8 md:p-10">
+                <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm border border-white/10">
+                                <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                {{ $webApp->opd->nama_opd }}
+                            </span>
+                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm border border-white/10">
+                                <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                {{ $webApp->created_at->format('d M Y') }}
+                            </span>
                         </div>
-                        @if($webApp->framework)
-                            <div class="flex-shrink-0">
-                                <span class="px-4 py-2 bg-white/10 text-white rounded-lg text-sm font-semibold backdrop-blur-sm">
-                                    {{ $webApp->framework }}
-                                </span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Content -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Informasi Umum -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h4 class="text-lg font-bold text-gray-900">Informasi Umum</h4>
-                        </div>
-                        <div class="p-6">
-                            <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama Aplikasi</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ $webApp->nama_web_app }}</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Domain</dt>
-                                    <dd class="mt-1 text-sm">
-                                        @if($webApp->domain)
-                                            <a href="{{ str_starts_with($webApp->domain, 'http') ? $webApp->domain : 'http://' . $webApp->domain }}" target="_blank" class="text-blue-600 hover:underline flex items-center gap-1">
-                                                {{ $webApp->domain }}
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                            </a>
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </dd>
-                                </div>
-                                <div class="md:col-span-2">
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Deskripsi Singkat</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ $webApp->deskripsi_singkat ?? '-' }}</dd>
-                                </div>
-                            </dl>
+                        
+                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">{{ $webApp->nama_web_app }}</h1>
+                        <div class="flex items-center text-blue-100 text-sm md:text-base">
+                            <span class="opacity-80">Dikelola oleh:</span>
+                            <span class="font-semibold ml-1.5">{{ $webApp->user->name }}</span>
                         </div>
                     </div>
-
-                    <!-- Teknologi -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h4 class="text-lg font-bold text-gray-900">Teknologi</h4>
-                        </div>
-                        <div class="p-6">
-                            <dl class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Backend</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ $webApp->bahasa_backend ?? '-' }} {{ $webApp->versi_backend ? '('.$webApp->versi_backend.')' : '' }}</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Frontend</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ $webApp->bahasa_frontend ?? '-' }} {{ $webApp->versi_frontend ? '('.$webApp->versi_frontend.')' : '' }}</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Arsitektur</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ $webApp->arsitektur_sistem ?? '-' }}</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Framework</dt>
-                                    <dd class="mt-1 text-sm text-gray-900">{{ $webApp->framework ?? '-' }} {{ $webApp->versi_framework ? '('.$webApp->versi_framework.')' : '' }}</dd>
-                                </div>
-                                <div class="md:col-span-2">
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Library / Package</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->daftar_library_package ?? '-' }}</dd>
-                                </div>
-                            </dl>
-                        </div>
+                    
+                    @if($webApp->domain)
+                    <div class="flex-shrink-0">
+                         <a href="{{ str_starts_with($webApp->domain, 'http') ? $webApp->domain : 'http://' . $webApp->domain }}" target="_blank" class="inline-flex items-center px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold shadow-lg hover:bg-blue-50 transition-all transform hover:-translate-y-0.5">
+                            Kunjungi Website
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </a>
                     </div>
-
-                    <!-- Repository & Backup -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h4 class="text-lg font-bold text-gray-900">Repository & Backup</h4>
-                        </div>
-                        <div class="p-6">
-                            <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status Repository</dt>
-                                    <dd class="mt-1">
-                                        @if($webApp->git_repository == 'private')
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                                                Private
-                                            </span>
-                                        @elseif($webApp->git_repository == 'public')
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                Public
-                                            </span>
-                                        @else
-                                            <span class="text-sm text-gray-400">-</span>
-                                        @endif
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Link GitHub</dt>
-                                    <dd class="mt-1 text-sm">
-                                        @if($webApp->link_github)
-                                            <a href="{{ $webApp->link_github }}" target="_blank" class="text-blue-600 hover:underline flex items-center gap-1">
-                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                                Lihat Repository
-                                            </a>
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Metode Backup Source</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->metode_backup_source_code ?? '-' }}</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Metode Backup Asset</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->metode_backup_asset ?? '-' }}</dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <!-- Integrasi & Monev -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h4 class="text-lg font-bold text-gray-900">Integrasi & Monitoring</h4>
-                        </div>
-                        <div class="p-6">
-                            <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Integrasi Sistem Keluar</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->integrasi_sistem_keluar ?? '-' }}</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Metode Monitoring & Evaluasi</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->metode_monitoring_evaluasi ?? '-' }}</dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sidebar -->
-                <div class="space-y-6">
-                    <!-- Tim & Kontak -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h4 class="text-lg font-bold text-gray-900">Tim & Kontak</h4>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Tim Programmer</dt>
-                                <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->data_tim_programmer ?? '-' }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Email Narahubung</dt>
-                                <dd class="mt-1 text-sm">
-                                    @if($webApp->email_narahubung)
-                                        <a href="mailto:{{ $webApp->email_narahubung }}" class="text-blue-600 hover:underline">{{ $webApp->email_narahubung }}</a>
-                                    @else
-                                        <span class="text-gray-400">-</span>
-                                    @endif
-                                </dd>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Database -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h4 class="text-lg font-bold text-gray-900">Database</h4>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama Database</dt>
-                                <dd class="mt-1 text-sm text-gray-900">{{ $webApp->nama_database ?? '-' }} {{ $webApp->versi_database ? '('.$webApp->versi_database.')' : '' }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">DBMS</dt>
-                                <dd class="mt-1 text-sm text-gray-900">{{ $webApp->dbms ?? '-' }} {{ $webApp->versi_dbms ? '('.$webApp->versi_dbms.')' : '' }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Lokasi</dt>
-                                <dd class="mt-1">
-                                    @if($webApp->lokasi_database)
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $webApp->lokasi_database == 'server' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' }}">
-                                            {{ ucfirst($webApp->lokasi_database) }}
-                                        </span>
-                                    @else
-                                        <span class="text-sm text-gray-400">-</span>
-                                    @endif
-                                </dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Akses</dt>
-                                <dd class="mt-1">
-                                    @if($webApp->akses_database)
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $webApp->akses_database == 'private' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' }}">
-                                            {{ ucfirst($webApp->akses_database) }}
-                                        </span>
-                                    @else
-                                        <span class="text-sm text-gray-400">-</span>
-                                    @endif
-                                </dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Metode Backup</dt>
-                                <dd class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $webApp->metode_backup_database ?? '-' }}</dd>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
+
+        <!-- Content Layout -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            
+            <!-- Main Column (Left) -->
+            <div class="xl:col-span-2 space-y-8">
+                
+                <!-- General Information -->
+                <section class="bg-white rounded-2xl shadow-sm border border-gray-200">
+                    <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-900">Informasi Dasar</h2>
+                            <p class="text-xs text-gray-500">Gambaran umum aplikasi</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                             <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Deskripsi</h3>
+                                <div class="bg-gray-50 rounded-xl p-5 text-gray-700 leading-relaxed border border-gray-100">
+                                    {{ $webApp->deskripsi_singkat ?? 'Belum ada deskripsi yang ditambahkan untuk aplikasi ini.' }}
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">URL / Domain</h3>
+                                    <div class="flex items-center text-sm font-medium text-gray-900">
+                                        @if($webApp->domain)
+                                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                                            <a href="{{ str_starts_with($webApp->domain, 'http') ? $webApp->domain : 'http://' . $webApp->domain }}" target="_blank" class="text-blue-600 hover:underline">{{ $webApp->domain }}</a>
+                                        @else
+                                            <span class="text-gray-400 italic">Tidak tersedia</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Arsitektur</h3>
+                                     <div class="flex items-center">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-50 text-purple-700 border border-purple-100">
+                                            <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                            {{ ucfirst($webApp->arsitektur_sistem) ?? 'Monolith' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tech Stack -->
+                <section class="bg-white rounded-2xl shadow-sm border border-gray-200">
+                    <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                             <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-900">Teknologi & Stack</h2>
+                            <p class="text-xs text-gray-500">Framework dan bahasa yang digunakan</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Framework -->
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2"></span> Framework Utama
+                                </h4>
+                                @if($webApp->framework)
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                        <div class="flex-1">
+                                            <div class="font-bold text-gray-900">{{ $webApp->framework }}</div>
+                                            @if($webApp->versi_framework)
+                                                <div class="text-xs text-gray-500">Versi {{ $webApp->versi_framework }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @else
+                                    <span class="text-gray-400 italic text-sm">Tidak ada data</span>
+                                @endif
+                            </div>
+
+                            <!-- Programming Language -->
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-pink-500 mr-2"></span> Bahasa Pemrograman
+                                </h4>
+                                @if($webApp->bahasa_pemrograman)
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach(explode(',', $webApp->bahasa_pemrograman) as $lang)
+                                            <span class="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-pink-50 text-pink-700 border border-pink-100">
+                                                {{ trim($lang) }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="text-gray-400 italic text-sm">Tidak ada data</span>
+                                @endif
+                            </div>
+
+                           <!-- Libraries -->
+                           <div class="md:col-span-2">
+                                <h4 class="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-teal-500 mr-2"></span> Library / Packages
+                                </h4>
+                                @if($webApp->daftar_library_package)
+                                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-100 font-mono text-sm text-slate-700 whitespace-pre-line leading-relaxed">
+                                        {{ $webApp->daftar_library_package }}
+                                    </div>
+                                @else
+                                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
+                                        <span class="text-gray-400 italic text-sm">Tidak ada daftar library</span>
+                                    </div>
+                                @endif
+                           </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Integration & Security -->
+                <section class="bg-white rounded-2xl shadow-sm border border-gray-200">
+                    <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3">
+                         <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
+                             <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-900">Integrasi & Keamanan</h2>
+                            <p class="text-xs text-gray-500">Konektivitas dan protokol backup</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-900 mb-2">Integrasi Sistem Eksternal</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    {{ $webApp->integrasi_sistem_keluar ?? 'Tidak ada integrasi dengan sistem luar.' }}
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Backup Source Code</h4>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span class="text-sm font-medium text-gray-900">{{ $webApp->metode_backup_source_code ?? 'Manual' }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Backup Database</h4>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span class="text-sm font-medium text-gray-900">{{ $webApp->metode_backup_database ?? 'Manual' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar (Right) -->
+            <div class="space-y-8">
+                
+                <!-- Team Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-5 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-gray-900 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            Tim Pengembang
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-5">
+                         <div>
+                            <span class="block text-xs font-semibold text-gray-500 uppercase mb-2">Programmer / Developer</span>
+                            <div class="flex items-start gap-3">
+                                <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                </div>
+                                <div class="text-sm font-medium text-gray-900 pt-1">
+                                    {{ $webApp->data_tim_programmer ?? 'Internal Diskominfo' }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-100 pt-4">
+                            <span class="block text-xs font-semibold text-gray-500 uppercase mb-2">Kontak / Narahubung</span>
+                            @if($webApp->email_narahubung)
+                                <a href="mailto:{{ $webApp->email_narahubung }}" class="flex items-center p-3 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <span class="text-sm font-medium truncate">{{ $webApp->email_narahubung }}</span>
+                                </a>
+                            @else
+                                <span class="text-sm text-gray-400 italic">Tidak ada email kontak</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Source Code -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-5 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-gray-900 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                            Source Code
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-5">
+                         <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Visibility</span>
+                            @if($webApp->git_repository == 'private')
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-red-50 text-red-700 border border-red-100">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                    Private Access
+                                </span>
+                            @elseif($webApp->git_repository == 'public')
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-700 border border-green-100">
+                                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Public Repository
+                                </span>
+                            @else
+                                <span class="text-sm text-gray-400">-</span>
+                            @endif
+                        </div>
+
+                        @if($webApp->link_github)
+                            <a href="{{ $webApp->link_github }}" target="_blank" class="w-full flex items-center justify-center px-4 py-2.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                Buka Repository
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Infrastructure -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-5 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-gray-900 flex items-center">
+                             <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                            Database & Server
+                        </h3>
+                    </div>
+                    <div class="px-6 py-2">
+                        <div class="divide-y divide-gray-100">
+                            <!-- DB Type -->
+                            <div class="py-3 flex justify-between items-center text-sm">
+                                <span class="text-gray-500">DBMS</span>
+                                <span class="font-medium text-gray-900">{{ $webApp->dbms ?? '-' }}</span>
+                            </div>
+                             <div class="py-3 flex justify-between items-center text-sm">
+                                <span class="text-gray-500">Nama DB</span>
+                                <span class="font-medium text-gray-900">{{ $webApp->nama_database ?? '-' }}</span>
+                            </div>
+                            <!-- Location -->
+                            <div class="py-3 flex justify-between items-center text-sm">
+                                <span class="text-gray-500">Lokasi</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold {{ $webApp->lokasi_database == 'server' ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-700' }}">
+                                    {{ ucfirst($webApp->lokasi_database) ?? '-' }}
+                                </span>
+                            </div>
+                             <!-- Access -->
+                            <div class="py-3 flex justify-between items-center text-sm">
+                                <span class="text-gray-500">Akses</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold {{ $webApp->akses_database == 'private' ? 'bg-orange-50 text-orange-700' : 'bg-teal-50 text-teal-700' }}">
+                                    {{ ucfirst($webApp->akses_database) ?? '-' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-</x-app-layout>
+</x-admin-layout>

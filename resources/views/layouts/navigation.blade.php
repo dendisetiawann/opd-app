@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -18,6 +18,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('admin.web-apps.index')" :active="request()->routeIs('admin.web-apps.*')">
                             {{ __('Data Aplikasi') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Manajemen User') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -85,6 +88,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.web-apps.index')" :active="request()->routeIs('admin.web-apps.*')">
                     {{ __('Data Aplikasi') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('Manajemen User') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

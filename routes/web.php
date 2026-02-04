@@ -25,6 +25,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/web-apps', [AdminController::class, 'index'])->name('web-apps.index');
     Route::get('/web-apps/{webApp}', [AdminController::class, 'show'])->name('web-apps.show');
+    
+    // User Management
+    Route::get('/users', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [\App\Http\Controllers\AdminUserController::class, 'show'])->name('users.show');
+    Route::post('/users/{user}/reset-password', [\App\Http\Controllers\AdminUserController::class, 'resetPassword'])->name('users.reset-password');
 });
 
 // Profile Routes (accessible by all authenticated users)

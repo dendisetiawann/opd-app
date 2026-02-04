@@ -17,11 +17,12 @@ class WebApp extends Model
         // Tim & Kontak
         'data_tim_programmer',
         'email_narahubung',
-        // Teknologi
+        // Stack Teknologi
         'bahasa_backend',
         'versi_backend',
         'bahasa_frontend',
         'versi_frontend',
+        'bahasa_pemrograman',
         'arsitektur_sistem',
         'framework',
         'versi_framework',

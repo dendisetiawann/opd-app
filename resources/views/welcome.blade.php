@@ -45,7 +45,7 @@
                     <div class="flex items-center gap-4">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="text-sm font-semibold text-blue-700 hover:text-blue-800 transition">
+                                <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="text-sm font-semibold text-blue-700 hover:text-blue-800 transition">
                                     Dashboard &rarr;
                                 </a>
                             @else

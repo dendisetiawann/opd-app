@@ -35,8 +35,9 @@
                                 <x-input-error :messages="$errors->get('nama_web_app')" class="mt-2" />
                             </div>
                             <div>
-                                <x-input-label for="domain" :value="__('Domain')" />
-                                <x-text-input id="domain" class="block mt-1 w-full" type="text" name="domain" :value="old('domain', $webApp->domain)" />
+                                <x-input-label for="domain" :value="__('Alamat Website / Link Aplikasi *')" />
+                                <x-text-input id="domain" class="block mt-1 w-full" type="url" name="domain" :value="old('domain', $webApp->domain)" placeholder="https://simpeg.pekanbaru.go.id" />
+                                <p class="mt-1 text-xs text-gray-500">Masukkan URL lengkap aplikasi (web, Play Store, App Store, dll). Contoh: https://play.google.com/store/apps/details?id=com.app</p>
                                 <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                             </div>
                             <div class="md:col-span-2">
@@ -70,49 +71,51 @@
                     </div>
                 </div>
 
-                <!-- Section 3: Teknologi -->
+                <!-- Section 3: Stack Teknologi -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
                             <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">3</span>
-                            Teknologi
+                            Stack Teknologi
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <x-input-label for="bahasa_backend" :value="__('Bahasa Backend')" />
-                                <x-text-input id="bahasa_backend" class="block mt-1 w-full" type="text" name="bahasa_backend" :value="old('bahasa_backend', $webApp->bahasa_backend)" />
-                            </div>
-                            <div>
-                                <x-input-label for="versi_backend" :value="__('Versi Backend')" />
-                                <x-text-input id="versi_backend" class="block mt-1 w-full" type="text" name="versi_backend" :value="old('versi_backend', $webApp->versi_backend)" />
-                            </div>
-                            <div>
-                                <x-input-label for="arsitektur_sistem" :value="__('Arsitektur Sistem')" />
-                                <select id="arsitektur_sistem" name="arsitektur_sistem" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    <option value="">-- Pilih --</option>
-                                    <option value="monolith" {{ old('arsitektur_sistem', $webApp->arsitektur_sistem) == 'monolith' ? 'selected' : '' }}>Monolith</option>
-                                    <option value="be-fe" {{ old('arsitektur_sistem', $webApp->arsitektur_sistem) == 'be-fe' ? 'selected' : '' }}>Backend-Frontend</option>
-                                </select>
-                            </div>
-                            <div>
-                                <x-input-label for="bahasa_frontend" :value="__('Bahasa Frontend')" />
-                                <x-text-input id="bahasa_frontend" class="block mt-1 w-full" type="text" name="bahasa_frontend" :value="old('bahasa_frontend', $webApp->bahasa_frontend)" />
-                            </div>
-                            <div>
-                                <x-input-label for="versi_frontend" :value="__('Versi Frontend')" />
-                                <x-text-input id="versi_frontend" class="block mt-1 w-full" type="text" name="versi_frontend" :value="old('versi_frontend', $webApp->versi_frontend)" />
-                            </div>
-                            <div>
-                                <x-input-label for="framework" :value="__('Framework')" />
-                                <x-text-input id="framework" class="block mt-1 w-full" type="text" name="framework" :value="old('framework', $webApp->framework)" />
-                            </div>
-                            <div>
-                                <x-input-label for="versi_framework" :value="__('Versi Framework')" />
-                                <x-text-input id="versi_framework" class="block mt-1 w-full" type="text" name="versi_framework" :value="old('versi_framework', $webApp->versi_framework)" />
-                            </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
-                                <x-input-label for="daftar_library_package" :value="__('Daftar Library / Package')" />
-                                <textarea id="daftar_library_package" name="daftar_library_package" rows="2" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">{{ old('daftar_library_package', $webApp->daftar_library_package) }}</textarea>
+                                <x-input-label for="bahasa_pemrograman" :value="__('Bahasa Pemrograman *')" />
+                                <textarea id="bahasa_pemrograman" name="bahasa_pemrograman" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Contoh:&#10;Backend: PHP 8.2, Python 3.11&#10;Frontend: JavaScript ES6, TypeScript 5.0&#10;Mobile: Kotlin, Swift, Dart (Flutter)">{{ old('bahasa_pemrograman', $webApp->bahasa_pemrograman) }}</textarea>
+                                <p class="mt-1 text-xs text-gray-500">Sebutkan semua bahasa pemrograman yang digunakan beserta versinya (backend, frontend, mobile, dll)</p>
+                                <x-input-error :messages="$errors->get('bahasa_pemrograman')" class="mt-2" />
+                            </div>
+                            
+                            <div>
+                                <x-input-label for="arsitektur_sistem" :value="__('Arsitektur Sistem *')" />
+                                <select id="arsitektur_sistem" name="arsitektur_sistem" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                    <option value="">-- Pilih Arsitektur --</option>
+                                    <option value="monolith" {{ old('arsitektur_sistem', $webApp->arsitektur_sistem) == 'monolith' ? 'selected' : '' }}>Monolith (Satu Aplikasi)</option>
+                                    <option value="be-fe" {{ old('arsitektur_sistem', $webApp->arsitektur_sistem) == 'be-fe' ? 'selected' : '' }}>Backend-Frontend Terpisah (API + Client)</option>
+                                </select>
+                                <p class="mt-1 text-xs text-gray-500">Pilih arsitektur sesuai struktur aplikasi Anda</p>
+                                <x-input-error :messages="$errors->get('arsitektur_sistem')" class="mt-2" />
+                            </div>
+                            
+                            <div>
+                                <x-input-label for="framework" :value="__('Framework *')" />
+                                <x-text-input id="framework" class="block mt-1 w-full" type="text" name="framework" :value="old('framework', $webApp->framework)" placeholder="Laravel, React, Vue, Flutter, dll" />
+                                <p class="mt-1 text-xs text-gray-500">Framework utama yang digunakan</p>
+                                <x-input-error :messages="$errors->get('framework')" class="mt-2" />
+                            </div>
+                            
+                            <div>
+                                <x-input-label for="versi_framework" :value="__('Versi Framework *')" />
+                                <x-text-input id="versi_framework" class="block mt-1 w-full" type="text" name="versi_framework" :value="old('versi_framework', $webApp->versi_framework)" placeholder="11.x, 18.2, 3.4, dll" />
+                                <x-input-error :messages="$errors->get('versi_framework')" class="mt-2" />
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <x-input-label for="daftar_library_package" :value="__('Daftar Library / Package *')" />
+                                <textarea id="daftar_library_package" name="daftar_library_package" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Contoh:&#10;- Laravel Breeze v2.0&#10;- Tailwind CSS v3.4&#10;- Axios v1.6&#10;- Inertia.js v1.0">{{ old('daftar_library_package', $webApp->daftar_library_package) }}</textarea>
+                                <p class="mt-1 text-xs text-gray-500">Sebutkan library, package, atau dependencies penting yang digunakan</p>
+                                <x-input-error :messages="$errors->get('daftar_library_package')" class="mt-2" />
                             </div>
                         </div>
                     </div>
@@ -137,8 +140,7 @@
                                 <div class="ml-3">
                                     <p class="text-sm text-yellow-700 font-semibold">Penting: Keamanan Repository</p>
                                     <p class="text-sm text-yellow-600 mt-1">
-                                        Untuk keamanan, <strong>sangat disarankan</strong> menggunakan repository <strong>Private</strong> di GitHub. 
-                                        Jika repository dibuat Private, silakan tambahkan akun <strong class="bg-yellow-100 px-1 rounded">mazlancreative@gmail.com</strong> sebagai Collaborator agar tim DISKOMINFO dapat mengakses dan memonitoring source code.
+                                        Untuk keamanan, <strong>sangat disarankan</strong> menggunakan repository <strong>Private</strong> di GitHub.
                                     </p>
                                 </div>
                             </div>
