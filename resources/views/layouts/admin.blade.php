@@ -65,18 +65,42 @@
                 </div>
 
                 <!-- User Profile & Logout (Sidebar Footer) -->
-                <div class="border-t border-slate-800 p-4 bg-slate-950">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <div class="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold">
-                                {{ substr(Auth::user()->name, 0, 1) }}
+                <div class="border-t border-slate-800 p-3 bg-slate-950">
+                    <!-- Admin Profile Card (Non-clickable) -->
+                    <div class="flex items-center gap-3 p-2.5 rounded-xl bg-gradient-to-r from-emerald-500/10 to-cyan-600/5 border border-emerald-500/20 mb-2">
+                        <!-- Avatar with Photo or Gradient -->
+                        <div class="relative flex-shrink-0">
+                            @if(Auth::user()->profile_photo)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="h-11 w-11 rounded-xl object-cover ring-2 ring-emerald-500/30 shadow-lg">
+                            @else
+                                <img src="{{ asset('images/admin-avatar.png') }}" alt="Admin" class="h-11 w-11 rounded-xl object-cover ring-2 ring-emerald-500/30 shadow-lg bg-emerald-900/20">
+                            @endif
+                            <!-- Admin Crown Badge -->
+                            <div class="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg ring-2 ring-slate-950">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"></path>
+                                </svg>
                             </div>
                         </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-white">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-slate-400">Administrator</p>
+                        <!-- User Info -->
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-bold text-white truncate">{{ Auth::user()->name }}</p>
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Admin</span>
+                            </div>
                         </div>
                     </div>
+                    
+                    <!-- Logout Button -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-red-500/20 border border-transparent hover:border-red-500/30 transition-all duration-200">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span class="text-sm font-medium">Keluar</span>
+                        </button>
+                    </form>
                 </div>
             </aside>
 

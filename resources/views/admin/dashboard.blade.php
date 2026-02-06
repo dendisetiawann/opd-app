@@ -7,117 +7,112 @@
     <!-- Welcome Section (Premium Redesign) -->
     <div class="relative bg-white rounded-3xl p-8 mb-8 overflow-hidden shadow-sm border border-gray-100 group">
         <!-- Decoration Background -->
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50/50 opacity-100"></div>
-        <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50/30"></div>
         
-        <div class="relative flex flex-col md:flex-row items-center justify-between gap-8">
+        <!-- Wave Illustration -->
+        <div class="absolute top-0 right-0 h-full w-2/3 md:w-1/2 pointer-events-none overflow-hidden">
+            <img src="{{ asset('images/dashboard-wave.png') }}" alt="Wave Background" class="absolute right-0 top-0 h-full w-full object-cover object-right opacity-80 mix-blend-multiply mask-image-gradient">
+            <div class="absolute inset-0 bg-gradient-to-l from-transparent via-white/50 to-white"></div>
+        </div>
+
+        <div class="relative flex flex-col md:flex-row items-center justify-between gap-8 z-10">
             <!-- Left Text -->
             <div class="flex-1 space-y-3">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-wider shadow-md shadow-slate-200">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     Admin Control Center
                 </div>
                 
-                <h1 class="text-4xl font-black text-slate-900 tracking-tight leading-tight">
-                    Selamat Datang, <br class="hidden sm:block" />
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-600">{{ Auth::user()->name }}</span>
-                </h1>
-                
-                <p class="text-slate-600 text-base max-w-xl leading-relaxed font-medium">
+                <p class="text-slate-600 text-base max-w-xl leading-relaxed font-medium mt-2">
                     Pantau dan kelola seluruh inventaris aplikasi Pemerintah Kota Pekanbaru dalam satu dashboard terintegrasi yang modern dan efisien.
                 </p>
 
                  <div class="pt-2 flex flex-wrap gap-3">
-                    <span class="inline-flex items-center text-xs font-semibold text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="inline-flex items-center text-xs font-semibold text-slate-500 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
                         <svg class="w-3.5 h-3.5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        {{ now()->isoFormat('dddd, D MMMM Y') }}
+                        {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
                     </span>
                 </div>
             </div>
-
-            <!-- Right Abstract Lines Decoration -->
-            <div class="hidden lg:flex items-center justify-center mr-4">
-                <div class="relative w-32 h-32">
-                    <!-- Abstract Lines Pattern -->
-                    <svg class="w-full h-full text-blue-600 opacity-80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Horizontal lines -->
-                        <line x1="10" y1="20" x2="110" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
-                        <line x1="20" y1="35" x2="100" y2="35" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-                        <line x1="15" y1="50" x2="105" y2="50" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                        <line x1="25" y1="65" x2="95" y2="65" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-                        <line x1="10" y1="80" x2="110" y2="80" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
-                        <line x1="30" y1="95" x2="90" y2="95" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-                        
-                        <!-- Vertical accent lines -->
-                        <line x1="40" y1="10" x2="40" y2="110" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
-                        <line x1="80" y1="15" x2="80" y2="105" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
-                        
-                        <!-- Accent dots -->
-                        <circle cx="60" cy="50" r="4" fill="currentColor" opacity="0.6"/>
-                        <circle cx="40" cy="35" r="2" fill="currentColor" opacity="0.4"/>
-                        <circle cx="80" cy="65" r="2" fill="currentColor" opacity="0.4"/>
-                    </svg>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- Stat Card: Total Apps -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all p-6 border border-gray-100 group">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 mb-1">Total Aplikasi</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalApps }}</h3>
-                    <p class="text-xs text-blue-600 mt-2 flex items-center">
-                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+    <!-- Stats Card (Combined) - Premium Design -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 hover:shadow-xl transition-all duration-300">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+            
+            <!-- Total Aplikasi -->
+            <div class="flex items-center gap-5 pt-6 md:pt-0 md:pl-0 md:pr-8 group">
+                <div class="relative flex-shrink-0">
+                    <!-- Glow Effect -->
+                    <div class="absolute inset-0 bg-blue-500 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                    <!-- Icon Container -->
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-blue-100 group-hover:scale-105 transition-transform">
+                        <!-- Icon: Cube Stack (Apps) -->
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Total Aplikasi</p>
+                    <h3 class="text-4xl font-black text-gray-900 tracking-tight">{{ $totalApps }}</h3>
+                    <p class="text-xs text-blue-600 mt-2 flex items-center font-medium">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
                         Dari semua OPD
                     </p>
                 </div>
-                <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                </div>
             </div>
-        </div>
 
-        <!-- Stat Card: Total OPD -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all p-6 border border-gray-100 group">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 mb-1">Total OPD</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalOpds }}</h3>
-                    <p class="text-xs text-green-600 mt-2 flex items-center">
-                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <!-- Total OPD -->
+            <div class="flex items-center gap-5 pt-6 md:pt-0 md:px-8 group">
+                <div class="relative flex-shrink-0">
+                    <!-- Glow Effect -->
+                    <div class="absolute inset-0 bg-emerald-500 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                    <!-- Icon Container -->
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-emerald-100 group-hover:scale-105 transition-transform">
+                        <!-- Icon: Building Office 2 -->
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Total OPD</p>
+                    <h3 class="text-4xl font-black text-gray-900 tracking-tight">{{ $totalOpds }}</h3>
+                    <p class="text-xs text-emerald-600 mt-2 flex items-center font-medium">
+                        <svg class="w-3.5 h-3.5 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                         Terdaftar di sistem
                     </p>
                 </div>
-                <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition-all">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                </div>
             </div>
-        </div>
 
-        <!-- Stat Card: This Month -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all p-6 border border-gray-100 group">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 mb-1">Input Bulan Ini</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $appsThisMonth ?? 0 }}</h3>
-                    <p class="text-xs text-purple-600 mt-2 flex items-center">
-                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        {{ now()->format('F Y') }}
+            <!-- Input Bulan Ini -->
+            <div class="flex items-center gap-5 pt-6 md:pt-0 md:pl-8 md:pr-0 group">
+                <div class="relative flex-shrink-0">
+                    <!-- Glow Effect -->
+                    <div class="absolute inset-0 bg-violet-500 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                    <!-- Icon Container -->
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-violet-400 via-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-purple-100 group-hover:scale-105 transition-transform">
+                        <!-- Icon: Document Chart Bar -->
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Input Bulan Ini</p>
+                    <h3 class="text-4xl font-black text-gray-900 tracking-tight">{{ $appsThisMonth ?? 0 }}</h3>
+                    <p class="text-xs text-purple-600 mt-2 flex items-center font-medium">
+                        <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+                        {{ \Carbon\Carbon::now()->locale('id')->isoFormat('MMMM Y') }}
                     </p>
                 </div>
-                <div class="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                </div>
             </div>
+
         </div>
-
-        <!-- Quick Action: View All -->
-
     </div>
+
 
     <!-- Recent Apps Table -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
