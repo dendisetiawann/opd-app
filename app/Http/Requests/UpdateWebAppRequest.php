@@ -24,38 +24,39 @@ class UpdateWebAppRequest extends FormRequest
         return [
             // Informasi Umum
             'nama_web_app' => 'required|string|max:255',
-            'deskripsi_singkat' => 'required|string',
+            'deskripsi_singkat' => 'nullable|string',
             'domain' => 'required|string|max:255',
             
             // Tim & Kontak
-            'data_tim_programmer' => 'required|string',
-            'email_narahubung' => 'required|email|max:255',
+            'data_tim_programmer' => 'nullable|string',
+            'email_narahubung' => 'nullable|string|max:255',
             
             // Stack Teknologi
             'bahasa_pemrograman' => 'required|string',
             'arsitektur_sistem' => 'required|in:monolith,be-fe',
-            'framework' => 'required|string|max:100',
-            'versi_framework' => 'required|string|max:50',
+            'framework' => 'required|string|max:255',
+            // 'versi_framework' => 'required|string|max:50', // Deprecated
             'daftar_library_package' => 'required|string',
             
             // Repository & Backup
-            'git_repository' => 'required|in:public,private',
-            'link_github' => 'required|url|max:500',
-            'metode_backup_source_code' => 'required|string',
-            'metode_backup_asset' => 'required|string',
+            'has_repository' => 'nullable|in:ya,tidak',
+            'git_repository' => 'nullable|in:public,private',
+            'penyedia_repository' => 'nullable|string|max:100',
+            'metode_backup_source_code' => 'nullable|string',
+            'metode_backup_asset' => 'nullable|string',
             
             // Database
-            'nama_database' => 'required|string|max:100',
-            'versi_database' => 'required|string|max:50',
-            'dbms' => 'required|string|max:100',
-            'versi_dbms' => 'required|string|max:50',
-            'lokasi_database' => 'required|in:local,server',
-            'akses_database' => 'required|in:public,private',
-            'metode_backup_database' => 'required|string',
+            'nama_database' => 'nullable|string|max:100',
+            'versi_database' => 'nullable|string|max:50',
+            'dbms' => 'nullable|string|max:100',
+            'versi_dbms' => 'nullable|string|max:50',
+            'lokasi_database' => 'nullable|in:local,server',
+            'akses_database' => 'nullable|in:public,private',
+            'metode_backup_database' => 'nullable|string',
             
             // Integrasi & Monev
-            'integrasi_sistem_keluar' => 'required|string',
-            'metode_monitoring_evaluasi' => 'required|string',
+            'integrasi_sistem_keluar' => 'nullable|string',
+            'metode_monitoring_evaluasi' => 'nullable|string',
         ];
     }
 
@@ -69,11 +70,11 @@ class UpdateWebAppRequest extends FormRequest
         return [
             'nama_web_app.required' => 'Nama aplikasi wajib diisi.',
             'nama_web_app.max' => 'Nama aplikasi maksimal 255 karakter.',
-            'email_narahubung.email' => 'Format email tidak valid.',
+            'domain.required' => 'Alamat website/link aplikasi wajib diisi.',
             'arsitektur_sistem.in' => 'Arsitektur sistem harus monolith atau be-fe.',
-            'git_repository.in' => 'Git repository harus public atau private.',
-            'link_github.url' => 'Link GitHub harus berupa URL yang valid.',
-            'lokasi_database.in' => 'Lokasi database harus local atau server.',
+            'has_repository.in' => 'Pilihan repository harus ya atau tidak.',
+            'git_repository.in' => 'Status repository harus public atau private.',
+            'lokasi_database.in' => 'Lokasi DBMS harus local atau server.',
             'akses_database.in' => 'Akses database harus public atau private.',
         ];
     }

@@ -57,4 +57,48 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update the user's profile photo.
+     */
+    public function updatePhoto(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+
+        // Delete old photo if exists
+        if ($user->profile_photo && file_exists(public_path('storage/' . $user->profile_photo))) {
+            unlink(public_path('storage/' . $user->profile_photo));
+        }
+
+        // Store new photo
+        $path = $request->file('photo')->store('profile-photos', 'public');
+        
+        $user->update([
+            'profile_photo' => $path,
+        ]);
+
+        return Redirect::route('profile.edit')->with('status', 'photo-updated');
+    }
+
+    /**
+     * Remove the user's profile photo.
+     */
+    public function removePhoto(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        if ($user->profile_photo && file_exists(public_path('storage/' . $user->profile_photo))) {
+            unlink(public_path('storage/' . $user->profile_photo));
+        }
+
+        $user->update([
+            'profile_photo' => null,
+        ]);
+
+        return Redirect::route('profile.edit')->with('status', 'photo-removed');
+    }
 }

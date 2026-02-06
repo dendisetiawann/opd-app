@@ -34,29 +34,31 @@
                 <div class="flex justify-between items-center h-20">
                     <!-- Brand -->
                     <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo-diskominfo.png') }}" alt="Logo DISKOMINFO Pekanbaru" class="h-12 w-auto">
+                        <img src="{{ asset('images/logo-icon.png') }}" alt="Logo DISKOMINFO Pekanbaru" class="h-10 w-auto">
                         <div class="hidden md:block">
-                            <h1 class="text-sm font-bold text-gray-900 leading-tight">DISKOMINFO</h1>
-                            <p class="text-xs text-gray-500 font-medium tracking-wide">KOTA PEKANBARU</p>
+                            <h1 class="text-2xl font-bold text-[#1a237e] leading-none tracking-tight">DISKOMINFO</h1>
+                            <p class="text-[10px] text-black font-semibold tracking-[0.1em] mt-0.5">KOTA PEKANBARU</p>
                         </div>
                     </div>
 
                     <!-- Auth Actions -->
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-6">
                         @if (Route::has('login'))
                             @auth
                                 <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="text-sm font-semibold text-blue-700 hover:text-blue-800 transition">
                                     Dashboard &rarr;
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">
-                                    Login
-                                </a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="px-5 py-2.5 bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 transition-all">
-                                        Registrasi
+                                <div class="flex items-center gap-6">
+                                    <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-gray-900 transition tracking-wide">
+                                        Login
                                     </a>
-                                @endif
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded shadow-sm transition-all tracking-wide">
+                                            Registrasi
+                                        </a>
+                                    @endif
+                                </div>
                             @endauth
                         @endif
                     </div>
@@ -67,35 +69,130 @@
         <!-- Main Content -->
         <main>
             <!-- Hero Section -->
-            <section class="hero-bg py-20 lg:py-28">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex flex-col items-center text-center">
-                        <!-- Text Content -->
-                        <div class="max-w-4xl mx-auto">
-                            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-800 text-xs font-semibold mb-6">
-                                <span class="w-2 h-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
-                                Portal Resmi Pendataan Aplikasi
-                            </div>
-                            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-[1.15] mb-6">
-                                Sistem Manajemen <span class="text-blue-700">Data Aplikasi</span> Pemerintahan.
+            <!-- Hero Section -->
+            <section class="relative bg-slate-50 overflow-hidden">
+                <!-- Wave Pattern (Right Side) -->
+                <div class="absolute top-0 right-0 -z-10 translate-x-1/3 -translate-y-[10%] opacity-40 mix-blend-multiply">
+                    <svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[50rem] lg:w-[90rem] h-auto">
+                        <path d="M1200 0 C 900 100, 600 400, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 40 C 900 140, 600 440, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 80 C 900 180, 600 480, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 120 C 900 220, 600 520, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 160 C 900 260, 600 560, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 200 C 900 300, 600 600, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 240 C 900 340, 600 640, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 280 C 900 380, 600 680, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 320 C 900 420, 600 720, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 360 C 900 460, 600 760, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 400 C 900 500, 600 800, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 440 C 900 540, 600 840, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 480 C 900 580, 600 880, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 520 C 900 620, 600 920, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                         <path d="M1200 560 C 900 660, 600 960, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                    </svg>
+                </div>
+                
+                 <!-- Wave Pattern (Bottom Left - Fainter) -->
+                <div class="absolute bottom-0 left-0 -z-10 -translate-x-1/2 translate-y-[20%] opacity-30 mix-blend-multiply">
+                    <svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[40rem] lg:w-[70rem] h-auto">
+                        <path d="M-200 1000 C 100 800, 300 500, 1000 1200" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
+                         <path d="M-200 1040 C 100 840, 300 540, 1000 1240" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
+                         <path d="M-200 1080 C 100 880, 300 580, 1000 1280" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
+                         <path d="M-200 1120 C 100 920, 300 620, 1000 1320" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
+                    </svg>
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 lg:pt-20 lg:pb-40">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <!-- Left Content -->
+                        <div class="max-w-3xl">
+                            <!-- Headline -->
+                            <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-8">
+                                Sistem Manajemen <br/>
+                                <span class="text-blue-600">Data Aplikasi</span> <br/>
+                                Pemerintahan.
                             </h1>
-                            <p class="text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl mx-auto">
-                                Platform terpadu untuk inventarisasi, pengelolaan, dan standarisasi data aplikasi di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mewujudkan tata kelola SPBE yang terintegrasi dan akuntabel.
+                            
+                            <!-- Description -->
+                            <p class="text-lg text-gray-600 leading-relaxed mb-10 max-w-2xl">
+                                Platform terpadu untuk inventarisasi, pengelolaan, dan standardisasi data aplikasi di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mewujudkan tata kelola SPBE yang terintegrasi dan akuntabel.
                             </p>
                             
-                            <div class="flex items-center justify-center gap-6 text-sm text-gray-500 font-medium">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <!-- Feature Icons -->
+                            <div class="flex flex-wrap items-center gap-8 text-base font-semibold text-gray-700">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                    </div>
                                     Terintegrasi
                                 </div>
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
                                     Real-time
                                 </div>
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                    </div>
                                     Aman
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Decoration: Dense Topographic Data Wave -->
+                        <div class="hidden lg:block relative h-full min-h-[500px] w-full perspective-1000">
+                            <!-- Background Glow Pulse -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-100/50 rounded-full blur-[100px] animate-pulse"></div>
+
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <svg width="100%" height="100%" viewBox="0 0 1000 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto overflow-visible">
+                                    <defs>
+                                        <linearGradient id="waveGradientBlue" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.2"/>
+                                            <stop offset="50%" stop-color="#2563eb" stop-opacity="1"/>
+                                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0.2"/>
+                                        </linearGradient>
+                                        <linearGradient id="waveGradientCyan" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.2"/>
+                                            <stop offset="50%" stop-color="#06b6d4" stop-opacity="1"/>
+                                            <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.2"/>
+                                        </linearGradient>
+                                    </defs>
+
+                                    <!-- Deep Background Layer (Sparse, Thick) -->
+                                    <path d="M-100 200 Q 250 50 500 200 T 1100 200" stroke="url(#waveGradientBlue)" stroke-width="3" fill="none" opacity="0.3" />
+                                    <path d="M-100 250 Q 250 100 500 250 T 1100 250" stroke="url(#waveGradientBlue)" stroke-width="3" fill="none" opacity="0.3" />
+                                    <path d="M-100 300 Q 250 150 500 300 T 1100 300" stroke="url(#waveGradientBlue)" stroke-width="3" fill="none" opacity="0.3" />
+                                    <path d="M-100 350 Q 250 200 500 350 T 1100 350" stroke="url(#waveGradientBlue)" stroke-width="3" fill="none" opacity="0.3" />
+
+                                    <!-- Mid Layer (Medium Density) -->
+                                    <g class="animate-[pulse_4s_ease-in-out_infinite]">
+                                        <path d="M-100 400 C 200 100, 400 600, 700 300 S 1100 500, 1100 500" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.5" />
+                                        <path d="M-100 415 C 200 115, 400 615, 700 315 S 1100 515, 1100 515" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.5" />
+                                        <path d="M-100 430 C 200 130, 400 630, 700 330 S 1100 530, 1100 530" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.6" />
+                                        <path d="M-100 445 C 200 145, 400 645, 700 345 S 1100 545, 1100 545" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.6" />
+                                        <path d="M-100 460 C 200 160, 400 660, 700 360 S 1100 560, 1100 560" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.7" />
+                                    </g>
+
+                                    <!-- Front High-Density "Interference" Pattern -->
+                                    <path d="M-100 300 C 100 500, 300 100, 600 400 S 1100 200, 1100 200" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.4" />
+                                    <path d="M-100 310 C 100 510, 300 110, 600 410 S 1100 210, 1100 210" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.5" />
+                                    <path d="M-100 320 C 100 520, 300 120, 600 420 S 1100 220, 1100 220" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.6" />
+                                    <path d="M-100 330 C 100 530, 300 130, 600 430 S 1100 230, 1100 230" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.7" />
+                                    <path d="M-100 340 C 100 540, 300 140, 600 440 S 1100 240, 1100 240" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.8" />
+                                    <path d="M-100 350 C 100 550, 300 150, 600 450 S 1100 250, 1100 250" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.7" />
+                                    <path d="M-100 360 C 100 560, 300 160, 600 460 S 1100 260, 1100 260" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.6" />
+                                    <path d="M-100 370 C 100 570, 300 170, 600 470 S 1100 270, 1100 270" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.5" />
+                                    <path d="M-100 380 C 100 580, 300 180, 600 480 S 1100 280, 1100 280" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.4" />
+
+                                    <!-- Digital Particles (Floating dots for 'Data' feel) -->
+                                    <circle cx="200" cy="300" r="3" fill="#2563eb" opacity="0.8" class="animate-bounce" style="animation-duration: 3s" />
+                                    <circle cx="450" cy="450" r="4" fill="#06b6d4" opacity="0.7" class="animate-bounce" style="animation-duration: 4s" />
+                                    <circle cx="700" cy="200" r="3" fill="#2563eb" opacity="0.6" class="animate-bounce" style="animation-duration: 5s" />
+                                    <circle cx="850" cy="400" r="3.5" fill="#06b6d4" opacity="0.9" class="animate-bounce" style="animation-duration: 3.5s" />
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -103,7 +200,7 @@
             </section>
 
             <!-- Info Section -->
-            <section class="py-20 bg-white border-t border-gray-100">
+            <section class="py-20 bg-slate-50 border-t border-slate-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
                         <h2 class="text-3xl font-bold text-gray-900 mb-4">Informasi Sistem</h2>

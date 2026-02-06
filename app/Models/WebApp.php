@@ -28,8 +28,9 @@ class WebApp extends Model
         'versi_framework',
         'daftar_library_package',
         // Repository & Backup
+        'has_repository',
         'git_repository',
-        'link_github',
+        'penyedia_repository',
         'metode_backup_source_code',
         'metode_backup_asset',
         // Database
@@ -59,5 +60,13 @@ class WebApp extends Model
     public function opd(): BelongsTo
     {
         return $this->belongsTo(Opd::class);
+    }
+
+    /**
+     * Accessor for has_repository (virtual attribute)
+     */
+    public function getHasRepositoryAttribute(): string
+    {
+        return ($this->penyedia_repository || $this->git_repository) ? 'ya' : 'tidak';
     }
 }

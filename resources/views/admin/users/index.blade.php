@@ -136,4 +136,9 @@
             @endif
         </div>
     </div>
+
+    <!-- Footer Note -->
+    <div class="mt-8 text-center text-xs text-gray-400">
+        &copy; {{ date('Y') }} Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru
+    </div>
 </x-admin-layout>

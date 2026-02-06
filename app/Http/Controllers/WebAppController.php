@@ -17,11 +17,13 @@ class WebAppController extends Controller
      */
     public function index()
     {
-        $webApps = Auth::user()
-            ->webApps()
-            ->with('opd')
-            ->latest()
-            ->paginate(10);
+        $query = Auth::user()->webApps()->with('opd')->latest();
+
+        if (request('search')) {
+            $query->where('nama_web_app', 'like', '%' . request('search') . '%');
+        }
+
+        $webApps = $query->paginate(10)->withQueryString();
 
         return view('web-apps.index', compact('webApps'));
     }

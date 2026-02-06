@@ -1,285 +1,375 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Tambah Data Aplikasi
-            </h2>
-            <a href="{{ route('web-apps.index') }}" class="text-indigo-600 hover:text-indigo-900">
-                &larr; Kembali
-            </a>
-        </div>
-    </x-slot>
+    <div class="relative z-10 py-8 min-h-screen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Back Button (Top Left) -->
+            <div class="mb-6">
+                <a href="{{ route('web-apps.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-600 text-sm font-bold rounded-full border border-slate-200 shadow-sm hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 transition-all group">
+                    <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Kembali ke Daftar
+                </a>
+            </div>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <!-- OPD Info -->
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div class="ml-3">
-                        <p class="text-sm text-blue-700">
-                            OPD: <strong>{{ auth()->user()->opd->nama_opd }}</strong> (tidak dapat diubah)
-                        </p>
-                    </div>
+            <!-- Header Title & OPD Badge -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight leading-none">
+                        Tambah Data Aplikasi Baru
+                    </h2>
+                    <p class="text-slate-600 text-base mt-2 font-medium">
+                        Lengkapi data sistem informasi untuk inventarisasi digital.
+                    </p>
+                </div>
+                
+                <!-- OPD Badge (Simple) -->
+                <div class="bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex-shrink-0">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">OPD :</p>
+                    <p class="text-sm font-bold text-slate-800">{{ auth()->user()->opd->nama_opd }}</p>
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('web-apps.store') }}">
+            <form method="POST" action="{{ route('web-apps.store') }}" class="space-y-8">
                 @csrf
 
-                <!-- Section 1: Informasi Umum -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
-                            <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">1</span>
-                            Informasi Umum
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Step 1: Informasi Umum -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800">Informasi Umum</h3>
+                                <p class="text-sm text-slate-600">Identitas dasar aplikasi atau website.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
                                 <x-input-label for="nama_web_app" :value="__('Nama Aplikasi / Website *')" />
-                                <x-text-input id="nama_web_app" class="block mt-1 w-full" type="text" name="nama_web_app" :value="old('nama_web_app')" required />
+                                <x-text-input id="nama_web_app" class="block mt-1 w-full text-sm" type="text" name="nama_web_app" :value="old('nama_web_app')" required placeholder="Misal: Sistem Informasi Kepegawaian" />
+                                <p class="mt-1 text-xs text-slate-500">Nama resmi aplikasi sesuai SK atau penggunaan umum di instansi.</p>
                                 <x-input-error :messages="$errors->get('nama_web_app')" class="mt-2" />
                             </div>
                             
                             <div>
-                                <x-input-label for="domain" :value="__('Alamat Website / Link Aplikasi *')" />
-                                <x-text-input id="domain" class="block mt-1 w-full" type="url" name="domain" :value="old('domain')" placeholder="https://simpeg.pekanbaru.go.id" />
-                                <p class="mt-1 text-xs text-gray-500">Masukkan URL lengkap aplikasi (web, Play Store, App Store, dll). Contoh: https://play.google.com/store/apps/details?id=com.app</p>
+                                <x-input-label for="domain" :value="__('URL / Tautan *')" />
+                                <div class="relative mt-1">
+                                    <x-text-input id="domain" class="block w-full text-sm" type="url" name="domain" :value="old('domain')" required placeholder="https://domain.id atau tautan akses lainnya" />
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500">Alamat lengkap akses aplikasi yang bisa dibuka publik.</p>
                                 <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                             </div>
                             
                             <div class="md:col-span-2">
-                                <x-input-label for="deskripsi_singkat" :value="__('Deskripsi Singkat')" />
-                                <textarea id="deskripsi_singkat" name="deskripsi_singkat" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">{{ old('deskripsi_singkat') }}</textarea>
+                                <x-input-label for="deskripsi_singkat" :value="__('Deskripsi Singkat *')" />
+                                <textarea id="deskripsi_singkat" name="deskripsi_singkat" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm transition-all" required placeholder="Jelaskan fungsi utama aplikasi ini...">{{ old('deskripsi_singkat') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500">Jelaskan secara singkat tujuan dan fungsi utama dari aplikasi ini.</p>
                                 <x-input-error :messages="$errors->get('deskripsi_singkat')" class="mt-2" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 2: Tim & Kontak -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
-                            <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">2</span>
-                            Tim & Kontak
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Step 2: Tim & Kontak -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">2</span>
                             <div>
-                                <x-input-label for="data_tim_programmer" :value="__('Data Tim Programmer')" />
-                                <textarea id="data_tim_programmer" name="data_tim_programmer" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Nama-nama anggota tim...">{{ old('data_tim_programmer') }}</textarea>
+                                <h3 class="text-lg font-bold text-slate-800">Tim & Kontak</h3>
+                                <p class="text-sm text-slate-600">Informasi pengelola teknis dan narahubung sistem.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <x-input-label for="data_tim_programmer" :value="__('Data Tim Pengembang *')" />
+                                <textarea id="data_tim_programmer" name="data_tim_programmer" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm" required placeholder="Sebutkan nama programmer...">{{ old('data_tim_programmer') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500">Daftar nama programmer.</p>
                                 <x-input-error :messages="$errors->get('data_tim_programmer')" class="mt-2" />
                             </div>
                             
                             <div>
-                                <x-input-label for="email_narahubung" :value="__('Email Narahubung')" />
-                                <x-text-input id="email_narahubung" class="block mt-1 w-full" type="email" name="email_narahubung" :value="old('email_narahubung')" placeholder="email@domain.com" />
+                                <x-input-label for="email_narahubung" :value="__('Kontak Narahubung *')" />
+                                <x-text-input id="email_narahubung" class="block mt-1 w-full text-sm" type="text" name="email_narahubung" :value="old('email_narahubung')" required placeholder="Email atau Nomor WhatsApp" />
+                                <p class="mt-1 text-xs text-slate-500">Kontak person yang dapat dihubungi.</p>
                                 <x-input-error :messages="$errors->get('email_narahubung')" class="mt-2" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 3: Stack Teknologi -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
-                            <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">3</span>
-                            Stack Teknologi
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Step 3: Stack Teknologi -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800">Stack Teknologi</h3>
+                                <p class="text-sm text-slate-600">Stack teknis yang digunakan aplikasi.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
-                                <x-input-label for="bahasa_pemrograman" :value="__('Bahasa Pemrograman *')" />
-                                <textarea id="bahasa_pemrograman" name="bahasa_pemrograman" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Contoh:&#10;Backend: PHP 8.2, Python 3.11&#10;Frontend: JavaScript ES6, TypeScript 5.0&#10;Mobile: Kotlin, Swift, Dart (Flutter)">{{ old('bahasa_pemrograman') }}</textarea>
-                                <p class="mt-1 text-xs text-gray-500">Sebutkan semua bahasa pemrograman yang digunakan beserta versinya (backend, frontend, mobile, dll)</p>
+                                <x-input-label for="bahasa_pemrograman" :value="__('Bahasa Pemrograman beserta versinya *')" />
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mt-1">
+                                    <textarea id="bahasa_pemrograman" name="bahasa_pemrograman" rows="3" class="block w-full bg-transparent border-0 focus:ring-0 p-0 text-sm" required placeholder="Contoh: PHP versi 8.2 dan TypeScript versi 5">{{ old('bahasa_pemrograman') }}</textarea>
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500">Sebutkan bahasa pemrograman utama yang digunakan secara lengkap.</p>
                                 <x-input-error :messages="$errors->get('bahasa_pemrograman')" class="mt-2" />
                             </div>
                             
                             <div>
                                 <x-input-label for="arsitektur_sistem" :value="__('Arsitektur Sistem *')" />
-                                <select id="arsitektur_sistem" name="arsitektur_sistem" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    <option value="">-- Pilih Arsitektur --</option>
-                                    <option value="monolith" {{ old('arsitektur_sistem') == 'monolith' ? 'selected' : '' }}>Monolith (Satu Aplikasi)</option>
-                                    <option value="be-fe" {{ old('arsitektur_sistem') == 'be-fe' ? 'selected' : '' }}>Backend-Frontend Terpisah (API + Client)</option>
+                                <select id="arsitektur_sistem" name="arsitektur_sistem" required class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm text-sm">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="monolith" {{ old('arsitektur_sistem') == 'monolith' ? 'selected' : '' }}>Monolith (Satu codebase)</option>
+                                    <option value="be-fe" {{ old('arsitektur_sistem') == 'be-fe' ? 'selected' : '' }}>Terpisah (Backend & Frontend)</option>
                                 </select>
-                                <p class="mt-1 text-xs text-gray-500">Pilih arsitektur sesuai struktur aplikasi Anda</p>
+                                <p class="mt-1 text-xs text-slate-500">Struktur rancangan aplikasi Anda.</p>
                                 <x-input-error :messages="$errors->get('arsitektur_sistem')" class="mt-2" />
                             </div>
                             
-                            <div>
-                                <x-input-label for="framework" :value="__('Framework *')" />
-                                <x-text-input id="framework" class="block mt-1 w-full" type="text" name="framework" :value="old('framework')" placeholder="Laravel, React, Vue, Flutter, dll" />
-                                <p class="mt-1 text-xs text-gray-500">Framework utama yang digunakan</p>
+                            <div class="md:col-span-2">
+                                <x-input-label for="framework" :value="__('Framework Utama & Versi *')" />
+                                <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 mt-1">
+                                    <x-text-input id="framework" class="block w-full text-sm font-medium" type="text" name="framework" :value="old('framework')" required placeholder="Format: NamaFramework Versi (Contoh: Laravel 10.x, CodeIgniter 4, Vue.js 3)" />
+                                    <p class="mt-2 text-xs text-indigo-600 flex items-start gap-1">
+                                        <svg class="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span><strong>Panduan Pengisian:</strong> Gabungkan nama framework dan versinya dalam satu baris.</span>
+                                    </p>
+                                </div>
                                 <x-input-error :messages="$errors->get('framework')" class="mt-2" />
                             </div>
                             
-                            <div>
-                                <x-input-label for="versi_framework" :value="__('Versi Framework *')" />
-                                <x-text-input id="versi_framework" class="block mt-1 w-full" type="text" name="versi_framework" :value="old('versi_framework')" placeholder="11.x, 18.2, 3.4, dll" />
-                                <x-input-error :messages="$errors->get('versi_framework')" class="mt-2" />
-                            </div>
-                            
                             <div class="md:col-span-2">
-                                <x-input-label for="daftar_library_package" :value="__('Daftar Library / Package *')" />
-                                <textarea id="daftar_library_package" name="daftar_library_package" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Contoh:&#10;- Laravel Breeze v2.0&#10;- Tailwind CSS v3.4&#10;- Axios v1.6&#10;- Inertia.js v1.0">{{ old('daftar_library_package') }}</textarea>
-                                <p class="mt-1 text-xs text-gray-500">Sebutkan library, package, atau dependencies penting yang digunakan</p>
+                                <x-input-label for="daftar_library_package" :value="__('Libraries / Packages *')" />
+                                <textarea id="daftar_library_package" name="daftar_library_package" rows="2" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm" required placeholder="Contoh: Spatie Permission, Guzzle, LeafletJS">{{ old('daftar_library_package') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500">Daftar library utama yang digunakan dalam pengembangan.</p>
                                 <x-input-error :messages="$errors->get('daftar_library_package')" class="mt-2" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 4: Repository & Backup -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
-                            <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">4</span>
-                            Repository & Backup
-                        </h3>
-                        
-                        <!-- Educational Note -->
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                            <div class="flex">
-                                <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm text-yellow-700 font-semibold">Penting: Keamanan Repository</p>
-                                    <p class="text-sm text-yellow-600 mt-1">
-                                        Untuk keamanan, <strong>sangat disarankan</strong> menggunakan repository <strong>Private</strong> di GitHub.
-                                    </p>
-                                </div>
+                <!-- Step 4: Repository -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800">Source Code</h3>
+                                <p class="text-sm text-slate-600">Manajemen kode sumber dan backup.</p>
                             </div>
                         </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                         <!-- Educational Note -->
+                         <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-6 flex items-start gap-3">
+                            <svg class="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
                             <div>
-                                <x-input-label for="git_repository" :value="__('Status Repository')" />
-                                <select id="git_repository" name="git_repository" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    <option value="">-- Pilih --</option>
-                                    <option value="public" {{ old('git_repository') == 'public' ? 'selected' : '' }}>Public</option>
-                                    <option value="private" {{ old('git_repository') == 'private' ? 'selected' : '' }}>Private (Rekomendasi)</option>
-                                </select>
-                                <x-input-error :messages="$errors->get('git_repository')" class="mt-2" />
+                                <p class="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1">Rekomendasi Keamanan</p>
+                                <p class="text-sm text-amber-700">
+                                    Gunakan repository <strong>Private</strong> untuk melindungi source code instansi.
+                                </p>
                             </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Toggle Repo -->
                             <div>
-                                <x-input-label for="link_github" :value="__('Link GitHub Repository')" />
-                                <x-text-input id="link_github" class="block mt-1 w-full" type="url" name="link_github" :value="old('link_github')" placeholder="https://github.com/username/repo" />
-                                <p class="text-xs text-gray-500 mt-1">Masukkan URL lengkap repository GitHub Anda.</p>
-                                <x-input-error :messages="$errors->get('link_github')" class="mt-2" />
+                                <x-input-label :value="__('Memiliki Repository Git? *')" class="mb-2" />
+                                <div class="flex items-center gap-4">
+                                    <label class="group relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-all">
+                                        <input type="radio" name="has_repository" value="ya" required class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500" {{ old('has_repository') == 'ya' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
+                                        <span class="text-sm font-bold text-slate-700">Ya, Ada</span>
+                                    </label>
+                                    <label class="group relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-all">
+                                        <input type="radio" name="has_repository" value="tidak" required class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500" {{ old('has_repository') == 'tidak' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
+                                        <span class="text-sm font-bold text-slate-700">Tidak Ada</span>
+                                    </label>
+                                </div>
+                                <p class="mt-2 text-xs text-slate-400">Apakah source code aplikasi ini disimpan dalam version control system?</p>
+                                <x-input-error :messages="$errors->get('has_repository')" class="mt-2" />
                             </div>
-                            <div>
-                                <x-input-label for="metode_backup_source_code" :value="__('Metode Backup Source Code')" />
-                                <textarea id="metode_backup_source_code" name="metode_backup_source_code" rows="2" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Git push reguler, manual backup, dll.">{{ old('metode_backup_source_code') }}</textarea>
-                                <x-input-error :messages="$errors->get('metode_backup_source_code')" class="mt-2" />
+
+                            <!-- Repo Details -->
+                            <div id="repository_status_wrapper" class="hidden pl-4 border-l-2 border-indigo-100 space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <x-input-label for="penyedia_repository" :value="__('Platform Repository *')" />
+                                        <x-text-input id="penyedia_repository" name="penyedia_repository" type="text" class="block mt-1 w-full text-sm" :value="old('penyedia_repository')" placeholder="GitHub, GitLab, dll" />
+                                        <p class="mt-1 text-xs text-slate-400">Layanan hosing repository yang digunakan.</p>
+                                    </div>
+                                    <div>
+                                        <x-input-label for="git_repository" :value="__('Visibilitas *')" />
+                                        <select id="git_repository" name="git_repository" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm text-sm">
+                                            <option value="">-- Pilih --</option>
+                                            <option value="private" {{ old('git_repository') == 'private' ? 'selected' : '' }}>Private (Tertutup)</option>
+                                            <option value="public" {{ old('git_repository') == 'public' ? 'selected' : '' }}>Public (Terbuka)</option>
+                                        </select>
+                                        <p class="mt-1 text-xs text-slate-400">Siapa yang dapat melihat kode sumber ini.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <x-input-label for="metode_backup_asset" :value="__('Metode Backup Asset')" />
-                                <textarea id="metode_backup_asset" name="metode_backup_asset" rows="2" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Google Drive, NAS, dll.">{{ old('metode_backup_asset') }}</textarea>
-                                <x-input-error :messages="$errors->get('metode_backup_asset')" class="mt-2" />
+
+                            <!-- Backup Info -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <x-input-label for="metode_backup_source_code" :value="__('Backup Source Code *')" />
+                                    <x-text-input id="metode_backup_source_code" class="block mt-1 w-full text-sm" type="text" name="metode_backup_source_code" :value="old('metode_backup_source_code')" required placeholder="Misal: Git Push Harian" />
+                                    <p class="mt-1 text-xs text-slate-500">Strategi pengamanan kode sumber.</p>
+                                </div>
+                                <div>
+                                    <x-input-label for="metode_backup_asset" :value="__('Backup Assets (File/Gambar) *')" />
+                                    <x-text-input id="metode_backup_asset" class="block mt-1 w-full text-sm" type="text" name="metode_backup_asset" :value="old('metode_backup_asset')" required placeholder="Contoh: Sinkronisasi ke Object Storage, Backup Harian ke Server Lain, atau Copy Manual ke HDD Eksternal" />
+                                    <p class="mt-1 text-xs text-slate-500">Jelaskan metode pengamanan file upload (foto/dokumen) agar data tetap aman jika terjadi gangguan server.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 5: Database -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
-                            <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">5</span>
-                            Database
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Step 5: Database -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">5</span>
                             <div>
-                                <x-input-label for="nama_database" :value="__('Nama Database')" />
-                                <x-text-input id="nama_database" class="block mt-1 w-full" type="text" name="nama_database" :value="old('nama_database')" />
-                                <x-input-error :messages="$errors->get('nama_database')" class="mt-2" />
+                                <h3 class="text-lg font-bold text-slate-800">Database</h3>
+                                <p class="text-sm text-slate-600">Spesifikasi penyimpanan data.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <x-input-label for="dbms" :value="__('Jenis DBMS *')" />
+                                <x-text-input id="dbms" class="block mt-1 w-full text-sm" type="text" name="dbms" :value="old('dbms')" required placeholder="MySQL, PostgreSQL" />
+                                <p class="mt-1 text-xs text-slate-500">Software database yang digunakan.</p>
                             </div>
                             <div>
-                                <x-input-label for="versi_database" :value="__('Versi Database')" />
-                                <x-text-input id="versi_database" class="block mt-1 w-full" type="text" name="versi_database" :value="old('versi_database')" />
-                                <x-input-error :messages="$errors->get('versi_database')" class="mt-2" />
+                                <x-input-label for="versi_dbms" :value="__('Versi DBMS *')" />
+                                <x-text-input id="versi_dbms" class="block mt-1 w-full text-sm" type="text" name="versi_dbms" :value="old('versi_dbms')" required placeholder="8.0, 14, dll" />
+                                <p class="mt-1 text-xs text-slate-500">Versi perangkat lunak database.</p>
                             </div>
                             <div>
-                                <x-input-label for="dbms" :value="__('DBMS')" />
-                                <x-text-input id="dbms" class="block mt-1 w-full" type="text" name="dbms" :value="old('dbms')" placeholder="MySQL, PostgreSQL, dll" />
-                                <x-input-error :messages="$errors->get('dbms')" class="mt-2" />
+                                <x-input-label for="nama_database" :value="__('Nama Database *')" />
+                                <x-text-input id="nama_database" class="block mt-1 w-full text-sm" type="text" name="nama_database" :value="old('nama_database')" required />
+                                <p class="mt-1 text-xs text-slate-500">Nama schema database di system.</p>
                             </div>
+
                             <div>
-                                <x-input-label for="versi_dbms" :value="__('Versi DBMS')" />
-                                <x-text-input id="versi_dbms" class="block mt-1 w-full" type="text" name="versi_dbms" :value="old('versi_dbms')" />
-                                <x-input-error :messages="$errors->get('versi_dbms')" class="mt-2" />
+                                <x-input-label for="versi_database" :value="__('Versi Database *')" />
+                                <x-text-input id="versi_database" class="block mt-1 w-full text-sm" type="text" name="versi_database" :value="old('versi_database')" required />
+                                <p class="mt-1 text-xs text-slate-500">Versi struktur tabel/migrasi.</p>
                             </div>
+                            
                             <div>
-                                <x-input-label for="lokasi_database" :value="__('Lokasi Database')" />
-                                <select id="lokasi_database" name="lokasi_database" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <x-input-label for="lokasi_database" :value="__('Lokasi Server DB *')" />
+                                <select id="lokasi_database" name="lokasi_database" required class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm text-sm">
                                     <option value="">-- Pilih --</option>
-                                    <option value="local" {{ old('lokasi_database') == 'local' ? 'selected' : '' }}>Local</option>
-                                    <option value="server" {{ old('lokasi_database') == 'server' ? 'selected' : '' }}>Server</option>
+                                    <option value="server" {{ old('lokasi_database') == 'server' ? 'selected' : '' }}>Dedicated Server</option>
+                                    <option value="local" {{ old('lokasi_database') == 'local' ? 'selected' : '' }}>Localhost / Shared</option>
                                 </select>
-                                <x-input-error :messages="$errors->get('lokasi_database')" class="mt-2" />
+                                <p class="mt-1 text-xs text-slate-500">Dimana database ini disimpan.</p>
                             </div>
+
                             <div>
-                                <x-input-label for="akses_database" :value="__('Akses Database')" />
-                                <select id="akses_database" name="akses_database" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <x-input-label for="akses_database" :value="__('Akses Database *')" />
+                                <select id="akses_database" name="akses_database" required class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm text-sm">
                                     <option value="">-- Pilih --</option>
-                                    <option value="public" {{ old('akses_database') == 'public' ? 'selected' : '' }}>Public</option>
-                                    <option value="private" {{ old('akses_database') == 'private' ? 'selected' : '' }}>Private</option>
+                                    <option value="public" {{ old('akses_database') == 'public' ? 'selected' : '' }}>Public (Terbuka)</option>
+                                    <option value="private" {{ old('akses_database') == 'private' ? 'selected' : '' }}>Private (Tertutup)</option>
                                 </select>
-                                <x-input-error :messages="$errors->get('akses_database')" class="mt-2" />
+                                <p class="mt-1 text-xs text-slate-500">Apakah database bisa diakses jaringan luar?</p>
                             </div>
-                            <div class="md:col-span-3">
-                                <x-input-label for="metode_backup_database" :value="__('Metode Backup Database')" />
-                                <textarea id="metode_backup_database" name="metode_backup_database" rows="2" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">{{ old('metode_backup_database') }}</textarea>
-                                <x-input-error :messages="$errors->get('metode_backup_database')" class="mt-2" />
+
+                            <div class="md:col-span-2">
+                                <x-input-label for="metode_backup_database" :value="__('Strategi Backup DB *')" />
+                                <x-text-input id="metode_backup_database" class="block mt-1 w-full text-sm" type="text" name="metode_backup_database" :value="old('metode_backup_database')" required placeholder="Misal: Auto-dump setiap jam 00:00" />
+                                <p class="mt-1 text-xs text-slate-500">Prosedur penyelamatan data jika terjadi kerusakan.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 6: Integrasi & Monev -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-indigo-200">
-                            <span class="bg-indigo-600 text-white px-2 py-1 rounded text-sm mr-2">6</span>
-                            Integrasi & Monitoring
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Step 6: Integrasi & Monev -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">6</span>
                             <div>
-                                <x-input-label for="integrasi_sistem_keluar" :value="__('Integrasi Sistem Keluar')" />
-                                <textarea id="integrasi_sistem_keluar" name="integrasi_sistem_keluar" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Sistem eksternal yang terintegrasi...">{{ old('integrasi_sistem_keluar') }}</textarea>
+                                <h3 class="text-lg font-bold text-slate-800">Integrasi & Monitoring</h3>
+                                <p class="text-sm text-slate-600">Konektivitas dan pemantauan sistem. (Kosongkan jika tidak ada)</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <x-input-label for="integrasi_sistem_keluar" :value="__('Integrasi Eksternal')" />
+                                <textarea id="integrasi_sistem_keluar" name="integrasi_sistem_keluar" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm" placeholder="Contoh: API Dukcapil, SSO Kemendagri, Sistem Keuangan Daerah...">{{ old('integrasi_sistem_keluar') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500">Sebutkan sistem pihak ketiga yang terhubung (Opsional).</p>
                                 <x-input-error :messages="$errors->get('integrasi_sistem_keluar')" class="mt-2" />
                             </div>
+
                             <div>
-                                <x-input-label for="metode_monitoring_evaluasi" :value="__('Metode Monitoring & Evaluasi')" />
-                                <textarea id="metode_monitoring_evaluasi" name="metode_monitoring_evaluasi" rows="3" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" placeholder="Cara monitoring aplikasi...">{{ old('metode_monitoring_evaluasi') }}</textarea>
+                                <x-input-label for="metode_monitoring_evaluasi" :value="__('Metode Monitoring')" />
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mt-1">
+                                    <textarea id="metode_monitoring_evaluasi" name="metode_monitoring_evaluasi" rows="3" class="block w-full bg-transparent border-0 focus:ring-0 p-0 text-sm" placeholder="Contoh: Google Analytics, Uptime Robot, Feedback Pengguna...">{{ old('metode_monitoring_evaluasi') }}</textarea>
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500">Jelaskan cara Anda memantau kesehatan aplikasi (Opsional).</p>
                                 <x-input-error :messages="$errors->get('metode_monitoring_evaluasi')" class="mt-2" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Submit -->
-                <div class="flex justify-end">
-                    <a href="{{ route('web-apps.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150 mr-3">
+                <!-- Submit Action -->
+                <div class="flex items-center justify-end gap-4 pt-4">
+                    <a href="{{ route('web-apps.index') }}" class="px-5 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition-colors">
                         Batal
                     </a>
-                    <x-primary-button>
-                        Simpan Data Aplikasi
-                    </x-primary-button>
+                    <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-[#1a237e] hover:bg-[#283593] rounded-lg font-semibold text-white transition-colors shadow-sm">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Simpan Data
+                    </button>
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleRepositoryStatus() {
+            const wrapper = document.getElementById('repository_status_wrapper');
+            const yesRadio = document.querySelector('input[name="has_repository"][value="ya"]');
+            if (yesRadio && yesRadio.checked) {
+                wrapper.classList.remove('hidden');
+            } else {
+                wrapper.classList.add('hidden');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', toggleRepositoryStatus);
+    </script>
+    
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
 </x-app-layout>

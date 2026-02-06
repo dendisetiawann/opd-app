@@ -4,28 +4,60 @@
     </x-slot>
 
     <!-- Welcome Section -->
-    <div class="relative bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 overflow-hidden shadow-xl sm:rounded-2xl mb-8">
-        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-blue-500 rounded-full opacity-10 blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-48 h-48 bg-cyan-500 rounded-full opacity-10 blur-2xl"></div>
+    <!-- Welcome Section (Premium Redesign) -->
+    <div class="relative bg-white rounded-3xl p-8 mb-8 overflow-hidden shadow-sm border border-gray-100 group">
+        <!-- Decoration Background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50/50 opacity-100"></div>
+        <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
         
-        <div class="relative p-8 sm:p-10">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                <div>
-                    <div class="inline-flex items-center space-x-2 bg-blue-500/20 px-3 py-1 rounded-full text-xs font-semibold text-blue-300 mb-3 border border-blue-500/30">
-                        <span class="relative flex h-2 w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                        </span>
-                        <span>Administrator Panel</span>
-                    </div>
-                    <h1 class="text-3xl font-bold text-white tracking-tight">
-                        Selamat Datang, {{ Auth::user()->name }}
-                    </h1>
-                    <p class="mt-2 text-gray-300 max-w-2xl">
-                        Anda memiliki akses penuh untuk mengelola dan memonitoring seluruh data aplikasi dari semua OPD di Kota Pekanbaru.
-                    </p>
+        <div class="relative flex flex-col md:flex-row items-center justify-between gap-8">
+            <!-- Left Text -->
+            <div class="flex-1 space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-wider shadow-md shadow-slate-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                    Admin Control Center
                 </div>
+                
+                <h1 class="text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                    Selamat Datang, <br class="hidden sm:block" />
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-600">{{ Auth::user()->name }}</span>
+                </h1>
+                
+                <p class="text-slate-600 text-base max-w-xl leading-relaxed font-medium">
+                    Pantau dan kelola seluruh inventaris aplikasi Pemerintah Kota Pekanbaru dalam satu dashboard terintegrasi yang modern dan efisien.
+                </p>
 
+                 <div class="pt-2 flex flex-wrap gap-3">
+                    <span class="inline-flex items-center text-xs font-semibold text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+                        <svg class="w-3.5 h-3.5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{ now()->isoFormat('dddd, D MMMM Y') }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right Abstract Lines Decoration -->
+            <div class="hidden lg:flex items-center justify-center mr-4">
+                <div class="relative w-32 h-32">
+                    <!-- Abstract Lines Pattern -->
+                    <svg class="w-full h-full text-blue-600 opacity-80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Horizontal lines -->
+                        <line x1="10" y1="20" x2="110" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                        <line x1="20" y1="35" x2="100" y2="35" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                        <line x1="15" y1="50" x2="105" y2="50" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                        <line x1="25" y1="65" x2="95" y2="65" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                        <line x1="10" y1="80" x2="110" y2="80" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                        <line x1="30" y1="95" x2="90" y2="95" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                        
+                        <!-- Vertical accent lines -->
+                        <line x1="40" y1="10" x2="40" y2="110" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+                        <line x1="80" y1="15" x2="80" y2="105" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+                        
+                        <!-- Accent dots -->
+                        <circle cx="60" cy="50" r="4" fill="currentColor" opacity="0.6"/>
+                        <circle cx="40" cy="35" r="2" fill="currentColor" opacity="0.4"/>
+                        <circle cx="80" cy="65" r="2" fill="currentColor" opacity="0.4"/>
+                    </svg>
+                </div>
             </div>
         </div>
     </div>
@@ -162,7 +194,7 @@
     </div>
 
     <!-- Footer Note -->
-    <div class="mt-8 text-center sm:text-left text-xs text-gray-400">
-        &copy; {{ date('Y') }} Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru | Admin Panel
+    <div class="mt-8 text-center text-xs text-gray-400">
+        &copy; {{ date('Y') }} Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru
     </div>
 </x-admin-layout>

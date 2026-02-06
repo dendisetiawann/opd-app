@@ -5,8 +5,12 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="flex items-center gap-3">
+                        <img src="{{ asset('images/logo-icon.png') }}" class="block h-9 w-auto" alt="Logo">
+                        <div class="hidden md:block">
+                            <h1 class="text-xl font-bold text-[#1a237e] leading-none tracking-tight">DISKOMINFO</h1>
+                            <p class="text-[9px] text-black font-semibold tracking-[0.1em] mt-0.5">KOTA PEKANBARU</p>
+                        </div>
                     </a>
                 </div>
 

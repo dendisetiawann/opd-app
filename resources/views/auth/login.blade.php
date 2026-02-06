@@ -24,7 +24,13 @@
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <!-- Header -->
                 <div class="mb-10">
-                    <img class="h-10 w-auto mb-6" src="{{ asset('images/logo-diskominfo.png') }}" alt="DISKOMINFO Pekanbaru">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="{{ asset('images/logo-icon.png') }}" alt="Logo DISKOMINFO Pekanbaru" class="h-10 w-auto">
+                        <div>
+                            <h1 class="text-2xl font-bold text-[#1a237e] leading-none tracking-tight">DISKOMINFO</h1>
+                            <p class="text-[10px] text-black font-semibold tracking-[0.1em] mt-0.5">KOTA PEKANBARU</p>
+                        </div>
+                    </div>
                     <h2 class="text-2xl font-bold tracking-tight text-gray-900">Selamat Datang Kembali</h2>
                     <p class="mt-2 text-sm text-gray-500">
                         Silahkan masuk ke akun Anda untuk mengakses dashboard manajemen aplikasi.
