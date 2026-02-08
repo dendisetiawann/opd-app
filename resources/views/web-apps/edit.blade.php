@@ -4,8 +4,8 @@
             
             <!-- Back Button (Top Left) -->
             <div class="mb-6">
-                <a href="{{ route('web-apps.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-600 text-sm font-bold rounded-full border border-slate-200 shadow-sm hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 transition-all group">
-                    <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                <a href="{{ route('web-apps.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white text-blue-600 text-sm font-bold rounded-full border border-blue-200 shadow-sm hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition-all group">
+                    <svg class="w-4 h-4 text-blue-400 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                     Kembali ke Daftar
                 </a>
             </div>
@@ -22,8 +22,8 @@
                 </div>
                 
                 <!-- OPD Badge (Simple) -->
-                <div class="bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex-shrink-0">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">OPD :</p>
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-5 py-3 shadow-sm flex-shrink-0">
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-0.5">OPD :</p>
                     <p class="text-sm font-bold text-slate-800">{{ auth()->user()->opd->nama_opd }}</p>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">1</span>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Informasi Umum</h3>
                                 <p class="text-sm text-slate-600">Identitas dasar aplikasi atau website.</p>
@@ -52,12 +52,12 @@
                             </div>
                             
                             <div>
-                                <x-input-label for="domain" :value="__('URL / Tautan *')" />
+                                <x-input-label for="alamat_tautan" :value="__('Alamat Tautan *')" />
                                 <div class="relative mt-1">
-                                    <x-text-input id="domain" class="block w-full text-sm" type="url" name="domain" :value="old('domain', $webApp->domain)" required placeholder="https://domain.id atau tautan akses lainnya" />
+                                    <x-text-input id="alamat_tautan" class="block w-full text-sm" type="url" name="alamat_tautan" :value="old('alamat_tautan', $webApp->alamat_tautan)" required placeholder="https://example.id atau tautan akses lainnya" />
                                 </div>
                                 <p class="mt-1 text-xs text-slate-500">Alamat lengkap akses aplikasi yang bisa dibuka publik.</p>
-                                <x-input-error :messages="$errors->get('domain')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('alamat_tautan')" class="mt-2" />
                             </div>
                             
                             <div class="md:col-span-2">
@@ -74,7 +74,7 @@
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">2</span>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Tim & Kontak</h3>
                                 <p class="text-sm text-slate-600">Informasi pengelola teknis dan narahubung sistem.</p>
@@ -103,7 +103,7 @@
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">3</span>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Stack Teknologi</h3>
                                 <p class="text-sm text-slate-600">Stack teknis yang digunakan aplikasi.</p>
@@ -159,7 +159,7 @@
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">4</span>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Source Code</h3>
                                 <p class="text-sm text-slate-600">Manajemen kode sumber dan backup.</p>
@@ -241,7 +241,7 @@
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">5</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">5</span>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Database</h3>
                                 <p class="text-sm text-slate-600">Spesifikasi penyimpanan data.</p>
@@ -304,7 +304,7 @@
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">6</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">6</span>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Integrasi & Monitoring</h3>
                                 <p class="text-sm text-slate-600">Konektivitas dan pemantauan sistem. (Kosongkan jika tidak ada)</p>
@@ -336,7 +336,7 @@
                     <a href="{{ route('web-apps.index') }}" class="px-5 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition-colors">
                         Batal
                     </a>
-                    <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-[#1a237e] hover:bg-[#283593] rounded-lg font-semibold text-white transition-colors shadow-sm">
+                    <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 rounded-xl font-semibold text-white transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         Simpan Perubahan
                     </button>

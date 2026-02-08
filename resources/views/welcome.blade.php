@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Sistem Manajemen Data Aplikasi OPD Kota Pekanbaru">
         <title>Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru</title>
-
+        <link rel="icon" href="{{ asset('images/logo-icon.png') }}" type="image/png">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

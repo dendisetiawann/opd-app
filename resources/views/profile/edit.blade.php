@@ -1,16 +1,16 @@
 <x-app-layout>
     <!-- Background Abstract shapes -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="absolute -top-[20%] -right-[10%] w-[700px] h-[700px] bg-gradient-to-br from-indigo-100/40 to-indigo-50/30 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] bg-gradient-to-tr from-blue-100/30 to-indigo-100/20 rounded-full blur-3xl"></div>
+        <div class="absolute -top-[20%] -right-[10%] w-[700px] h-[700px] bg-gradient-to-br from-blue-100/40 to-blue-50/30 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] bg-gradient-to-tr from-sky-100/30 to-blue-100/20 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header Section -->
             <div class="mb-10 text-center animate-fade-in-up">
-                <span class="inline-block p-3 rounded-2xl bg-white shadow-sm border border-indigo-50 mb-4 animate-bounce-slow">
-                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                <span class="inline-block p-3 rounded-2xl bg-white shadow-sm border border-blue-50 mb-4 animate-bounce-slow">
+                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-200">
                         <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
@@ -20,7 +20,7 @@
                     Pengaturan Profil
                 </h2>
                 <p class="mt-3 text-slate-500 text-lg max-w-2xl mx-auto">
-                    Kelola informasi akun Anda, perbarui password, dan atur keamanan privasi di satu tempat yang terintegrasi.
+                    Kelola informasi akun dan perbarui password Anda di satu tempat yang terintegrasi.
                 </p>
             </div>
 
@@ -30,9 +30,9 @@
                 <!-- Left Column: Navigation / Summary -->
                 <div class="lg:col-span-4 space-y-6 animate-fade-in-left">
                     <!-- Profile Card -->
-                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-indigo-100/50 border border-slate-50 relative overflow-hidden group">
-                        <!-- Pure Indigo Gradient matching Sidebar Active State -->
-                        <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-indigo-600 to-indigo-800"></div>
+                    <div class="bg-white rounded-3xl p-6 shadow-xl shadow-blue-100/50 border border-slate-50 relative overflow-hidden group">
+                        <!-- Blue Gradient matching Admin Theme -->
+                        <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-blue-600 to-blue-800"></div>
                         <div class="relative pt-12 text-center">
                             <!-- Profile Photo with Upload -->
                             <div class="relative inline-block">
@@ -40,7 +40,7 @@
                                     @if(Auth::user()->profile_photo)
                                         <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile Photo" class="h-full w-full rounded-full object-cover">
                                     @else
-                                        <div class="h-full w-full rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white uppercase">
+                                        <div class="h-full w-full rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-2xl font-bold text-white uppercase">
                                             {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
                                         </div>
                                     @endif
@@ -63,7 +63,7 @@
                             
                             <!-- Photo Action Buttons -->
                             <div class="mt-3 flex items-center justify-center gap-2">
-                                <label for="photo-upload" class="px-3 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 text-xs font-semibold cursor-pointer hover:bg-indigo-200 transition-colors">
+                                <label for="photo-upload" class="px-3 py-1.5 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold cursor-pointer hover:bg-blue-200 transition-colors">
                                     {{ Auth::user()->profile_photo ? 'Ganti Foto' : 'Unggah Foto' }}
                                 </label>
                                 @if(Auth::user()->profile_photo)
@@ -91,15 +91,7 @@
                             <h3 class="mt-4 text-xl font-bold text-slate-800">{{ Auth::user()->name }}</h3>
                             <p class="text-sm text-slate-500 font-medium">{{ Auth::user()->email }}</p>
                             
-                            <div class="mt-8 space-y-4 border-t border-slate-100 pt-6">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 opacity-80">Status Akun</span>
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold border border-emerald-100 shadow-sm">
-                                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                        Akun Aktif
-                                    </span>
-                                </div>
-                                
+                            <div class="mt-4 space-y-4 border-t border-slate-100 pt-4">
                                 <div class="flex flex-col items-center">
                                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 opacity-80">Organisasi Perangkat Daerah (OPD)</span>
                                     <div class="px-4 py-2 bg-slate-50 rounded-xl text-center border border-slate-100 w-full">
@@ -111,21 +103,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- Delete Account Card -->
-                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-red-50 relative overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="absolute -right-6 -top-6 w-24 h-24 bg-red-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
-                        
-                        <h4 class="text-base font-bold text-slate-800 mb-2 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            Hapus Akun
-                        </h4>
-                        <p class="text-sm text-slate-500 mb-4 leading-relaxed">
-                            Tindakan ini permanen. Seluruh data aplikasi yang terkait dengan akun ini akan ikut terhapus.
-                        </p>
-                        @include('profile.partials.delete-user-form')
-                    </div>
                 </div>
 
                 <!-- Right Column: Forms -->
@@ -133,11 +110,11 @@
                     
                     <!-- Update Info Form -->
                     <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-50/50 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-blue-50/50 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
                         
                         <div class="relative z-10">
                             <h3 class="text-xl font-bold text-slate-800 mb-1 flex items-center gap-2">
-                                <svg class="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0c0 .884-.956 2.016-1.5 2.016a5.5 5.5 0 010-11.033A5.5 5.5 0 005.25 4.5"></path></svg>
+                                <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                 Informasi Profil
                             </h3>
                             <p class="text-sm text-slate-500 mb-8">Perbarui nama tampilan dan alamat email akun Anda.</p>
@@ -148,11 +125,11 @@
 
                     <!-- Update Password Form -->
                     <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-500/10 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
                         
                         <div class="relative z-10">
                             <h3 class="text-xl font-bold text-slate-800 mb-1 flex items-center gap-2">
-                                <svg class="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                                 Perbarui Password
                             </h3>
                             <p class="text-sm text-slate-500 mb-8">Pastikan akun Anda aman dengan password yang kuat (minimal 8 karakter).</p>

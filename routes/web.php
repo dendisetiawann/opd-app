@@ -28,8 +28,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     
     // User Management
     Route::get('/users', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('users.index');
+    Route::post('/users', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}/created', [\App\Http\Controllers\AdminUserController::class, 'created'])->name('users.created');
+    Route::get('/users/{user}/export-pdf', [\App\Http\Controllers\AdminUserController::class, 'exportPdf'])->name('users.export-pdf');
     Route::get('/users/{user}', [\App\Http\Controllers\AdminUserController::class, 'show'])->name('users.show');
     Route::post('/users/{user}/reset-password', [\App\Http\Controllers\AdminUserController::class, 'resetPassword'])->name('users.reset-password');
+    Route::post('/users/{user}/update-email', [\App\Http\Controllers\AdminUserController::class, 'updateEmail'])->name('users.update-email');
 });
 
 // Profile Routes (accessible by all authenticated users)

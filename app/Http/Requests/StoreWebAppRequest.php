@@ -25,7 +25,7 @@ class StoreWebAppRequest extends FormRequest
             // Informasi Umum
             'nama_web_app' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string',
-            'domain' => 'required|string|max:255',
+            'alamat_tautan' => 'required|string|max:255',
             
             // Tim & Kontak
             'data_tim_programmer' => 'required|string',
@@ -71,7 +71,7 @@ class StoreWebAppRequest extends FormRequest
             // Informasi Umum
             'nama_web_app.required' => 'Nama aplikasi wajib diisi.',
             'nama_web_app.max' => 'Nama aplikasi maksimal 255 karakter.',
-            'domain.required' => 'Alamat website/link aplikasi wajib diisi.',
+            'alamat_tautan.required' => 'Alamat tautan wajib diisi.',
             
             // Tim & Kontak
             'email_narahubung.max' => 'Kontak/email maksimal 255 karakter.',

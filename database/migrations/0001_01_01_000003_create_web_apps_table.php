@@ -16,40 +16,38 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('opd_id')->constrained('opds')->onDelete('cascade');
             
-            // Informasi Umum
+            // Informasi Umum (WAJIB)
             $table->string('nama_web_app');
-            $table->text('deskripsi_singkat')->nullable();
-            $table->string('domain')->nullable();
+            $table->text('deskripsi_singkat');
+            $table->string('alamat_tautan');
             
-            // Tim & Kontak
-            $table->text('data_tim_programmer')->nullable();
-            $table->string('email_narahubung')->nullable();
+            // Tim & Kontak (WAJIB)
+            $table->text('data_tim_programmer');
+            $table->string('email_narahubung');
             
-            // Teknologi
-            $table->string('bahasa_backend')->nullable();
-            $table->string('versi_backend')->nullable();
-            $table->string('bahasa_frontend')->nullable();
-            $table->string('versi_frontend')->nullable();
+            // Teknologi (WAJIB)
+            $table->text('bahasa_pemrograman');
             $table->enum('arsitektur_sistem', ['monolith', 'be-fe'])->default('monolith');
-            $table->string('framework')->nullable();
-            $table->string('versi_framework')->nullable();
-            $table->text('daftar_library_package')->nullable();
+            $table->string('framework');
+            $table->text('daftar_library_package');
             
-            // Repository & Backup
-            $table->enum('git_repository', ['public', 'private'])->nullable();
-            $table->text('metode_backup_source_code')->nullable();
-            $table->text('metode_backup_asset')->nullable();
+            // Repository & Backup (WAJIB)
+            $table->enum('has_repository', ['ya', 'tidak']);
+            $table->enum('git_repository', ['public', 'private']);
+            $table->string('penyedia_repository', 100);
+            $table->text('metode_backup_source_code');
+            $table->text('metode_backup_asset');
             
-            // Database
-            $table->string('nama_database')->nullable();
-            $table->string('versi_database')->nullable();
-            $table->string('dbms')->nullable();
-            $table->string('versi_dbms')->nullable();
-            $table->enum('lokasi_database', ['local', 'server'])->nullable();
-            $table->enum('akses_database', ['public', 'private'])->nullable();
-            $table->text('metode_backup_database')->nullable();
+            // Database (WAJIB)
+            $table->string('nama_database');
+            $table->string('versi_database');
+            $table->string('dbms');
+            $table->string('versi_dbms');
+            $table->enum('lokasi_database', ['local', 'server']);
+            $table->enum('akses_database', ['public', 'private']);
+            $table->text('metode_backup_database');
             
-            // Integrasi & Monev
+            // Integrasi & Monev (OPSIONAL)
             $table->text('integrasi_sistem_keluar')->nullable();
             $table->text('metode_monitoring_evaluasi')->nullable();
             

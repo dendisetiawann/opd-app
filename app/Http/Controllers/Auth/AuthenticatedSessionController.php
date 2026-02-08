@@ -14,9 +14,14 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.login');
+        // Generate captcha numbers on page load
+        $num1 = rand(1, 9);
+        $num2 = rand(1, 9);
+        session(['captcha_num1' => $num1, 'captcha_num2' => $num2]);
+        
+        return view('auth.login', compact('num1', 'num2'));
     }
 
     /**
@@ -24,12 +29,27 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Validate CAPTCHA first
+        $num1 = session('captcha_num1', 0);
+        $num2 = session('captcha_num2', 0);
+        $captchaAnswer = (int) $request->input('captcha');
+        
+        if ($captchaAnswer !== ($num1 + $num2)) {
+            // Regenerate captcha for next attempt
+            session(['captcha_num1' => rand(1, 9), 'captcha_num2' => rand(1, 9)]);
+            
+            return back()
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['captcha' => 'Jawaban verifikasi keamanan salah. Silakan coba lagi.']);
+        }
+
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        // Role-based redirect
+        // Update last login timestamp
         $user = $request->user();
+        $user->update(['last_login_at' => now()]);
         
         if ($user->isAdmin()) {
             return redirect()->intended(route('admin.dashboard', absolute: false));

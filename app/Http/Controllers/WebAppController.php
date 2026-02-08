@@ -17,7 +17,26 @@ class WebAppController extends Controller
      */
     public function index()
     {
-        $query = Auth::user()->webApps()->with('opd')->latest();
+        $user = Auth::user();
+        $filter = request('filter', 'mine'); // default to 'mine'
+        
+        // Count for tabs
+        $myAppsCount = $user->webApps()->count();
+        $opdAppsCount = WebApp::where('opd_id', $user->opd_id)->count();
+        
+        // Total apps in OPD (including user's own)
+        $totalOpdAppsCount = WebApp::where('opd_id', $user->opd_id)->count();
+        
+        // Build query based on filter
+        if ($filter === 'opd') {
+            // Show ALL apps from same OPD (including current user's apps)
+            $query = WebApp::with(['opd', 'user'])
+                ->where('opd_id', $user->opd_id)
+                ->latest();
+        } else {
+            // Default: show only user's own apps
+            $query = $user->webApps()->with('opd')->latest();
+        }
 
         if (request('search')) {
             $query->where('nama_web_app', 'like', '%' . request('search') . '%');
@@ -25,7 +44,7 @@ class WebAppController extends Controller
 
         $webApps = $query->paginate(10)->withQueryString();
 
-        return view('web-apps.index', compact('webApps'));
+        return view('web-apps.index', compact('webApps', 'filter', 'myAppsCount', 'opdAppsCount', 'totalOpdAppsCount'));
     }
 
     /**

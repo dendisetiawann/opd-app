@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -34,6 +36,7 @@ class LoginRequest extends FormRequest
 
     /**
      * Attempt to authenticate the request's credentials.
+     * Provides specific error messages for email not found vs wrong password.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -41,11 +44,32 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // First, check if email exists
+        $user = User::where('email', $this->email)->first();
+        
+        if (!$user) {
+            RateLimiter::hit($this->throttleKey());
+            
+            throw ValidationException::withMessages([
+                'email' => 'Email tidak ditemukan dalam sistem.',
+            ]);
+        }
+
+        // Email exists, now check password
+        if (!Hash::check($this->password, $user->password)) {
+            RateLimiter::hit($this->throttleKey());
+            
+            throw ValidationException::withMessages([
+                'password' => 'Password yang Anda masukkan salah.',
+            ]);
+        }
+
+        // Both valid, attempt login
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Terjadi kesalahan saat login. Silakan coba lagi.',
             ]);
         }
 
@@ -68,10 +92,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.',
         ]);
     }
 

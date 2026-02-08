@@ -13,19 +13,14 @@ class WebApp extends Model
         // Informasi Umum
         'nama_web_app',
         'deskripsi_singkat',
-        'domain',
+        'alamat_tautan',
         // Tim & Kontak
         'data_tim_programmer',
         'email_narahubung',
         // Stack Teknologi
-        'bahasa_backend',
-        'versi_backend',
-        'bahasa_frontend',
-        'versi_frontend',
         'bahasa_pemrograman',
         'arsitektur_sistem',
         'framework',
-        'versi_framework',
         'daftar_library_package',
         // Repository & Backup
         'has_repository',

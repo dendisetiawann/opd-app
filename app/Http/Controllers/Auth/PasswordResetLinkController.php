@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 
@@ -36,9 +37,26 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
+        // Store IP address and user agent for security verification
+        if ($status == Password::RESET_LINK_SENT) {
+            DB::table('password_reset_tokens')
+                ->where('email', $request->email)
+                ->update([
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                ]);
+        }
+
+        // Translate status messages
+        $statusMessages = [
+            'passwords.sent' => 'Link reset password telah dikirim ke email Anda.',
+            'passwords.user' => 'Email tidak ditemukan dalam sistem kami.',
+            'passwords.throttled' => 'Harap tunggu sebelum mencoba lagi.',
+        ];
+
         return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
+                    ? back()->with('status', $statusMessages['passwords.sent'])
                     : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+                        ->withErrors(['email' => $statusMessages[$status] ?? 'Terjadi kesalahan. Silakan coba lagi.']);
     }
 }

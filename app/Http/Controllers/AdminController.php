@@ -27,7 +27,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display all web apps with optional OPD filter.
+     * Display all web apps with optional OPD filter and sorting.
      */
     public function index(Request $request)
     {
@@ -38,12 +38,36 @@ class AdminController extends Controller
             $query->where('opd_id', $request->opd_id);
         }
 
-        // Search by name
+        // Search by app name or OPD name
         if ($request->filled('search')) {
-            $query->where('nama_web_app', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_web_app', 'like', '%' . $search . '%')
+                  ->orWhereHas('opd', function ($opd) use ($search) {
+                      $opd->where('nama_opd', 'like', '%' . $search . '%');
+                  });
+            });
         }
 
-        $webApps = $query->latest()->paginate(15);
+        // Sorting
+        $sort = $request->get('sort', 'name_asc');
+        switch ($sort) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'name_asc':
+                $query->orderBy('nama_web_app', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('nama_web_app', 'desc');
+                break;
+            case 'newest':
+            default:
+                $query->latest();
+                break;
+        }
+
+        $webApps = $query->paginate(11);
         $opds = Opd::orderBy('nama_opd')->get();
 
         return view('admin.web-apps.index', compact('webApps', 'opds'));

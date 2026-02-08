@@ -20,8 +20,12 @@ class WebAppPolicy
      */
     public function view(User $user, WebApp $webApp): bool
     {
-        // Admin can view all, users can only view their own
-        return $user->isAdmin() || $user->id === $webApp->user_id;
+        // Admin can view all
+        // Users can view their own apps
+        // Users can view apps from the same OPD (read-only)
+        return $user->isAdmin() || 
+               $user->id === $webApp->user_id || 
+               $user->opd_id === $webApp->opd_id;
     }
 
     /**
