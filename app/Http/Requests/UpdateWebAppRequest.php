@@ -25,7 +25,7 @@ class UpdateWebAppRequest extends FormRequest
             // Informasi Umum
             'nama_web_app' => 'required|string|max:255',
             'deskripsi_singkat' => 'nullable|string',
-            'domain' => 'required|string|max:255',
+            'alamat_tautan' => 'required|string|max:255',
             
             // Tim & Kontak
             'data_tim_programmer' => 'nullable|string',
@@ -70,7 +70,7 @@ class UpdateWebAppRequest extends FormRequest
         return [
             'nama_web_app.required' => 'Nama aplikasi wajib diisi.',
             'nama_web_app.max' => 'Nama aplikasi maksimal 255 karakter.',
-            'domain.required' => 'Alamat website/link aplikasi wajib diisi.',
+            'alamat_tautan.required' => 'Alamat website/link aplikasi wajib diisi.',
             'arsitektur_sistem.in' => 'Arsitektur sistem harus monolith atau be-fe.',
             'has_repository.in' => 'Pilihan repository harus ya atau tidak.',
             'git_repository.in' => 'Status repository harus public atau private.',

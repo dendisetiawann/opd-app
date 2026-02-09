@@ -13,29 +13,29 @@
             @method('delete')
 
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
                     <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">
+                    <h2 class="text-lg font-bold text-slate-800 dark:text-white">
                         Yakin ingin menghapus akun?
                     </h2>
-                    <p class="text-sm text-slate-500">Tindakan ini tidak dapat dibatalkan.</p>
+                    <p class="text-sm text-slate-500 dark:text-zinc-400">Tindakan ini tidak dapat dibatalkan.</p>
                 </div>
             </div>
 
-            <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+            <p class="text-sm text-slate-600 dark:text-zinc-400 mb-6 leading-relaxed">
                 Setelah akun dihapus, seluruh data dan informasi yang terkait akan <span class="font-semibold text-red-600">terhapus secara permanen</span>. 
                 Masukkan password Anda untuk mengonfirmasi penghapusan akun.
             </p>
 
             <div>
-                <label for="password" class="block text-sm font-semibold text-slate-700 mb-1.5">Password</label>
+                <label for="password" class="block text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Password</label>
                 <input
                     id="password"
                     name="password"
                     type="password"
-                    class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 focus:bg-white transition-all"
+                    class="block w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50/50 dark:bg-zinc-800/50 text-slate-800 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 focus:bg-white dark:focus:bg-zinc-800 transition-all"
                     placeholder="Masukkan password Anda"
                 >
                 <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
@@ -45,7 +45,7 @@
                 <button 
                     type="button"
                     x-on:click="$dispatch('close')"
-                    class="px-5 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors"
+                    class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 font-semibold hover:bg-slate-200 dark:hover:bg-zinc-700 transition-colors"
                 >
                     Batal
                 </button>

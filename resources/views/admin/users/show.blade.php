@@ -12,7 +12,7 @@
             <nav class="flex" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 md:space-x-3">
                     <li class="inline-flex items-center">
-                        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600">
+                        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400">
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
                             Dashboard
                         </a>
@@ -20,20 +20,20 @@
                     <li>
                         <div class="flex items-center">
                             <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                            <a href="{{ route('admin.users.index') }}" class="ml-1 text-sm font-medium text-gray-500 hover:text-blue-600 md:ml-2">Manajemen User</a>
+                            <a href="{{ route('admin.users.index') }}" class="ml-1 text-sm font-medium text-gray-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2">Manajemen User</a>
                         </div>
                     </li>
                     <li aria-current="page">
                         <div class="flex items-center">
                             <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                            <span class="ml-1 text-sm font-medium text-gray-800 md:ml-2">{{ Str::limit($user->name, 20) }}</span>
+                            <span class="ml-1 text-sm font-medium text-gray-800 dark:text-zinc-200 md:ml-2">{{ Str::limit($user->name, 20) }}</span>
                         </div>
                     </li>
                 </ol>
             </nav>
             
             <div class="flex items-center gap-2">
-                <a href="{{ route('admin.users.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                <a href="{{ route('admin.users.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-zinc-700 shadow-sm text-sm font-medium rounded-lg text-gray-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                     <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Kembali
                 </a>
@@ -42,13 +42,13 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="p-4 bg-green-50 border border-green-200 rounded-xl">
+            <div class="p-4 bg-green-50 dark:bg-emerald-500/10 border border-green-200 dark:border-emerald-500/25 rounded-xl">
                 <div class="flex items-start">
                     <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <div>
-                        <p class="text-sm font-medium text-green-800">{{ session('success') }}</p>
+                        <p class="text-sm font-medium text-green-800 dark:text-emerald-300">{{ session('success') }}</p>
                         @if(str_contains(session('success'), 'password') || str_contains(session('success'), 'Password') || str_contains(session('success'), 'direset'))
-                            <p class="text-xs text-green-600 mt-1">Salin password ini dan berikan kepada user. Password hanya ditampilkan sekali.</p>
+                            <p class="text-xs text-green-600 dark:text-emerald-400 mt-1">Salin password ini dan berikan kepada user. Password hanya ditampilkan sekali.</p>
                         @endif
                     </div>
                 </div>
@@ -57,14 +57,14 @@
 
         <!-- Section Title -->
         <div class="mb-4">
-            <h2 class="text-xl font-bold text-gray-900">Informasi Lengkap User</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Informasi Lengkap User</h2>
         </div>
 
         <!-- User Header Card -->
         <!-- User Header Card -->
-        <div class="relative bg-white rounded-2xl shadow-sm border border-sky-100/50 p-5 hover:shadow-xl transition-all duration-300 overflow-hidden group">
+        <div class="relative bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-sky-100/50 dark:border-zinc-800 p-5 hover:shadow-xl transition-all duration-300 overflow-hidden group">
             <!-- Subtle Wave Background -->
-            <div class="absolute inset-0 opacity-5">
+            <div class="absolute inset-0 opacity-5 dark:opacity-[0.03]">
                 <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-cyan-400 via-sky-300 to-transparent"></div>
             </div>
             
@@ -82,7 +82,7 @@
                 </div>
                 
                 <!-- Vertical Separator -->
-                <div class="hidden md:block w-px h-24 bg-gradient-to-b from-transparent via-slate-200 to-transparent"></div>
+                <div class="hidden md:block w-px h-24 bg-gradient-to-b from-transparent via-slate-200 dark:via-zinc-700 to-transparent"></div>
 
                 <!-- User Info -->
                 <div class="flex-1 min-w-0 w-full">
@@ -92,8 +92,8 @@
                         <div class="flex items-center gap-5 group/item">
                             <div class="flex-1 min-w-0">
                                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Nama Lengkap</p>
-                                <h3 class="text-xl font-black text-slate-800 tracking-tight leading-tight">{{ $user->name }}</h3>
-                                <p class="text-sm text-slate-500 font-medium mt-1 transition-colors group-hover/item:text-blue-500">{{ $user->email }}</p>
+                                <h3 class="text-xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">{{ $user->name }}</h3>
+                                <p class="text-sm text-slate-500 dark:text-zinc-400 font-medium mt-1 transition-colors group-hover/item:text-blue-500">{{ $user->email }}</p>
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Organisasi Perangkat Daerah</p>
-                                <h3 class="text-lg font-black text-slate-800 tracking-tight leading-tight">{{ $user->opd->nama_opd ?? 'Belum ada OPD' }}</h3>
+                                <h3 class="text-lg font-black text-slate-800 dark:text-white tracking-tight leading-tight">{{ $user->opd->nama_opd ?? 'Belum ada OPD' }}</h3>
                             </div>
                         </div>
 
@@ -136,7 +136,7 @@
         <!-- Stats Cards Row -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Bergabung Sejak -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-blue-50 rounded-xl">
                         <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -150,7 +150,7 @@
             </div>
 
             <!-- Terakhir Input Aplikasi -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-emerald-50 rounded-xl">
                         <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
@@ -169,7 +169,7 @@
             </div>
 
             <!-- Total Aplikasi -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-indigo-50 rounded-xl">
                         <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"></path></svg>
@@ -183,7 +183,7 @@
             </div>
 
             <!-- Status Akun -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-green-50 rounded-xl">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -205,10 +205,10 @@
         <!-- Detail Info Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Informasi Akun -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                    <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30">
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         Informasi Akun
                     </h3>
                 </div>
@@ -235,7 +235,7 @@
                             </dd>
                         </div>
 
-                        <div class="pt-3 mt-3 border-t border-gray-100">
+                        <div class="pt-3 mt-3 border-t border-gray-100 dark:border-zinc-800">
                             <p class="text-xs text-gray-400 uppercase tracking-wide font-medium mb-3">Aktivitas Login Terakhir</p>
                             <div class="space-y-2">
                                 <div class="flex justify-between items-start">
@@ -267,10 +267,10 @@
             </div>
 
             <!-- Informasi OPD -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                    <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30">
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                         Informasi OPD
                     </h3>
                 </div>

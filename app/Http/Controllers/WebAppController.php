@@ -64,6 +64,14 @@ class WebAppController extends Controller
         $data['user_id'] = Auth::id();
         $data['opd_id'] = Auth::user()->opd_id;
 
+        // Set empty string for nullable fields that database doesn't allow NULL
+        $nullableFields = ['git_repository', 'penyedia_repository', 'integrasi_sistem_keluar', 'metode_monitoring_evaluasi'];
+        foreach ($nullableFields as $field) {
+            if (!isset($data[$field]) || $data[$field] === null) {
+                $data[$field] = '';
+            }
+        }
+
         WebApp::create($data);
 
         return redirect()
@@ -99,7 +107,17 @@ class WebAppController extends Controller
     {
         $this->authorize('update', $webApp);
 
-        $webApp->update($request->validated());
+        $data = $request->validated();
+        
+        // Set empty string for nullable fields that database doesn't allow NULL
+        $nullableFields = ['git_repository', 'penyedia_repository', 'integrasi_sistem_keluar', 'metode_monitoring_evaluasi'];
+        foreach ($nullableFields as $field) {
+            if (!isset($data[$field]) || $data[$field] === null) {
+                $data[$field] = '';
+            }
+        }
+
+        $webApp->update($data);
 
         return redirect()
             ->route('web-apps.show', $webApp)

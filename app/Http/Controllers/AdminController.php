@@ -49,6 +49,94 @@ class AdminController extends Controller
             });
         }
 
+        // Filter by technology fields (from monitoring stats)
+        // Framework & bahasa use LIKE (monitoring normalizes names)
+        // Other fields use exact match (monitoring uses raw values)
+        if ($request->has('framework')) {
+            $val = $request->framework;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('framework')->orWhere('framework', ''); });
+            } else {
+                // LIKE for framework because monitoring normalizes names
+                $query->whereRaw('LOWER(framework) LIKE ?', ['%' . strtolower($val) . '%']);
+            }
+        }
+        if ($request->has('bahasa_pemrograman')) {
+            $val = $request->bahasa_pemrograman;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('bahasa_pemrograman')->orWhere('bahasa_pemrograman', ''); });
+            } else {
+                // LIKE for bahasa because monitoring normalizes names
+                $query->whereRaw('LOWER(bahasa_pemrograman) LIKE ?', ['%' . strtolower($val) . '%']);
+            }
+        }
+        if ($request->has('dbms')) {
+            $val = $request->dbms;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('dbms')->orWhere('dbms', ''); });
+            } else {
+                $query->whereRaw('LOWER(dbms) = ?', [strtolower($val)]);
+            }
+        }
+        if ($request->has('arsitektur_sistem')) {
+            $val = $request->arsitektur_sistem;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('arsitektur_sistem')->orWhere('arsitektur_sistem', ''); });
+            } else {
+                $query->whereRaw('LOWER(arsitektur_sistem) = ?', [strtolower($val)]);
+            }
+        }
+        if ($request->has('has_repository')) {
+            $val = $request->has_repository;
+            if ($val === 'ya') {
+                $query->where('has_repository', 'ya');
+            } else {
+                $query->where(function($q) {
+                    $q->whereNull('has_repository')->orWhere('has_repository', '!=', 'ya');
+                });
+            }
+        }
+        if ($request->has('git_repository')) {
+            $val = $request->git_repository;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('git_repository')->orWhere('git_repository', ''); });
+            } else {
+                $query->whereRaw('LOWER(git_repository) = ?', [strtolower($val)]);
+            }
+        }
+        if ($request->has('penyedia_repository')) {
+            $val = $request->penyedia_repository;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('penyedia_repository')->orWhere('penyedia_repository', ''); });
+            } else {
+                $query->whereRaw('LOWER(penyedia_repository) = ?', [strtolower($val)]);
+            }
+        }
+        if ($request->has('lokasi_database')) {
+            $val = $request->lokasi_database;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('lokasi_database')->orWhere('lokasi_database', ''); });
+            } else {
+                $query->whereRaw('LOWER(lokasi_database) = ?', [strtolower($val)]);
+            }
+        }
+        if ($request->has('akses_database')) {
+            $val = $request->akses_database;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('akses_database')->orWhere('akses_database', ''); });
+            } else {
+                $query->whereRaw('LOWER(akses_database) = ?', [strtolower($val)]);
+            }
+        }
+        if ($request->has('versi_dbms')) {
+            $val = $request->versi_dbms;
+            if ($val === '' || $val === null) {
+                $query->where(function($q) { $q->whereNull('versi_dbms')->orWhere('versi_dbms', ''); });
+            } else {
+                $query->whereRaw('LOWER(versi_dbms) = ?', [strtolower($val)]);
+            }
+        }
+
         // Sorting
         $sort = $request->get('sort', 'name_asc');
         switch ($sort) {

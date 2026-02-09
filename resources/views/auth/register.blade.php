@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Registrasi - Sistem Manajemen Data Aplikasi OPD</title>
-    <link rel="icon" href="{{ asset('images/logo-icon.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('images/logo-favicon-192.png') }}" type="image/png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,21 +15,92 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.4s ease, color 0.4s ease; }
+        
+        /* Dark Mode Styles - Premium Dark Theme */
+        .dark body { background-color: #0a0f1a; color: #e2e8f0; }
+        .dark .bg-white { background-color: #0a0f1a; }
+        .dark .text-gray-900 { color: #f8fafc; }
+        .dark .text-gray-500 { color: #94a3b8; }
+        .dark .text-gray-400 { color: #64748b; }
+        .dark .text-gray-700 { color: #cbd5e1; }
+        .dark .text-gray-600 { color: #cbd5e1; }
+        .dark .text-\[\#1a237e\] { color: #60a5fa !important; }
+        
+        /* Form elements in dark mode */
+        .dark input[type="email"],
+        .dark input[type="password"],
+        .dark input[type="text"],
+        .dark input[type="number"],
+        .dark select {
+            background-color: #1a2332;
+            border-color: #2d3748;
+            color: #f1f5f9;
+        }
+        .dark input::placeholder { color: #64748b; }
+        .dark input:focus, .dark select:focus { border-color: #60a5fa; ring-color: #60a5fa; }
+        
+        /* Dropdown options */
+        .dark option { background-color: #1a2332; color: #f1f5f9; }
+        
+        /* Toggle Button */
+        .theme-toggle { transition: all 0.3s ease; }
+        .theme-toggle:hover { transform: rotate(15deg) scale(1.1); }
+        
+        /* OTP Section */
+        .dark .bg-blue-50 { background-color: #1e3a8a30; border-color: #1e40af; }
+        .dark .bg-green-50 { background-color: #064e3b30; border-color: #065f46; }
+        .dark .text-green-700 { color: #34d399; }
+        .dark .bg-gradient-to-br.from-blue-50 { background-image: linear-gradient(to bottom right, #1e293b, #0f172a); border-color: #334155; }
+        .dark .bg-blue-100 { background-color: #1e3a8a; }
+        .dark #otp { background-color: #0f172a; border-color: #3b82f6; color: #e2e8f0; }
+        .dark disabled\:bg-gray-100:disabled { background-color: #334155; color: #94a3b8; }
     </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 <body class="h-full">
     <div class="flex min-h-full">
         <!-- Left Side: Registration Form -->
-        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white z-10 relative">
+        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative">
+            <!-- Theme Toggle -->
+            <button id="themeToggle" class="absolute top-6 right-6 theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Dark Mode">
+                <svg id="sunIcon" class="w-6 h-6 text-amber-500 hidden" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                </svg>
+                <svg id="moonIcon" class="w-6 h-6 text-blue-400 hidden" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+            </button>
             <div class="mx-auto w-full max-w-md lg:w-[28rem]">
                 <!-- Header -->
                 <div class="mb-8">
-                    <div class="flex items-center gap-3 mb-6">
-                        <img src="{{ asset('images/logo-icon.png') }}" alt="Logo DISKOMINFO Pekanbaru" class="h-10 w-auto">
-                        <div>
-                            <h1 class="text-2xl font-bold text-[#1a237e] leading-none tracking-tight">DISKOMINFO</h1>
-                            <p class="text-[10px] text-black font-semibold tracking-[0.1em] mt-0.5">KOTA PEKANBARU</p>
+                    <div class="flex items-center gap-4 mb-6">
+                        <!-- Logo Shield -->
+                        <div class="relative w-12 h-12 flex items-center justify-center">
+                            <img src="{{ asset('images/logo-pekanbaru.png') }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
+                        </div>
+        
+                        <!-- Separator Line -->
+                        <div class="h-10 w-[2px] bg-slate-300 dark:bg-slate-600 rounded-full hidden sm:block"></div>
+        
+                        <!-- Text Content -->
+                        <div class="flex flex-col justify-center">
+                            <div class="flex items-baseline gap-1.5 leading-none">
+                                <span class="text-2xl font-extrabold text-[#1a237e] dark:text-blue-400 tracking-tight drop-shadow-sm">SIDATA</span>
+                                <span class="text-2xl font-bold text-slate-600 dark:text-slate-200">PKU</span>
+                            </div>
+                            <span class="text-[0.65rem] font-bold text-slate-500 dark:text-slate-400 tracking-[0.15em] uppercase mt-0.5 leading-tight">
+                                Sistem Informasi Data Terpadu
+                            </span>
+                            <span class="text-[0.6rem] font-serif italic text-slate-400 dark:text-slate-500 mt-0.5">
+                                Pemerintah Kota Pekanbaru
+                            </span>
                         </div>
                     </div>
                     <h2 class="text-2xl font-bold tracking-tight text-gray-900">Daftar Akun Baru</h2>
@@ -450,6 +521,39 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const html = document.documentElement;
+
+            function updateIcons() {
+                if (html.classList.contains('dark')) {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                } else {
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                }
+            }
+
+            updateIcons();
+
+            themeToggle.addEventListener('click', function() {
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+                updateIcons();
+            });
+        });
+    </script>
     </div>
 </body>
 </html>

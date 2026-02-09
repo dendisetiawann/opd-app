@@ -8,13 +8,13 @@
         @method('patch')
 
         <div>
-            <label for="name" class="block text-sm font-semibold text-slate-700 mb-1.5">Nama Lengkap</label>
+            <label for="name" class="block text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Nama Lengkap</label>
             <input 
                 type="text" 
                 id="name" 
                 name="name" 
                 value="{{ old('name', $user->name) }}"
-                class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white transition-all"
+                class="block w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50/50 dark:bg-zinc-800/50 text-slate-800 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white dark:focus:bg-zinc-800 transition-all"
                 required 
                 autofocus 
                 autocomplete="name"
@@ -23,21 +23,21 @@
         </div>
 
         <div>
-            <label for="email" class="block text-sm font-semibold text-slate-700 mb-1.5">Alamat Email</label>
+            <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Alamat Email</label>
             <input 
                 type="email" 
                 id="email" 
                 name="email" 
                 value="{{ old('email', $user->email) }}"
-                class="block w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white transition-all"
+                class="block w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50/50 dark:bg-zinc-800/50 text-slate-800 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white dark:focus:bg-zinc-800 transition-all"
                 required 
                 autocomplete="username"
             >
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div class="mt-3 p-3 rounded-lg bg-amber-50 border border-amber-100">
-                    <p class="text-sm text-amber-700">
+                <div class="mt-3 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30">
+                    <p class="text-sm text-amber-700 dark:text-amber-400">
                         <span class="font-semibold">Email belum diverifikasi.</span>
                         <button form="send-verification" class="underline text-amber-600 hover:text-amber-800 font-medium ml-1">
                             Kirim ulang email verifikasi

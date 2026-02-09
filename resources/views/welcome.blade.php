@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Sistem Manajemen Data Aplikasi OPD Kota Pekanbaru">
         <title>Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru</title>
-        <link rel="icon" href="{{ asset('images/logo-icon.png') }}" type="image/png">
+        <link rel="icon" href="{{ asset('images/logo-favicon-192.png') }}" type="image/png">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,95 +14,311 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
+        <!-- Dark Mode Script (before body to prevent flash) -->
+        <script>
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            }
+        </script>
+        
         <style>
             body {
                 font-family: 'Inter', sans-serif;
+                transition: background-color 0.4s ease, color 0.4s ease;
             }
-            .hero-bg {
-                background-color: #f8fafc;
-                background-image: 
-                    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%),
-                    radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+            
+            /* Dark Mode Styles - Premium Dark Theme */
+            .dark body { background-color: #0a0f1a; color: #e2e8f0; }
+            .dark .bg-gray-50 { background-color: #0a0f1a; }
+            .dark .bg-slate-50 { background-color: #111827; }
+            .dark .bg-white { background-color: #1a2332; }
+            .dark .text-gray-900 { color: #f8fafc; }
+            .dark .text-gray-800 { color: #f1f5f9; }
+            .dark .text-gray-700 { color: #e2e8f0; }
+            .dark .text-gray-600 { color: #cbd5e1; }
+            .dark .text-gray-500 { color: #94a3b8; }
+            .dark .text-gray-400 { color: #64748b; }
+            .dark .text-black { color: #f1f5f9; }
+            .dark .border-gray-200 { border-color: #2d3748; }
+            .dark .border-gray-100 { border-color: #1f2937; }
+            .dark .border-slate-200 { border-color: #2d3748; }
+            .dark .bg-gray-900 { background-color: #030712; }
+            .dark .text-\[\#1a237e\] { color: #60a5fa !important; }
+            
+            /* Dark mode header - elegant glassmorphism */
+            .dark .header-default {
+                background: rgba(10, 15, 26, 0.85) !important;
+                backdrop-filter: blur(20px) !important;
             }
+            .dark .header-scrolled {
+                background: rgba(26, 35, 50, 0.95) !important;
+                border-color: rgba(45, 55, 72, 0.6) !important;
+                box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.2) !important;
+            }
+            
+            /* Dark mode cards - with subtle glow */
+            .dark .bg-blue-100 { background-color: #1e3a5f; }
+            .dark .bg-cyan-100 { background-color: #134e4a; }
+            .dark .bg-indigo-100 { background-color: #312e81; }
+            .dark .bg-blue-50 { background-color: #172554; }
+            
+            /* Dark mode info cards */
+            .dark .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3); }
+            .dark .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2); }
+            
+
+            
+            /* Dark mode toggle button */
+            .theme-toggle {
+                transition: all 0.3s ease;
+            }
+            .theme-toggle:hover {
+                transform: rotate(15deg) scale(1.1);
+            }
+            
+            /* Dark mode text colors */
+            .dark .text-blue-600 { color: #60a5fa; }
+            .dark .text-blue-700 { color: #3b82f6; }
+            .dark .hover\:text-blue-800:hover { color: #60a5fa; }
         </style>
     </head>
     <body class="antialiased bg-gray-50 text-gray-800">
         
         <!-- Header / Navigation -->
-        <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-20">
-                    <!-- Brand -->
-                    <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo-icon.png') }}" alt="Logo DISKOMINFO Pekanbaru" class="h-10 w-auto">
-                        <div class="hidden md:block">
-                            <h1 class="text-2xl font-bold text-[#1a237e] leading-none tracking-tight">DISKOMINFO</h1>
-                            <p class="text-[10px] text-black font-semibold tracking-[0.1em] mt-0.5">KOTA PEKANBARU</p>
-                        </div>
-                    </div>
-
-                    <!-- Auth Actions -->
-                    <div class="flex items-center gap-6">
-                        @if (Route::has('login'))
-                            @auth
-                                <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="text-sm font-semibold text-blue-700 hover:text-blue-800 transition">
-                                    Dashboard &rarr;
-                                </a>
-                            @else
-                                <div class="flex items-center gap-6">
-                                    <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-gray-900 transition tracking-wide">
-                                        Login
-                                    </a>
-                                    @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded shadow-sm transition-all tracking-wide">
-                                            Registrasi
-                                        </a>
-                                    @endif
+        <style>
+            #headerInner {
+                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            #headerContent {
+                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            #headerLogo {
+                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .header-scrolled {
+                max-width: 900px !important;
+                margin-top: 1rem !important;
+                border-radius: 9999px !important;
+                box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+                border: 1px solid rgba(229, 231, 235, 0.5) !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                backdrop-filter: blur(20px) !important;
+            }
+            .header-default {
+                max-width: 100% !important;
+                margin-top: 0 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                background: rgba(248, 250, 252, 0.8) !important;
+                backdrop-filter: blur(12px) !important;
+            }
+            
+            /* Custom smooth animations */
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+            @keyframes sway {
+                0%, 100% { transform: translateX(-10px) rotate(-1deg); }
+                50% { transform: translateX(10px) rotate(1deg); }
+            }
+            @keyframes pulse-glow {
+                0%, 100% { opacity: 0.5; transform: scale(1); }
+                50% { opacity: 0.8; transform: scale(1.1); }
+            }
+            .animate-float {
+                animation: float 3s ease-in-out infinite;
+            }
+            .animate-sway {
+                animation: sway 4s ease-in-out infinite;
+            }
+            .animate-pulse-glow {
+                animation: pulse-glow 4s ease-in-out infinite;
+            }
+        </style>
+        <header id="mainHeader" class="fixed top-0 left-0 right-0 z-50">
+            <div id="headerInner" class="mx-auto header-default">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center" id="headerContent" style="height: 80px;">
+                        <!-- Brand -->
+                        <a href="/" class="flex items-center gap-4 group">
+                            <!-- Logo Shield -->
+                            <div class="relative w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                <img src="{{ asset('images/logo-pekanbaru.png') }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
+                            </div>
+            
+                            <!-- Separator Line -->
+                            <div class="hidden sm:block h-10 w-[2px] bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+            
+                            <!-- Text Content -->
+                            <div class="flex flex-col justify-center">
+                                <div class="flex items-baseline gap-1.5 leading-none">
+                                    <span class="text-2xl font-extrabold text-[#1a237e] dark:text-blue-400 tracking-tight drop-shadow-sm">SIDATA</span>
+                                    <span class="text-2xl font-bold text-slate-600 dark:text-slate-200">PKU</span>
                                 </div>
-                            @endauth
-                        @endif
+                                <span class="text-[0.65rem] font-bold text-slate-500 dark:text-slate-400 tracking-[0.15em] uppercase mt-0.5 leading-tight">
+                                    Sistem Informasi Data Terpadu
+                                </span>
+                                <span class="text-[0.6rem] font-serif italic text-slate-400 dark:text-slate-500 mt-0.5">
+                                    Pemerintah Kota Pekanbaru
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- Auth Actions -->
+                        <div class="flex items-center gap-4">
+                            <!-- Dark Mode Toggle -->
+                            <button id="themeToggle" class="theme-toggle p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Dark Mode">
+                                <!-- Sun Icon (shown in light mode - indicates current state) -->
+                                <svg id="sunIcon" class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                </svg>
+                                <!-- Moon Icon (shown in dark mode - indicates current state) -->
+                                <svg id="moonIcon" class="w-5 h-5 text-blue-400 hidden" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                            </button>
+                            
+                            @if (Route::has('login'))
+                                @auth
+                                    <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="text-sm font-semibold text-blue-700 hover:text-blue-800 transition">
+                                        Dashboard &rarr;
+                                    </a>
+                                @else
+                                    <div class="flex items-center gap-6">
+                                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition tracking-wide">
+                                            Login
+                                        </a>
+                                        @if (Route::has('register'))
+                                            <a href="{{ route('register') }}" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-full shadow-sm transition-all tracking-wide">
+                                                Registrasi
+                                            </a>
+                                        @endif
+                                    </div>
+                                @endauth
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Header scroll animation
+                const headerInner = document.getElementById('headerInner');
+                const headerContent = document.getElementById('headerContent');
+                const headerLogo = document.getElementById('headerLogo');
+                
+                let isScrolled = false;
+                
+                function updateHeader() {
+                    const scrollY = window.scrollY;
+                    
+                    if (scrollY > 50 && !isScrolled) {
+                        isScrolled = true;
+                        headerInner.classList.remove('header-default');
+                        headerInner.classList.add('header-scrolled');
+                        headerContent.style.height = '64px';
+                        headerLogo.style.height = '32px';
+                    } else if (scrollY <= 50 && isScrolled) {
+                        isScrolled = false;
+                        headerInner.classList.remove('header-scrolled');
+                        headerInner.classList.add('header-default');
+                        headerContent.style.height = '80px';
+                        headerLogo.style.height = '40px';
+                    }
+                }
+                
+                // Use requestAnimationFrame for smoother performance
+                let ticking = false;
+                window.addEventListener('scroll', function() {
+                    if (!ticking) {
+                        window.requestAnimationFrame(function() {
+                            updateHeader();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+                
+                // Dark Mode Toggle
+                const themeToggle = document.getElementById('themeToggle');
+                const sunIcon = document.getElementById('sunIcon');
+                const moonIcon = document.getElementById('moonIcon');
+                const html = document.documentElement;
+                
+                // Update icons based on current theme
+                // Sun = light mode (current), Moon = dark mode (current)
+                function updateIcons() {
+                    if (html.classList.contains('dark')) {
+                        // Dark mode active - show moon
+                        sunIcon.classList.add('hidden');
+                        moonIcon.classList.remove('hidden');
+                    } else {
+                        // Light mode active - show sun
+                        sunIcon.classList.remove('hidden');
+                        moonIcon.classList.add('hidden');
+                    }
+                }
+                
+                // Initial icon state
+                updateIcons();
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', function() {
+                    if (html.classList.contains('dark')) {
+                        html.classList.remove('dark');
+                        html.classList.add('light');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        html.classList.add('dark');
+                        html.classList.remove('light');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                    updateIcons();
+                });
+            });
+        </script>
+
         <!-- Main Content -->
         <main>
             <!-- Hero Section -->
-            <!-- Hero Section -->
             <section class="relative bg-slate-50 overflow-hidden">
                 <!-- Wave Pattern (Right Side) -->
-                <div class="absolute top-0 right-0 -z-10 translate-x-1/3 -translate-y-[10%] opacity-40 mix-blend-multiply">
+                <div class="wave-pattern absolute top-0 right-0 -z-10 translate-x-1/3 -translate-y-[10%] opacity-50 text-blue-500/40 dark:text-slate-700/30">
                     <svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[50rem] lg:w-[90rem] h-auto">
-                        <path d="M1200 0 C 900 100, 600 400, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 40 C 900 140, 600 440, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 80 C 900 180, 600 480, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 120 C 900 220, 600 520, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 160 C 900 260, 600 560, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 200 C 900 300, 600 600, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 240 C 900 340, 600 640, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 280 C 900 380, 600 680, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 320 C 900 420, 600 720, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 360 C 900 460, 600 760, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 400 C 900 500, 600 800, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 440 C 900 540, 600 840, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 480 C 900 580, 600 880, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                        <path d="M1200 520 C 900 620, 600 920, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
-                         <path d="M1200 560 C 900 660, 600 960, 300 1200" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.1" fill="none"/>
+                        <path d="M1200 0 C 900 100, 600 400, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 40 C 900 140, 600 440, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 80 C 900 180, 600 480, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 120 C 900 220, 600 520, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 160 C 900 260, 600 560, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 200 C 900 300, 600 600, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 240 C 900 340, 600 640, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 280 C 900 380, 600 680, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 320 C 900 420, 600 720, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 360 C 900 460, 600 760, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 400 C 900 500, 600 800, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 440 C 900 540, 600 840, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 480 C 900 580, 600 880, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+                        <path d="M1200 520 C 900 620, 600 920, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+                        <path d="M1200 560 C 900 660, 600 960, 300 1200" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
                     </svg>
                 </div>
                 
                  <!-- Wave Pattern (Bottom Left - Fainter) -->
-                <div class="absolute bottom-0 left-0 -z-10 -translate-x-1/2 translate-y-[20%] opacity-30 mix-blend-multiply">
+                <div class="wave-pattern-secondary absolute bottom-0 left-0 -z-10 -translate-x-1/2 translate-y-[20%] opacity-40 text-blue-400/40 dark:text-slate-700/30">
                     <svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[40rem] lg:w-[70rem] h-auto">
-                        <path d="M-200 1000 C 100 800, 300 500, 1000 1200" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
-                         <path d="M-200 1040 C 100 840, 300 540, 1000 1240" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
-                         <path d="M-200 1080 C 100 880, 300 580, 1000 1280" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
-                         <path d="M-200 1120 C 100 920, 300 620, 1000 1320" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.1" fill="none"/>
+                        <path d="M-200 1000 C 100 800, 300 500, 1000 1200" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+                        <path d="M-200 1040 C 100 840, 300 540, 1000 1240" stroke="currentColor" stroke-width="2" fill="none" opacity="0.25"/>
+                        <path d="M-200 1080 C 100 880, 300 580, 1000 1280" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+                        <path d="M-200 1120 C 100 920, 300 620, 1000 1320" stroke="currentColor" stroke-width="2" fill="none" opacity="0.25"/>
                     </svg>
                 </div>
 
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 lg:pt-20 lg:pb-40">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 lg:pt-40 lg:pb-40">
                     <div class="grid lg:grid-cols-2 gap-12 items-center">
                         <!-- Left Content -->
                         <div class="max-w-3xl">
@@ -144,7 +360,8 @@
                         <!-- Right Decoration: Dense Topographic Data Wave -->
                         <div class="hidden lg:block relative h-full min-h-[500px] w-full perspective-1000">
                             <!-- Background Glow Pulse -->
-                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-100/50 rounded-full blur-[100px] animate-pulse"></div>
+                            <!-- Background Glow - Subtle Floating Animation -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-[100px] animate-pulse-glow"></div>
 
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <svg width="100%" height="100%" viewBox="0 0 1000 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto overflow-visible">
@@ -168,7 +385,7 @@
                                     <path d="M-100 350 Q 250 200 500 350 T 1100 350" stroke="url(#waveGradientBlue)" stroke-width="3" fill="none" opacity="0.3" />
 
                                     <!-- Mid Layer (Medium Density) -->
-                                    <g class="animate-[pulse_4s_ease-in-out_infinite]">
+                                    <g class="animate-sway">
                                         <path d="M-100 400 C 200 100, 400 600, 700 300 S 1100 500, 1100 500" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.5" />
                                         <path d="M-100 415 C 200 115, 400 615, 700 315 S 1100 515, 1100 515" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.5" />
                                         <path d="M-100 430 C 200 130, 400 630, 700 330 S 1100 530, 1100 530" stroke="url(#waveGradientCyan)" stroke-width="2.5" fill="none" opacity="0.6" />
@@ -188,10 +405,10 @@
                                     <path d="M-100 380 C 100 580, 300 180, 600 480 S 1100 280, 1100 280" stroke="url(#waveGradientBlue)" stroke-width="2" fill="none" opacity="0.4" />
 
                                     <!-- Digital Particles (Floating dots for 'Data' feel) -->
-                                    <circle cx="200" cy="300" r="3" fill="#2563eb" opacity="0.8" class="animate-bounce" style="animation-duration: 3s" />
-                                    <circle cx="450" cy="450" r="4" fill="#06b6d4" opacity="0.7" class="animate-bounce" style="animation-duration: 4s" />
-                                    <circle cx="700" cy="200" r="3" fill="#2563eb" opacity="0.6" class="animate-bounce" style="animation-duration: 5s" />
-                                    <circle cx="850" cy="400" r="3.5" fill="#06b6d4" opacity="0.9" class="animate-bounce" style="animation-duration: 3.5s" />
+                                    <circle cx="200" cy="300" r="3" fill="#2563eb" opacity="0.8" class="animate-float dark:opacity-60" style="animation-duration: 2s; animation-delay: 0s;" />
+                                    <circle cx="450" cy="450" r="4" fill="#06b6d4" opacity="0.7" class="animate-float dark:opacity-50" style="animation-duration: 2.5s; animation-delay: 1s;" />
+                                    <circle cx="700" cy="200" r="3" fill="#2563eb" opacity="0.6" class="animate-float dark:opacity-50" style="animation-duration: 3s; animation-delay: 2s;" />
+                                    <circle cx="850" cy="400" r="3.5" fill="#06b6d4" opacity="0.9" class="animate-float dark:opacity-60" style="animation-duration: 2.2s; animation-delay: 0.5s;" />
                                 </svg>
                             </div>
                         </div>
@@ -296,6 +513,37 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Header Scroll Animation Script -->
+        <script>
+            (function() {
+                const headerInner = document.getElementById('headerInner');
+                const scrollThreshold = 100;
+                let lastScrollY = window.scrollY;
+                let ticking = false;
+
+                function updateHeader() {
+                    if (window.scrollY > scrollThreshold) {
+                        headerInner.classList.remove('header-default');
+                        headerInner.classList.add('header-scrolled');
+                    } else {
+                        headerInner.classList.remove('header-scrolled');
+                        headerInner.classList.add('header-default');
+                    }
+                    ticking = false;
+                }
+
+                window.addEventListener('scroll', function() {
+                    if (!ticking) {
+                        window.requestAnimationFrame(updateHeader);
+                        ticking = true;
+                    }
+                });
+
+                // Initial check on page load
+                updateHeader();
+            })();
+        </script>
 
     </body>
 </html>
