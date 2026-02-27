@@ -13,19 +13,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-3">
                     <li class="inline-flex items-center">
                         <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                            <i class="fa-solid fa-house w-4 h-4 mr-2 flex items-center justify-center"></i>
                             Dashboard
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <i class="fa-solid fa-chevron-right w-6 h-6 text-gray-400 flex items-center justify-center"></i>
                             <a href="{{ route('admin.users.index') }}" class="ml-1 text-sm font-medium text-gray-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2">Manajemen User</a>
                         </div>
                     </li>
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <i class="fa-solid fa-chevron-right w-6 h-6 text-gray-400 flex items-center justify-center"></i>
                             <span class="ml-1 text-sm font-medium text-gray-800 dark:text-zinc-200 md:ml-2">{{ Str::limit($user->name, 20) }}</span>
                         </div>
                     </li>
@@ -34,7 +34,7 @@
             
             <div class="flex items-center gap-2">
                 <a href="{{ route('admin.users.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-zinc-700 shadow-sm text-sm font-medium rounded-lg text-gray-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <i class="fa-solid fa-arrow-left w-4 h-4 mr-2 text-gray-500 flex items-center justify-center"></i>
                     Kembali
                 </a>
             </div>
@@ -44,7 +44,7 @@
         @if(session('success'))
             <div class="p-4 bg-green-50 dark:bg-emerald-500/10 border border-green-200 dark:border-emerald-500/25 rounded-xl">
                 <div class="flex items-start">
-                    <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <i class="fa-solid fa-circle-check w-5 h-5 text-green-500 mr-3 mt-0.5 flex items-center justify-center"></i>
                     <div>
                         <p class="text-sm font-medium text-green-800 dark:text-emerald-300">{{ session('success') }}</p>
                         @if(str_contains(session('success'), 'password') || str_contains(session('success'), 'Password') || str_contains(session('success'), 'direset'))
@@ -102,9 +102,7 @@
                             <div class="relative flex-shrink-0">
                                 <div class="absolute inset-0 bg-cyan-400 rounded-2xl blur-xl opacity-0 group-hover/item:opacity-30 transition-opacity"></div>
                                 <div class="relative w-14 h-14 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-cyan-50 group-hover/item:scale-105 transition-transform">
-                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-building w-7 h-7 text-white flex items-center justify-center"></i>
                                 </div>
                             </div>
                             <div class="flex-1 min-w-0">
@@ -118,11 +116,11 @@
                             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 text-center">Aksi</p>
                             <div class="flex flex-col gap-2 w-auto">
                                 <button type="button" onclick="document.getElementById('updateEmailModal').classList.remove('hidden')" class="inline-flex items-center justify-center w-full px-3 py-1.5 bg-blue-500 border border-transparent shadow-sm text-xs font-medium rounded-lg text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors whitespace-nowrap">
-                                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <i class="fa-regular fa-envelope w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
                                     Ubah Email
                                 </button>
                                 <button type="button" onclick="document.getElementById('resetPasswordModal').classList.remove('hidden')" class="inline-flex items-center justify-center w-full px-3 py-1.5 bg-amber-500 border border-transparent shadow-sm text-xs font-medium rounded-lg text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors whitespace-nowrap">
-                                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                                    <i class="fa-solid fa-key w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
                                     Reset Password
                                 </button>
                             </div>
@@ -139,7 +137,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-blue-50 rounded-xl">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <i class="fa-regular fa-calendar w-6 h-6 text-blue-600 flex items-center justify-center"></i>
                     </div>
                     <div>
                         <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Bergabung Sejak</p>
@@ -153,7 +151,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-emerald-50 rounded-xl">
-                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        <i class="fa-solid fa-plus w-6 h-6 text-emerald-600 flex items-center justify-center"></i>
                     </div>
                     <div>
                         <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Terakhir Input Aplikasi</p>
@@ -172,7 +170,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-indigo-50 rounded-xl">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"></path></svg>
+                        <i class="fa-solid fa-pen-to-square w-6 h-6 text-indigo-600 flex items-center justify-center"></i>
                     </div>
                     <div>
                         <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Total Aplikasi</p>
@@ -186,7 +184,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-5">
                 <div class="flex items-center gap-3">
                     <div class="p-3 bg-green-50 rounded-xl">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <i class="fa-solid fa-circle-check w-6 h-6 text-green-600 flex items-center justify-center"></i>
                     </div>
                     <div class="flex-1">
                         <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Terakhir Login</p>
@@ -208,7 +206,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30">
                     <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <i class="fa-solid fa-user w-5 h-5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
                         Informasi Akun
                     </h3>
                 </div>
@@ -229,8 +227,8 @@
                         <div class="flex justify-between items-start">
                             <dt class="text-sm text-gray-500">Role</dt>
                             <dd>
-                                <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $user->role->name === 'admin' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700' }}">
-                                    {{ ucfirst($user->role->name) }}
+                                <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $user->role === 'admin' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700' }}">
+                                    {{ ucfirst($user->role) }}
                                 </span>
                             </dd>
                         </div>
@@ -270,7 +268,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30">
                     <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        <i class="fa-solid fa-building w-5 h-5 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
                         Informasi OPD
                     </h3>
                 </div>
@@ -310,7 +308,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
                             <div class="p-2 bg-amber-100 rounded-xl">
-                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                                <i class="fa-solid fa-key w-6 h-6 text-amber-600 flex items-center justify-center"></i>
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-gray-900">Reset Password</h3>
@@ -318,7 +316,7 @@
                             </div>
                         </div>
                         <button type="button" onclick="document.getElementById('resetPasswordModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <i class="fa-solid fa-xmark w-6 h-6 flex items-center justify-center"></i>
                         </button>
                     </div>
                     
@@ -363,7 +361,7 @@
                             <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 transform transition-all">
                                 <div class="text-center">
                                     <div class="mx-auto w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                        <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+                                        <i class="fa-solid fa-circle-exclamation w-8 h-8 text-red-500 flex items-center justify-center"></i>
                                     </div>
                                     <h3 class="text-lg font-bold text-gray-900 mb-2">Konfirmasi Reset Password</h3>
                                     <p class="text-sm text-gray-600 mb-6">Yakin reset password untuk <strong class="text-gray-900">{{ $user->name }}</strong>?</p>
@@ -397,7 +395,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
                             <div class="p-2 bg-blue-100 rounded-xl">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                <i class="fa-regular fa-envelope w-6 h-6 text-blue-600 flex items-center justify-center"></i>
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-gray-900">Ubah Email</h3>
@@ -405,13 +403,13 @@
                             </div>
                         </div>
                         <button type="button" onclick="document.getElementById('updateEmailModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <i class="fa-solid fa-xmark w-6 h-6 flex items-center justify-center"></i>
                         </button>
                     </div>
                     
                     <!-- Security Warning -->
                     <div class="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
-                        <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+                        <i class="fa-solid fa-circle-exclamation w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5"></i>
                         <div>
                             <p class="text-xs font-bold text-amber-800">Perhatian</p>
                             <p class="text-xs text-amber-700">Perubahan email akan dicatat dalam log aktivitas untuk keamanan.</p>
@@ -453,7 +451,7 @@
                             <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 transform transition-all">
                                 <div class="text-center">
                                     <div class="mx-auto w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                        <i class="fa-regular fa-envelope w-8 h-8 text-blue-500 flex items-center justify-center"></i>
                                     </div>
                                     <h3 class="text-lg font-bold text-gray-900 mb-2">Konfirmasi Ubah Email</h3>
                                     <p class="text-sm text-gray-600 mb-6">Yakin ubah email untuk <strong class="text-gray-900">{{ $user->name }}</strong>?</p>

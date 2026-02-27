@@ -39,19 +39,19 @@ class WebAppSeeder extends Seeder
                     'nama_web_app' => $app['nama'],
                     'deskripsi_singkat' => $app['deskripsi'],
                     'alamat_tautan' => $app['alamat_tautan'],
+                    'jenis_aplikasi' => $app['jenis_aplikasi'],
                     'data_tim_programmer' => $app['tim'],
                     'email_narahubung' => $app['email'],
+                    'whatsapp_narahubung' => $app['whatsapp'],
                     'bahasa_pemrograman' => $app['bahasa_pemrograman'],
                     'arsitektur_sistem' => $app['arsitektur'],
                     'framework' => $app['framework'],
                     'daftar_library_package' => $app['library'],
                     'has_repository' => $app['has_repo'],
-                    'git_repository' => $app['git_type'],
-                    'penyedia_repository' => $app['penyedia_repo'],
+                    'git_repository' => $app['has_repo'] === 'ya' ? $app['git_type'] : null,
+                    'penyedia_repository' => $app['has_repo'] === 'ya' ? $app['penyedia_repo'] : null,
                     'metode_backup_source_code' => $app['backup_code'],
                     'metode_backup_asset' => $app['backup_asset'],
-                    'nama_database' => $app['db_nama'],
-                    'versi_database' => $app['db_versi'],
                     'dbms' => $app['dbms'],
                     'versi_dbms' => $app['dbms_versi'],
                     'lokasi_database' => $app['db_lokasi'],
@@ -319,62 +319,438 @@ class WebAppSeeder extends Seeder
         ];
     }
 
+    private static int $counter = 0;
+
     private function createApp(string $nama, string $deskripsi, string $alamatTautan, string $code, bool $isKecamatan = false): array
     {
-        $backends = ['PHP', 'Python', 'Node.js', 'Java', 'Go'];
-        $frontends = ['JavaScript', 'TypeScript', 'JavaScript', 'TypeScript'];
-        $frameworks = ['Laravel 11.x', 'Django 5.0', 'Express.js 4.x', 'Spring Boot 3.x', 'CodeIgniter 4', 'Next.js 14.x', 'Vue.js 3', 'React 18'];
-        $dbms = ['MySQL', 'PostgreSQL', 'MariaDB', 'SQL Server'];
-        $libraries = [
-            'Bootstrap 5, jQuery, DataTables, Chart.js, SweetAlert2',
-            'Tailwind CSS, Alpine.js, Livewire, FilamentPHP',
-            'React, Redux, Axios, Material-UI, React Query',
-            'Vue.js, Vuex, Vuetify, Axios, Pinia',
-            'Next.js, Prisma, NextAuth, Tailwind CSS',
+        $i = self::$counter++;
+
+        // Sequential rotation pools — each app gets different data
+        $jenisAplikasi = ['Web Application', 'Mobile Application', 'Desktop Application'];
+
+        $bahasaCombos = [
+            // PHP variants
+            'PHP 8.4', 'PHP 8.3', 'PHP 8.2', 'PHP 8.1', 'PHP 8.0',
+            // Python variants
+            'Python 3.13', 'Python 3.12', 'Python 3.11', 'Python 3.10', 'Python 3.9',
+            // JavaScript/TypeScript variants
+            'JavaScript ES2024', 'JavaScript ES2023', 'JavaScript ES2022', 'JavaScript ES2021',
+            'TypeScript 5.7', 'TypeScript 5.6', 'TypeScript 5.5', 'TypeScript 5.4', 'TypeScript 5.3',
+            // Java variants
+            'Java 23', 'Java 21', 'Java 17', 'Java 11',
+            // Go variants
+            'Go 1.23', 'Go 1.22', 'Go 1.21', 'Go 1.20',
+            // Kotlin variants
+            'Kotlin 2.1', 'Kotlin 2.0', 'Kotlin 1.9',
+            // Swift variants
+            'Swift 6.0', 'Swift 5.10', 'Swift 5.9',
+            // Rust variants
+            'Rust 1.83', 'Rust 1.82', 'Rust 1.80',
+            // C# variants
+            'C# 13', 'C# 12', 'C# 11', 'C# 10',
+            // Ruby variants
+            'Ruby 3.4', 'Ruby 3.3', 'Ruby 3.2',
+            // Dart variants
+            'Dart 3.6', 'Dart 3.5', 'Dart 3.4',
+            // Elixir variants
+            'Elixir 1.17', 'Elixir 1.16',
+            // Scala variants
+            'Scala 3.5', 'Scala 3.4',
+            // Lua variants
+            'Lua 5.4',
+            // R variants
+            'R 4.4', 'R 4.3',
+            // Perl variants
+            'Perl 5.40', 'Perl 5.38',
+            // Haskell variants
+            'Haskell 9.10', 'Haskell 9.8',
+            // Clojure variants
+            'Clojure 1.12',
+            // Groovy variants
+            'Groovy 4.0',
+            // Objective-C
+            'Objective-C 2.0',
+            // PHP + JS combos (mixed)
+            'PHP 8.4, JavaScript ES2024',
+            'PHP 8.3, TypeScript 5.7',
+            'PHP 8.2, JavaScript ES2023',
+            'PHP 8.1, TypeScript 5.6',
+            'PHP 8.0, JavaScript ES2022',
+            // Python + JS combos
+            'Python 3.13, JavaScript ES2024',
+            'Python 3.12, TypeScript 5.5',
+            'Python 3.11, JavaScript ES2023',
+            'Python 3.10, TypeScript 5.4',
+            // Java + TS combos
+            'Java 23, TypeScript 5.7',
+            'Java 21, TypeScript 5.6',
+            'Java 17, JavaScript ES2024',
+            // Go + JS combos
+            'Go 1.23, JavaScript ES2024',
+            'Go 1.22, TypeScript 5.7',
+            // Kotlin + TS combos
+            'Kotlin 2.1, TypeScript 5.7',
+            'Kotlin 2.0, JavaScript ES2024',
+            // Swift + JS combos
+            'Swift 6.0, JavaScript ES2024',
+            'Swift 5.10, TypeScript 5.6',
+            // Rust + TS combos
+            'Rust 1.83, TypeScript 5.7',
+            'Rust 1.82, JavaScript ES2024',
+            // C# + JS combos
+            'C# 13, JavaScript ES2024',
+            'C# 12, TypeScript 5.7',
+            'C# 11, JavaScript ES2023',
+            // Ruby + JS combos
+            'Ruby 3.4, JavaScript ES2024',
+            'Ruby 3.3, TypeScript 5.6',
+            // Dart + Kotlin combos
+            'Dart 3.6, Kotlin 2.1',
+            'Dart 3.5, Swift 6.0',
+            // Elixir + JS combos
+            'Elixir 1.17, JavaScript ES2024',
+            'Elixir 1.16, TypeScript 5.5',
+            // Scala + JS combos
+            'Scala 3.5, TypeScript 5.7',
+            'Scala 3.4, JavaScript ES2024',
+            // Additional mixed combos
+            'PHP 8.4, Dart 3.6',
+            'Python 3.13, Kotlin 2.1',
+            'Java 23, Kotlin 2.1',
+            'Go 1.23, TypeScript 5.6',
+            'Rust 1.83, Go 1.23',
+            'C# 13, TypeScript 5.6',
+            'Ruby 3.4, TypeScript 5.7',
+            'Swift 6.0, Kotlin 2.1',
+            'PHP 8.3, Swift 5.10',
+            'Python 3.12, Dart 3.5',
+            'Java 21, Scala 3.5',
+            'Go 1.22, Rust 1.82',
+            'Kotlin 2.1, JavaScript ES2023',
+            'Dart 3.6, JavaScript ES2024',
+            'Elixir 1.17, Rust 1.83',
+            'Haskell 9.10, JavaScript ES2024',
+            'Clojure 1.12, JavaScript ES2023',
+            'Groovy 4.0, JavaScript ES2024',
+            'Lua 5.4, C# 13',
+            'R 4.4, Python 3.13',
+            'Perl 5.40, JavaScript ES2024',
+            'PHP 8.4, Go 1.23',
+            'Python 3.13, Rust 1.83',
+            'Java 23, Go 1.23',
+            'Kotlin 2.0, Dart 3.5',
+            'Swift 5.9, TypeScript 5.5',
+            'C# 12, Dart 3.5',
+            'Ruby 3.2, TypeScript 5.5',
+            'Scala 3.5, Kotlin 2.0',
+            'PHP 8.2, Kotlin 2.0',
+            'Python 3.11, Swift 5.9',
+            'Java 17, Dart 3.4',
+            'Go 1.21, JavaScript ES2021',
+            'Rust 1.80, TypeScript 5.4',
+            'C# 10, JavaScript ES2021',
+            'Ruby 3.2, JavaScript ES2022',
+            'Elixir 1.16, Rust 1.80',
+            'Haskell 9.8, TypeScript 5.4',
+            'Groovy 4.0, Kotlin 2.1',
+            'Perl 5.38, TypeScript 5.3',
+            'R 4.3, JavaScript ES2022',
+            'Objective-C 2.0, Swift 6.0',
+            'PHP 8.1, Rust 1.82',
+            'Python 3.10, Go 1.21',
+            'Java 11, TypeScript 5.3',
+            'Kotlin 1.9, TypeScript 5.4',
+            'Dart 3.4, JavaScript ES2022',
+            'Swift 5.9, Dart 3.4',
+            'Lua 5.4, JavaScript ES2023',
+            'Clojure 1.12, TypeScript 5.5',
+            'Scala 3.4, Java 21',
+            'PHP 8.4, Elixir 1.17',
+            'Python 3.13, Haskell 9.10',
+            'Go 1.23, Dart 3.6',
+            'Rust 1.83, Swift 6.0',
+            'C# 13, Kotlin 2.1',
+            'Ruby 3.4, Elixir 1.17',
+            'Java 23, Rust 1.83',
+            'PHP 8.3, Scala 3.5',
+            'Python 3.12, R 4.4',
+            'Kotlin 2.1, Swift 6.0',
         ];
-        $penyediaRepo = ['GitHub', 'GitLab', 'Bitbucket', 'Azure DevOps'];
+
+        $frameworkCombos = [
+            // Laravel versions
+            'Laravel 12.0', 'Laravel 11.0', 'Laravel 10.0', 'Laravel 9.0', 'Laravel 8.0',
+            // CodeIgniter versions
+            'CodeIgniter 4.6', 'CodeIgniter 4.5', 'CodeIgniter 4.4', 'CodeIgniter 3.1',
+            // Django versions
+            'Django 5.1', 'Django 5.0', 'Django 4.2',
+            // Flask versions
+            'Flask 3.1', 'Flask 3.0', 'Flask 2.3',
+            // FastAPI versions
+            'FastAPI 0.115', 'FastAPI 0.110',
+            // Next.js versions
+            'Next.js 15.1', 'Next.js 14.2', 'Next.js 13.5',
+            // Nuxt.js versions
+            'Nuxt.js 3.15', 'Nuxt.js 3.12', 'Nuxt.js 3.10',
+            // Vue.js versions
+            'Vue.js 3.5', 'Vue.js 3.4', 'Vue.js 3.3', 'Vue.js 2.7',
+            // React versions
+            'React 19.0', 'React 18.3', 'React 18.2',
+            // Angular versions
+            'Angular 19.0', 'Angular 18.2', 'Angular 17.3', 'Angular 16.2',
+            // Svelte/SvelteKit versions
+            'SvelteKit 2.12', 'SvelteKit 2.5', 'Svelte 5.0', 'Svelte 4.2',
+            // Express.js versions
+            'Express.js 5.0', 'Express.js 4.21',
+            // NestJS versions
+            'NestJS 10.4', 'NestJS 10.3', 'NestJS 9.4',
+            // Spring Boot versions
+            'Spring Boot 3.4', 'Spring Boot 3.3', 'Spring Boot 3.2', 'Spring Boot 2.7',
+            // ASP.NET Core versions
+            'ASP.NET Core 9.0', 'ASP.NET Core 8.0', 'ASP.NET Core 7.0',
+            // Ruby on Rails versions
+            'Rails 7.2', 'Rails 7.1', 'Rails 7.0', 'Rails 6.1',
+            // Flutter versions
+            'Flutter 3.27', 'Flutter 3.24', 'Flutter 3.22',
+            // React Native versions
+            'React Native 0.76', 'React Native 0.75', 'React Native 0.74',
+            // Gin (Go) versions
+            'Gin 1.10', 'Gin 1.9',
+            // Fiber (Go) versions
+            'Fiber 2.52', 'Fiber 2.51',
+            // Echo (Go) versions
+            'Echo 4.12', 'Echo 4.11',
+            // Ktor versions
+            'Ktor 3.0', 'Ktor 2.3',
+            // Phoenix (Elixir) versions
+            'Phoenix 1.7', 'Phoenix 1.6',
+            // Play Framework versions
+            'Play Framework 3.0', 'Play Framework 2.9',
+            // Vapor (Swift) versions
+            'Vapor 4.99', 'Vapor 4.92',
+            // Actix (Rust) versions
+            'Actix Web 4.9', 'Actix Web 4.6',
+            // Rocket (Rust) versions
+            'Rocket 0.5',
+            // Remix versions
+            'Remix 2.15', 'Remix 2.12',
+            // Gatsby versions
+            'Gatsby 5.13', 'Gatsby 5.12',
+            // Astro versions
+            'Astro 4.16', 'Astro 4.10',
+            // Hono versions
+            'Hono 4.6', 'Hono 4.4',
+            // Fresh (Deno) versions
+            'Fresh 2.0', 'Fresh 1.6',
+            // Adonis.js versions
+            'AdonisJS 6.14', 'AdonisJS 6.12',
+            // Symfony versions
+            'Symfony 7.2', 'Symfony 7.1', 'Symfony 6.4',
+            // CakePHP versions
+            'CakePHP 5.1', 'CakePHP 5.0',
+            // Yii versions
+            'Yii 3.0', 'Yii 2.0',
+            // Slim versions
+            'Slim 4.14', 'Slim 4.12',
+            // Lumen versions
+            'Lumen 10.0', 'Lumen 9.0',
+            // Quarkus versions
+            'Quarkus 3.17', 'Quarkus 3.15',
+            // Micronaut versions
+            'Micronaut 4.7', 'Micronaut 4.5',
+            // Blazor versions
+            'Blazor 9.0', 'Blazor 8.0',
+            // MAUI versions
+            '.NET MAUI 9.0', '.NET MAUI 8.0',
+            // Ionic versions
+            'Ionic 8.4', 'Ionic 8.2',
+            // Electron versions
+            'Electron 33.2', 'Electron 32.2',
+            // Tauri versions
+            'Tauri 2.1', 'Tauri 2.0',
+            // Strapi versions
+            'Strapi 5.4', 'Strapi 4.25',
+            // Directus versions
+            'Directus 11.3', 'Directus 10.13',
+            // WordPress versions
+            'WordPress 6.7', 'WordPress 6.6',
+            // Drupal versions
+            'Drupal 11.1', 'Drupal 10.3',
+            // Grails versions
+            'Grails 6.2', 'Grails 6.1',
+            // Sinatra versions
+            'Sinatra 4.1', 'Sinatra 4.0',
+            // Koa versions
+            'Koa 2.15', 'Koa 2.14',
+            // Fastify versions
+            'Fastify 5.1', 'Fastify 4.28',
+            // Hapi versions
+            'Hapi 21.3',
+            // SolidJS versions
+            'SolidStart 1.0', 'Solid.js 1.9',
+            // Qwik versions
+            'Qwik 1.12', 'Qwik 1.9',
+            // Ember.js versions
+            'Ember.js 5.12', 'Ember.js 5.8',
+            // Backbone.js versions
+            'Backbone.js 1.6',
+            // Alpine.js + HTMX
+            'HTMX 2.0',
+            // Deno Fresh
+            'Deno Fresh 2.0',
+        ];
+
+        $arsitektur = ['monolith', 'be-fe'];
+
+        $libraries = [
+            'Bootstrap 5.3, jQuery 3.7, DataTables 2.0, Chart.js 4.4, SweetAlert2 11.0',
+            'Tailwind CSS 4.0, Alpine.js 3.14, Livewire 3.5, FilamentPHP 3.2',
+            'React 19.0, Redux Toolkit 2.4, Axios 1.7, Material-UI 6.1, React Query 5.0',
+            'Vue.js 3.5, Pinia 2.3, Vuetify 3.7, Axios 1.7, VueUse 11.3',
+            'Next.js 15.1, Prisma 6.1, NextAuth 5.0, Tailwind CSS 4.0',
+            'Bootstrap 5.3, Livewire 3.5, ApexCharts 4.1, Select2 4.1, Toastr 2.1',
+            'Tailwind CSS 3.4, Inertia.js 2.0, Ziggy 2.4, Spatie Permissions 6.4',
+            'Angular Material 19.0, RxJS 7.8, NgRx 18.0, PrimeNG 18.0',
+            'Svelte 5.0, SvelteKit 2.12, Skeleton UI 2.10, Superforms 2.0',
+            'Shadcn UI 2.1, Radix UI 1.2, Zustand 5.0, TanStack Query 5.0',
+            'Chakra UI 3.2, Framer Motion 11.0, React Hook Form 7.53, Zod 3.23',
+            'Ant Design 5.22, Umi.js 4.3, DvaJS 2.6, ProComponents 2.7',
+            'Mantine 7.14, React Router 7.0, SWR 2.2, Jotai 2.10',
+            'Bulma 1.0, HTMX 2.0, Stimulus 3.2, Turbo 8.0',
+            'Flowbite 2.5, DaisyUI 4.12, Heroicons 2.2, Headless UI 2.2',
+            'PrimeVue 4.2, VeeValidate 4.14, Vue Router 4.4, Pinia 2.3',
+            'Quasar 2.17, Capacitor 6.2, Ionicons 7.4',
+            'Nuxt UI 2.20, Nuxt Image 1.8, Nuxt SEO 2.0, VueUse 11.3',
+            'Drizzle ORM 0.36, Lucia Auth 3.2, Hono 4.6, Zod 3.23',
+            'Sequelize 6.37, Passport.js 0.7, Multer 1.4, Morgan 1.10',
+            'TypeORM 0.3.20, Class-Validator 0.14, Swagger 7.4, RxJS 7.8',
+            'Mongoose 8.8, Socket.io 4.8, Bull 4.16, Helmet 8.0',
+            'SQLAlchemy 2.0, Celery 5.4, Redis-py 5.2, Pydantic 2.10',
+            'Spring Security 6.4, Hibernate 6.6, Thymeleaf 3.1, Lombok 1.18',
+            'Entity Framework Core 9.0, AutoMapper 13.0, MediatR 12.4, Serilog 4.1',
+            'Gorm 1.25, Gorilla Mux 1.8, Viper 1.19, Zap 1.27',
+            'Exposed 0.56, Koin 4.0, Arrow 1.2, Coroutines 1.9',
+            'Ecto 3.12, Oban 2.18, Tesla 1.12, Phoenix LiveView 1.0',
+            'ActiveRecord 7.2, Devise 4.9, Pundit 2.4, Sidekiq 7.3',
+            'Diesel 2.2, Serde 1.0, Tokio 1.41, Tower 0.5',
+        ];
+
+        $dbmsOptions = [
+            ['dbms' => 'MySQL', 'versi' => '8.4.3'],
+            ['dbms' => 'PostgreSQL', 'versi' => '17.2'],
+            ['dbms' => 'MariaDB', 'versi' => '11.6.2'],
+            ['dbms' => 'MySQL', 'versi' => '8.0.40'],
+            ['dbms' => 'PostgreSQL', 'versi' => '16.6'],
+            ['dbms' => 'SQL Server', 'versi' => '2022'],
+            ['dbms' => 'MySQL', 'versi' => '8.3.0'],
+            ['dbms' => 'MariaDB', 'versi' => '10.11.8'],
+            ['dbms' => 'PostgreSQL', 'versi' => '15.8'],
+            ['dbms' => 'SQLite', 'versi' => '3.47'],
+            ['dbms' => 'MongoDB', 'versi' => '8.0'],
+            ['dbms' => 'MySQL', 'versi' => '9.1.0'],
+            ['dbms' => 'PostgreSQL', 'versi' => '14.15'],
+            ['dbms' => 'MariaDB', 'versi' => '11.4.4'],
+            ['dbms' => 'SQL Server', 'versi' => '2019'],
+            ['dbms' => 'Oracle', 'versi' => '23c'],
+            ['dbms' => 'MongoDB', 'versi' => '7.0'],
+            ['dbms' => 'Redis', 'versi' => '7.4'],
+            ['dbms' => 'SQLite', 'versi' => '3.45'],
+            ['dbms' => 'MariaDB', 'versi' => '10.6.19'],
+        ];
+
+        $penyediaRepo = ['GitHub', 'GitLab', 'Bitbucket', 'Azure DevOps', 'GitHub', 'GitLab'];
+
         $programmers = [
             "1. Ahmad Rizki - Backend Developer\n2. Budi Santoso - Frontend Developer\n3. Citra Dewi - UI/UX Designer",
             "1. Dian Permata - Full Stack Developer\n2. Eko Prasetyo - DevOps Engineer",
             "1. Fajar Nugroho - System Analyst\n2. Gita Maharani - Software Engineer\n3. Hendra Wijaya - Database Administrator",
-            "1. Indah Sari - Project Manager\n2. Joko Widodo - Backend Developer\n3. Kartika Sari - QA Engineer",
+            "1. Indah Sari - Project Manager\n2. Joko Susilo - Backend Developer\n3. Kartika Sari - QA Engineer",
             "1. Lukman Hakim - Lead Developer\n2. Maya Anggraini - Frontend Developer",
+            "1. Nurul Hidayah - Software Architect\n2. Oki Pratama - Mobile Developer\n3. Putri Wulandari - Tester",
+            "1. Rahmad Dani - Full Stack Developer\n2. Sarah Amelia - Frontend Developer\n3. Teguh Widodo - DevOps",
+            "1. Umar Faruq - Lead Backend\n2. Vina Oktaviani - UI Designer",
+            "1. Wahyu Setiawan - System Engineer\n2. Xena Putri - Software Developer\n3. Yoga Pratama - Security Engineer",
+            "1. Zainal Abidin - Project Lead\n2. Aisyah Nur - Data Analyst\n3. Bambang Irawan - Backend Developer",
         ];
 
-        $backend = $backends[array_rand($backends)];
-        $frontend = $frontends[array_rand($frontends)];
-        $framework = $frameworks[array_rand($frameworks)];
-        $selectedDbms = $dbms[array_rand($dbms)];
-        
-        // Generate bahasa_pemrograman (combined backend + frontend)
-        $backendVer = $backend === 'PHP' ? '8.2' : ($backend === 'Python' ? '3.11' : ($backend === 'Node.js' ? '20.x' : ($backend === 'Java' ? '17' : '1.21')));
-        $frontendVer = $frontend === 'TypeScript' ? '5.0' : 'ES2022';
-        $bahasaPemrograman = "{$backend} versi {$backendVer} dan {$frontend} versi {$frontendVer}";
+        $backupCode = [
+            'Auto-commit ke Git repository setiap hari jam 23:00 WIB',
+            'Rsync ke cloud storage setiap 6 jam dengan versioning',
+            'CI/CD Pipeline otomatis backup ke S3 setiap push ke branch main',
+            'Snapshot server harian menggunakan cron job ke NAS lokal',
+            'Git push otomatis ke GitLab self-hosted setiap deployment',
+            'Backup incremental menggunakan restic ke Backblaze B2 setiap 12 jam',
+            'Mirror repository ke GitHub dan GitLab secara otomatis',
+        ];
+
+        $backupAsset = [
+            'Sinkronisasi ke Google Cloud Storage dengan versioning enabled',
+            'Upload otomatis ke AWS S3 bucket dengan lifecycle policy 90 hari',
+            'Rsync ke NAS lokal dan cloud backup harian',
+            'Backup asset ke MinIO self-hosted dengan retensi 60 hari',
+            'CDN cache dengan origin backup di DigitalOcean Spaces',
+            'Sync ke Azure Blob Storage dengan redundansi geo-replication',
+            'Backup manual mingguan ke external HDD dan cloud storage',
+        ];
+
+        $backupDb = [
+            'Auto mysqldump setiap jam 00:00 WIB ke cloud storage, retensi 30 hari',
+            'pg_dump terjadwal setiap 6 jam dengan rotasi backup 14 hari',
+            'Percona XtraBackup harian dengan full backup mingguan',
+            'Automated backup via cPanel cron job setiap 12 jam',
+            'Database replication master-slave dengan backup harian ke S3',
+            'Backup otomatis menggunakan Laravel Backup Package setiap hari',
+            'WAL archiving PostgreSQL dengan point-in-time recovery 7 hari',
+        ];
+
+        $integrasi = [
+            'Integrasi dengan Portal Pekanbaru AMAN, SSO Pemerintah Kota, dan API Gateway Diskominfo',
+            'Terhubung dengan Sistem Keuangan SIMDA dan E-Budgeting Kemendagri',
+            'Integrasi REST API dengan SIRUP LKPP dan E-Procurement Nasional',
+            'Koneksi ke Dukcapil untuk verifikasi NIK dan NIP, serta ke BPJS Kesehatan',
+            'Terintegrasi dengan Satu Data Indonesia dan Open Data Pekanbaru',
+            'Integrasi webhook dengan WA Gateway, Email SMTP Pemko, dan Telegram Bot',
+            'Terhubung ke Dashboard Smart City Pekanbaru dan JDIH Nasional',
+        ];
+
+        $monev = [
+            'Monitoring menggunakan Grafana dan Prometheus, evaluasi bulanan via dashboard',
+            'Uptime monitoring dengan UptimeRobot, laporan kinerja triwulanan',
+            'ELK Stack (Elasticsearch, Logstash, Kibana) untuk log monitoring realtime',
+            'Google Analytics dan Sentry error tracking, review bulanan',
+            'New Relic APM untuk performance monitoring, evaluasi per semester',
+            'Monitoring via Laravel Telescope dan Horizon, evaluasi mingguan',
+            'Zabbix monitoring infrastruktur, Datadog untuk APM, laporan bulanan',
+        ];
+
+        $dbLokasiOptions = ['Server Kominfo', 'Lainnya'];
+
+        $dbms = $dbmsOptions[$i % count($dbmsOptions)];
 
         return [
             'nama' => $nama,
             'deskripsi' => $deskripsi,
             'alamat_tautan' => $alamatTautan,
-            'tim' => $programmers[array_rand($programmers)],
+            'jenis_aplikasi' => $jenisAplikasi[$i % count($jenisAplikasi)],
+            'tim' => $programmers[$i % count($programmers)],
             'email' => "{$code}@pekanbaru.go.id",
-            'bahasa_pemrograman' => $bahasaPemrograman,
-            'arsitektur' => rand(0, 1) ? 'monolith' : 'be-fe',
-            'framework' => $framework,
-            'library' => $libraries[array_rand($libraries)],
-            'has_repo' => rand(0, 1) ? 'ya' : 'tidak',
-            'git_type' => rand(0, 1) ? 'private' : 'public',
-            'penyedia_repo' => $penyediaRepo[array_rand($penyediaRepo)],
-            'backup_code' => 'Backup otomatis ke cloud storage setiap hari jam 00:00 WIB menggunakan cron job dan rsync',
-            'backup_asset' => 'Sinkronisasi asset ke AWS S3/Google Cloud Storage dengan versioning enabled',
-            'db_nama' => "db_{$code}_" . strtolower(str_replace([' ', '-'], '_', substr($nama, 0, 10))),
-            'db_versi' => $selectedDbms === 'MySQL' ? '8.0' : ($selectedDbms === 'PostgreSQL' ? '16' : ($selectedDbms === 'MariaDB' ? '10.11' : '2022')),
-            'dbms' => $selectedDbms,
-            'dbms_versi' => $selectedDbms === 'MySQL' ? '8.0.35' : ($selectedDbms === 'PostgreSQL' ? '16.1' : ($selectedDbms === 'MariaDB' ? '10.11.6' : '16.0')),
-            'db_lokasi' => rand(0, 1) ? 'server' : 'local',
-            'db_akses' => 'private',
-            'backup_db' => 'Backup database harian menggunakan mysqldump/pg_dump ke cloud storage dengan retensi 30 hari',
-            'integrasi' => "Integrasi dengan Portal Pekanbaru AMAN, SSO Pemerintah Kota, dan API Gateway Diskominfo",
-            'monev' => 'Monitoring menggunakan Grafana dan Prometheus, evaluasi kinerja bulanan melalui dashboard analytics',
+            'whatsapp' => '08' . str_pad((string)(11 + ($i * 7) % 89), 2, '0', STR_PAD_LEFT) . str_pad((string)(1000 + ($i * 137) % 9000), 4, '0', STR_PAD_LEFT) . str_pad((string)(1000 + ($i * 251) % 9000), 4, '0', STR_PAD_LEFT),
+            'bahasa_pemrograman' => $bahasaCombos[$i % count($bahasaCombos)],
+            'arsitektur' => $arsitektur[$i % count($arsitektur)],
+            'framework' => $frameworkCombos[$i % count($frameworkCombos)],
+            'library' => $libraries[$i % count($libraries)],
+            'has_repo' => ($i % 3 !== 2) ? 'ya' : 'tidak',
+            'git_type' => ($i % 2 === 0) ? 'private' : 'public',
+            'penyedia_repo' => $penyediaRepo[$i % count($penyediaRepo)],
+            'backup_code' => $backupCode[$i % count($backupCode)],
+            'backup_asset' => $backupAsset[$i % count($backupAsset)],
+            'dbms' => $dbms['dbms'],
+            'dbms_versi' => $dbms['versi'],
+            'db_lokasi' => $dbLokasiOptions[$i % count($dbLokasiOptions)],
+            'db_akses' => ($i % 4 === 0) ? 'public' : 'private',
+            'backup_db' => $backupDb[$i % count($backupDb)],
+            'integrasi' => $integrasi[$i % count($integrasi)],
+            'monev' => $monev[$i % count($monev)],
         ];
     }
 }

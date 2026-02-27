@@ -6,8 +6,18 @@ use App\Models\WebApp;
 use App\Models\User;
 use App\Models\Opd;
 use App\Models\ActivityLog;
+use App\Models\HealthCheckBatch;
+use App\Models\HealthCheckResult;
+use App\Jobs\CheckAllWebsitesJob;
+use App\Jobs\ProcessHealthCheckJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class AdminMonitoringController extends Controller
 {
@@ -37,7 +47,7 @@ class AdminMonitoringController extends Controller
                 $query->where($filterField, 'LIKE', '%' . $filterValue . '%');
             }
             
-            $filteredApps = $query->orderBy('nama_aplikasi')->limit(100)->get();
+            $filteredApps = $query->orderBy('nama_web_app')->limit(100)->get();
         }
 
         // Summary stats for overview
@@ -47,6 +57,12 @@ class AdminMonitoringController extends Controller
             'total_users' => User::count(),
             'apps_with_repo' => WebApp::where('has_repository', 'ya')->count(),
         ];
+
+        // Jenis Aplikasi breakdown
+        $jenisAppStats = WebApp::select('jenis_aplikasi', DB::raw('count(*) as total'))
+            ->groupBy('jenis_aplikasi')
+            ->orderByDesc('total')
+            ->get();
 
         // Known frameworks for smart extraction (mega expanded list)
         $knownFrameworks = [
@@ -119,12 +135,14 @@ class AdminMonitoringController extends Controller
                 
                 // If no known framework found, keep as-is
                 if (!$found && $item) {
-                    $frameworkCounts[$item] = ($frameworkCounts[$item] ?? 0) + 1;
+                    $baseName = preg_replace('/\s+[\d\.x]+$/i', '', $item);
+                    $baseName = trim($baseName) ?: $item;
+                    $frameworkCounts[$baseName] = ($frameworkCounts[$baseName] ?? 0) + 1;
                 }
             }
         });
         arsort($frameworkCounts);
-        $topFrameworks = collect(array_slice($frameworkCounts, 0, 10, true))
+        $topFrameworks = collect($frameworkCounts)
             ->map(fn($total, $name) => (object)['framework' => $name, 'total' => $total]);
 
         // Known programming languages for smart extraction (mega expanded list)
@@ -202,12 +220,14 @@ class AdminMonitoringController extends Controller
                 }
                 
                 if (!$found && $item) {
-                    $bahasaCounts[$item] = ($bahasaCounts[$item] ?? 0) + 1;
+                    $baseName = preg_replace('/\s+[\d\.x]+$/i', '', $item);
+                    $baseName = trim($baseName) ?: $item;
+                    $bahasaCounts[$baseName] = ($bahasaCounts[$baseName] ?? 0) + 1;
                 }
             }
         });
         arsort($bahasaCounts);
-        $bahasaStats = collect(array_slice($bahasaCounts, 0, 10, true))
+        $bahasaStats = collect($bahasaCounts)
             ->map(fn($total, $name) => (object)['bahasa_pemrograman' => $name, 'total' => $total]);
 
         // DBMS stats (also split)
@@ -217,24 +237,39 @@ class AdminMonitoringController extends Controller
             foreach ($items as $item) {
                 $item = trim($item);
                 if ($item) {
-                    $dbmsCounts[$item] = ($dbmsCounts[$item] ?? 0) + 1;
+                    $baseName = preg_replace('/\s+[\d\.x]+$/i', '', $item);
+                    $baseName = trim($baseName) ?: $item;
+                    $dbmsCounts[$baseName] = ($dbmsCounts[$baseName] ?? 0) + 1;
                 }
             }
         });
         arsort($dbmsCounts);
-        $dbmsStats = collect(array_slice($dbmsCounts, 0, 10, true))
+        $dbmsStats = collect($dbmsCounts)
             ->map(fn($total, $name) => (object)['dbms' => $name, 'total' => $total]);
-
-        // Top 5 OPDs by app count
-        $topOpds = Opd::withCount('webApps')
-            ->orderByDesc('web_apps_count')
-            ->limit(5)
-            ->get();
 
         // Architecture distribution
         $arsitekturStats = WebApp::select('arsitektur_sistem', DB::raw('count(*) as total'))
             ->groupBy('arsitektur_sistem')
             ->get();
+
+        // Library/Package Stats
+        $libCounts = [];
+        WebApp::whereNotNull('daftar_library_package')->where('daftar_library_package', '!=', '')
+            ->pluck('daftar_library_package')->each(function ($value) use (&$libCounts) {
+                $items = array_map('trim', explode(',', $value));
+                foreach ($items as $item) {
+                    if (!$item) continue;
+                    // Strip version (last word if it looks like a version: digits, dots, x)
+                    $baseName = preg_replace('/\s+[\d\.x]+$/i', '', $item);
+                    $baseName = trim($baseName);
+                    if ($baseName) {
+                        $libCounts[$baseName] = ($libCounts[$baseName] ?? 0) + 1;
+                    }
+                }
+            });
+        arsort($libCounts);
+        $libraryStats = collect($libCounts)
+            ->map(fn($total, $name) => (object)['library' => $name, 'total' => $total]);
 
         // Repository Stats (merged from repository page)
         $punyaRepo = WebApp::where('has_repository', 'ya')->count();
@@ -263,16 +298,12 @@ class AdminMonitoringController extends Controller
         $aksesStats = WebApp::select('akses_database', DB::raw('count(*) as total'))
             ->groupBy('akses_database')
             ->get();
-        $versiStats = WebApp::select('versi_dbms', DB::raw('count(*) as total'))
-            ->groupBy('versi_dbms')
-            ->orderByDesc('total')
-            ->limit(10)
-            ->get();
 
         return view('admin.monitoring.index', compact(
-            'stats', 'topFrameworks', 'bahasaStats', 'dbmsStats', 'topOpds', 'arsitekturStats',
+            'stats', 'jenisAppStats', 'topFrameworks', 'bahasaStats', 'dbmsStats', 'arsitekturStats',
+            'libraryStats',
             'hasRepoStats', 'gitTypeStats', 'providerStats',
-            'lokasiStats', 'aksesStats', 'versiStats',
+            'lokasiStats', 'aksesStats',
             'filteredApps', 'filterField', 'filterValue'
         ));
     }
@@ -400,7 +431,36 @@ class AdminMonitoringController extends Controller
         // Top 10 OPDs
         $topOpds = $opdStats->take(10);
 
-        return view('admin.monitoring.opd', compact('opdStats', 'emptyOpds', 'avgAppsPerOpd', 'topOpds'));
+        // Monthly trend data (last 12 months)
+        $monthlyTrend = WebApp::selectRaw("DATE_FORMAT(created_at, '%Y-%m') as bulan, COUNT(*) as total")
+            ->where('created_at', '>=', now()->subMonths(11)->startOfMonth())
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get()
+            ->keyBy('bulan');
+
+        // Fill in missing months with 0
+        $trendLabels = [];
+        $trendData = [];
+        $trendCumulative = [];
+        $runningTotal = WebApp::where('created_at', '<', now()->subMonths(11)->startOfMonth())->count();
+        for ($i = 11; $i >= 0; $i--) {
+            $monthKey = now()->subMonths($i)->format('Y-m');
+            $monthLabel = now()->subMonths($i)->translatedFormat('M Y');
+            $count = $monthlyTrend->get($monthKey)->total ?? 0;
+            $runningTotal += $count;
+            $trendLabels[] = $monthLabel;
+            $trendData[] = $count;
+            $trendCumulative[] = $runningTotal;
+        }
+
+        // Jenis Aplikasi stats
+        $jenisAplikasiStats = WebApp::selectRaw("COALESCE(jenis_aplikasi, 'Belum Diisi') as jenis, COUNT(*) as total")
+            ->groupBy('jenis')
+            ->orderByDesc('total')
+            ->get();
+
+        return view('admin.monitoring.opd', compact('opdStats', 'emptyOpds', 'avgAppsPerOpd', 'topOpds', 'trendLabels', 'trendData', 'trendCumulative', 'jenisAplikasiStats'));
     }
 
     /**
@@ -429,123 +489,6 @@ class AdminMonitoringController extends Controller
         return view('admin.monitoring.backup', compact('backupCodeStats', 'backupDbStats', 'backupAssetStats'));
     }
 
-    /**
-     * Activity Log
-     */
-    public function activityLog(Request $request)
-    {
-        $logs = ActivityLog::with('user')
-            ->latest()
-            ->paginate(20);
-
-        return view('admin.monitoring.activity-log', compact('logs'));
-    }
-
-    /**
-     * User Analytics
-     */
-    public function userAnalytics(Request $request)
-    {
-        // Users with last login
-        $users = User::with(['role', 'opd'])
-            ->whereHas('role', fn($q) => $q->where('name', 'user'))
-            ->orderByDesc('last_login_at')
-            ->get();
-
-        // Active users (logged in last 30 days)
-        $activeUsers = User::whereNotNull('last_login_at')
-            ->where('last_login_at', '>=', now()->subDays(30))
-            ->count();
-
-        // Inactive users
-        $inactiveUsers = User::where(function($q) {
-            $q->whereNull('last_login_at')
-              ->orWhere('last_login_at', '<', now()->subDays(30));
-        })->count();
-
-        // Users per OPD
-        $usersPerOpd = Opd::withCount('users')
-            ->orderByDesc('users_count')
-            ->get();
-
-        return view('admin.monitoring.user-analytics', compact('users', 'activeUsers', 'inactiveUsers', 'usersPerOpd'));
-    }
-
-    /**
-     * Laporan & Export
-     */
-    public function laporan(Request $request)
-    {
-        $opds = Opd::orderBy('nama_opd')->get();
-        
-        return view('admin.monitoring.laporan', compact('opds'));
-    }
-
-    /**
-     * Export PDF
-     */
-    public function exportPdf(Request $request)
-    {
-        $query = WebApp::with(['opd', 'user']);
-        
-        if ($request->filled('opd_id')) {
-            $query->where('opd_id', $request->opd_id);
-        }
-        
-        $webApps = $query->get();
-        $opd = $request->filled('opd_id') ? Opd::find($request->opd_id) : null;
-        
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.monitoring.pdf-report', compact('webApps', 'opd'));
-        
-        $filename = $opd ? 'laporan-' . \Str::slug($opd->nama_opd) . '.pdf' : 'laporan-semua-opd.pdf';
-        
-        return $pdf->download($filename);
-    }
-
-    /**
-     * Export Excel
-     */
-    public function exportExcel(Request $request)
-    {
-        // Simple CSV export
-        $query = WebApp::with(['opd', 'user']);
-        
-        if ($request->filled('opd_id')) {
-            $query->where('opd_id', $request->opd_id);
-        }
-        
-        $webApps = $query->get();
-        
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="laporan-aplikasi.csv"',
-        ];
-        
-        $callback = function() use ($webApps) {
-            $file = fopen('php://output', 'w');
-            
-            // Header row
-            fputcsv($file, ['No', 'Nama Aplikasi', 'OPD', 'Alamat Tautan', 'Framework', 'DBMS', 'Repository']);
-            
-            // Data rows
-            $no = 1;
-            foreach ($webApps as $app) {
-                fputcsv($file, [
-                    $no++,
-                    $app->nama_web_app,
-                    $app->opd->nama_opd ?? '-',
-                    $app->alamat_tautan,
-                    $app->framework,
-                    $app->dbms,
-                    $app->has_repository,
-                ]);
-            }
-            
-            fclose($file);
-        };
-        
-        return response()->stream($callback, 200, $headers);
-    }
 
     /**
      * Website Health Check
@@ -558,8 +501,10 @@ class AdminMonitoringController extends Controller
         // Skip domains
         $skipDomains = ['play.google.com', 'apps.apple.com', 'drive.google.com', 'docs.google.com', 'dropbox.com', 'onedrive.live.com'];
         
-        // Get total count
-        $totalCount = WebApp::where('alamat_tautan', 'like', 'http%')->count();
+        // Get total count (only website-type apps with valid URLs)
+        $totalCount = WebApp::where('alamat_tautan', 'like', 'http%')
+            ->where('jenis_aplikasi', 'like', '%web%')
+            ->count();
         
         // Get web apps filtered by selected OPD
         $selectedOpd = $request->opd_id;
@@ -569,6 +514,7 @@ class AdminMonitoringController extends Controller
             $webApps = WebApp::with('opd')
                 ->where('opd_id', $selectedOpd)
                 ->where('alamat_tautan', 'like', 'http%')
+                ->where('jenis_aplikasi', 'like', '%web%')
                 ->get()
                 ->filter(function($app) use ($skipDomains) {
                     $host = parse_url($app->alamat_tautan, PHP_URL_HOST);
@@ -576,7 +522,651 @@ class AdminMonitoringController extends Controller
                 });
         }
 
-        return view('admin.monitoring.health-check', compact('webApps', 'opds', 'totalCount', 'selectedOpd'));
+        // Load latest bulk check batch
+        $latestBatch = HealthCheckBatch::where('scope', 'all')
+            ->latest()
+            ->first();
+        
+        $bulkResults = collect();
+        if ($latestBatch && $latestBatch->status === 'completed') {
+            $bulkResults = HealthCheckResult::where('batch_id', $latestBatch->batch_id)
+                ->orderBy('http_code')
+                ->orderBy('nama_web_app')
+                ->get();
+        }
+
+        return view('admin.monitoring.health-check', compact('webApps', 'opds', 'totalCount', 'selectedOpd', 'latestBatch', 'bulkResults'));
+    }
+
+    /**
+     * Start bulk health check for all websites (dispatches queue job)
+     */
+    public function startBulkCheck(Request $request)
+    {
+        try {
+            // Check if there's already a running/pending batch
+            $running = HealthCheckBatch::whereIn('status', ['running', 'pending'])
+                ->latest()
+                ->first();
+            
+            if ($running) {
+                return response()->json([
+                    'error' => 'Pengecekan sedang berjalan, tunggu selesai',
+                    'batch_id' => $running->batch_id,
+                    'status' => $running->status,
+                ], 409);
+            }
+
+            $batchId = Str::uuid()->toString();
+            
+            HealthCheckBatch::create([
+                'batch_id' => $batchId,
+                'total' => 0,
+                'completed' => 0,
+                'status' => 'pending',
+                'user_id' => auth()->id(),
+                'scope' => 'all',
+            ]);
+
+            // Dispatch job ke queue
+            ProcessHealthCheckJob::dispatch($batchId)->onQueue('health-check');
+
+            return response()->json([
+                'batch_id' => $batchId, 
+                'message' => 'Pengecekan dimulai. Proses berjalan di background, refresh halaman untuk melihat progress.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Gagal memulai pengecekan: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Get bulk check progress (polling endpoint)
+     */
+    public function getBulkProgress(string $batchId)
+    {
+        try {
+            // Progressive checking: each poll checks next 10 URLs
+            $progress = CheckAllWebsitesJob::checkNextBatch($batchId);
+
+            if (isset($progress['error'])) {
+                return response()->json(['error' => $progress['error']], 404);
+            }
+
+            return response()->json($progress);
+        } catch (\Exception $e) {
+            \Log::error('getBulkProgress error: ' . $e->getMessage(), [
+                'batchId' => $batchId,
+                'file' => $e->getFile() . ':' . $e->getLine(),
+            ]);
+            return response()->json([
+                'error' => $e->getMessage(),
+                'status' => 'failed',
+            ], 500);
+        }
+    }
+
+    /**
+     * Get bulk check results
+     */
+    public function getBulkResults(string $batchId)
+    {
+        $results = HealthCheckResult::where('batch_id', $batchId)
+            ->orderBy('http_code')
+            ->orderBy('nama_web_app')
+            ->get()
+            ->map(function ($r) {
+                return [
+                    'nama_web_app' => $r->nama_web_app,
+                    'opd_nama' => $r->nama_opd,
+                    'alamat_tautan' => $r->url,
+                    'http_code' => $r->http_code,
+                    'http_label' => HealthCheckResult::httpCodeLabel($r->http_code),
+                    'http_desc' => HealthCheckResult::httpCodeDescription($r->http_code),
+                    'status' => $r->status,
+                    'response_time_ms' => $r->response_time_ms,
+                    'checked_at' => $r->created_at?->format('H:i:s'),
+                ];
+            });
+
+        return response()->json(['results' => $results, 'total' => $results->count()]);
+    }
+
+    /**
+     * Export health check results to Excel
+     */
+    public function exportHealthCheck(string $batchId)
+    {
+        $batch = HealthCheckBatch::where('batch_id', $batchId)->first();
+        if (!$batch) {
+            return redirect()->back()->with('error', 'Batch tidak ditemukan');
+        }
+
+        $results = HealthCheckResult::where('batch_id', $batchId)
+            ->orderBy('nama_opd')
+            ->orderBy('nama_web_app')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Health Check');
+
+        // Header styling
+        $headerStyle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 11],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '1E40AF']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'D1D5DB']]],
+        ];
+
+        // Title
+        $sheet->mergeCells('A1:I1');
+        $sheet->setCellValue('A1', 'Laporan Cek Status Website OPD');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->mergeCells('A2:I2');
+        $sheet->setCellValue('A2', 'Tanggal: ' . ($batch->created_at?->format('d M Y H:i') ?? '-'));
+        $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2')->getFont()->setSize(10)->setItalic(true);
+
+        // Headers
+        $headers = ['No', 'Nama Aplikasi', 'OPD', 'URL', 'HTTP Code', 'Keterangan', 'Status', 'Response Time (ms)', 'Waktu Cek'];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '4', $header);
+            $col++;
+        }
+        $sheet->getStyle('A4:I4')->applyFromArray($headerStyle);
+        $sheet->getRowDimension(4)->setRowHeight(25);
+
+        // Data
+        $row = 5;
+        foreach ($results as $i => $r) {
+            $sheet->setCellValue('A' . $row, $i + 1);
+            $sheet->setCellValue('B' . $row, $r->nama_web_app);
+            $sheet->setCellValue('C' . $row, $r->nama_opd);
+            $sheet->setCellValue('D' . $row, $r->url);
+            $sheet->setCellValue('E' . $row, $r->http_code ?: 0);
+            $sheet->setCellValue('F' . $row, HealthCheckResult::httpCodeDescription($r->http_code));
+            $sheet->setCellValue('G' . $row, ucfirst($r->status));
+            $sheet->setCellValue('H' . $row, $r->response_time_ms);
+            $sheet->setCellValue('I' . $row, $r->created_at?->format('d/m/Y H:i:s') ?? '-');
+
+            // Color rows by status
+            $rowColor = match($r->status) {
+                'online' => 'DCFCE7',
+                'slow' => 'FEF3C7',
+                'offline' => 'FEE2E2',
+                'error' => 'FEE2E2',
+                default => 'F9FAFB',
+            };
+            $sheet->getStyle("A{$row}:I{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($rowColor);
+            $sheet->getStyle("A{$row}:I{$row}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN)->getColor()->setRGB('E5E7EB');
+
+            $row++;
+        }
+
+        // Summary row
+        $row++;
+        $onlineCount = $results->where('status', 'online')->count();
+        $slowCount = $results->where('status', 'slow')->count();
+        $offlineCount = $results->whereIn('status', ['offline', 'error'])->count();
+        
+        $sheet->setCellValue('A' . $row, 'RINGKASAN:');
+        $sheet->setCellValue('B' . $row, "Total: {$results->count()} | Aktif: {$onlineCount} | Lambat: {$slowCount} | Tidak Aktif: {$offlineCount}");
+        $sheet->mergeCells("B{$row}:I{$row}");
+        $sheet->getStyle("A{$row}:I{$row}")->getFont()->setBold(true);
+
+        // Auto-width columns
+        foreach (range('A', 'I') as $c) {
+            $sheet->getColumnDimension($c)->setAutoSize(true);
+        }
+
+        // Generate file
+        $filename = 'health-check-' . now()->format('Y-m-d_His') . '.xlsx';
+        $tempPath = storage_path('app/' . $filename);
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($tempPath);
+
+        return response()->download($tempPath, $filename)->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Export Per-OPD health check results to Excel (from client-side data)
+     */
+    public function exportHealthCheckOpd(Request $request)
+    {
+        $results = $request->input('results', []);
+        $opdName = $request->input('opd_name', 'OPD');
+
+        if (empty($results)) {
+            return response()->json(['error' => 'Tidak ada data'], 400);
+        }
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Health Check Per OPD');
+
+        // Header styling
+        $headerStyle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 11],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '1E40AF']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'D1D5DB']]],
+        ];
+
+        // Title
+        $sheet->mergeCells('A1:H1');
+        $sheet->setCellValue('A1', 'Laporan Cek Status Website - ' . $opdName);
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->mergeCells('A2:H2');
+        $sheet->setCellValue('A2', 'Tanggal: ' . now()->format('d M Y H:i'));
+        $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2')->getFont()->setSize(10)->setItalic(true);
+
+        // Headers
+        $headers = ['No', 'Nama Aplikasi', 'OPD', 'URL', 'HTTP Code', 'Keterangan', 'Status', 'Response Time (ms)'];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '4', $header);
+            $col++;
+        }
+        $sheet->getStyle('A4:H4')->applyFromArray($headerStyle);
+        $sheet->getRowDimension(4)->setRowHeight(25);
+
+        // Data
+        $row = 5;
+        $onlineCount = 0;
+        $slowCount = 0;
+        $offlineCount = 0;
+
+        foreach ($results as $i => $r) {
+            $sheet->setCellValue('A' . $row, $i + 1);
+            $sheet->setCellValue('B' . $row, $r['name'] ?? '');
+            $sheet->setCellValue('C' . $row, $r['opd'] ?? '');
+            $sheet->setCellValue('D' . $row, $r['url'] ?? '');
+            $sheet->setCellValue('E' . $row, $r['http_code'] ?? 0);
+            $sheet->setCellValue('F' . $row, $r['http_desc'] ?? HealthCheckResult::httpCodeDescription($r['http_code'] ?? 0));
+            $sheet->setCellValue('G' . $row, ucfirst($r['status'] ?? 'error'));
+            $sheet->setCellValue('H' . $row, $r['response_time'] ?? 0);
+
+            $status = strtolower($r['status'] ?? 'error');
+            if ($status === 'online') $onlineCount++;
+            elseif ($status === 'slow') $slowCount++;
+            else $offlineCount++;
+
+            // Color rows by status
+            $rowColor = match($status) {
+                'online' => 'DCFCE7',
+                'slow' => 'FEF3C7',
+                'offline' => 'FEE2E2',
+                'error' => 'FEE2E2',
+                default => 'F9FAFB',
+            };
+            $sheet->getStyle("A{$row}:H{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($rowColor);
+            $sheet->getStyle("A{$row}:H{$row}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN)->getColor()->setRGB('E5E7EB');
+
+            $row++;
+        }
+
+        // Summary row
+        $row++;
+        $total = count($results);
+        $sheet->setCellValue('A' . $row, 'RINGKASAN:');
+        $sheet->setCellValue('B' . $row, "Total: {$total} | Aktif: {$onlineCount} | Lambat: {$slowCount} | Tidak Aktif: {$offlineCount}");
+        $sheet->mergeCells("B{$row}:H{$row}");
+        $sheet->getStyle("A{$row}:H{$row}")->getFont()->setBold(true);
+
+        // Auto-width columns
+        foreach (range('A', 'H') as $c) {
+            $sheet->getColumnDimension($c)->setAutoSize(true);
+        }
+
+        // Generate file
+        $filename = 'health-check-' . Str::slug($opdName) . '-' . now()->format('Y-m-d_His') . '.xlsx';
+        $tempPath = storage_path('app/' . $filename);
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($tempPath);
+
+        return response()->download($tempPath, $filename)->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Export all OPD applications to Excel
+     */
+    public function exportAllOpd()
+    {
+        $apps = WebApp::with('opd')
+            ->orderBy('opd_id')
+            ->orderBy('nama_web_app')
+            ->get();
+
+        return $this->generateOpdExcel($apps, 'Semua OPD', 'data-aplikasi-semua-opd');
+    }
+
+    /**
+     * Export specific OPD applications to Excel
+     */
+    public function exportOpdApps(Opd $opd)
+    {
+        $apps = WebApp::where('opd_id', $opd->id)
+            ->orderBy('nama_web_app')
+            ->get();
+
+        return $this->generateOpdExcel($apps, $opd->nama_opd, 'data-aplikasi-' . Str::slug($opd->nama_opd));
+    }
+
+    /**
+     * Generate OPD applications Excel file
+     */
+    private function generateOpdExcel($apps, string $title, string $filePrefix)
+    {
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Calibri')->setSize(10);
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Data Aplikasi');
+
+        $lastCol = 'R';
+
+        // ═══════════════════════════════════════
+        // ROW 1: Main Title
+        // ═══════════════════════════════════════
+        $sheet->mergeCells("A1:{$lastCol}1");
+        $sheet->setCellValue('A1', 'LAPORAN DATA APLIKASI WEB');
+        $sheet->getStyle('A1')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 16, 'color' => ['rgb' => '1E3A5F']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'E8F0FE']],
+        ]);
+        $sheet->getRowDimension(1)->setRowHeight(35);
+
+        // ROW 2: Subtitle
+        $sheet->mergeCells("A2:{$lastCol}2");
+        $sheet->setCellValue('A2', $title);
+        $sheet->getStyle('A2')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 12, 'color' => ['rgb' => '1E40AF']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'E8F0FE']],
+        ]);
+        $sheet->getRowDimension(2)->setRowHeight(22);
+
+        // ROW 3: Date & Stats
+        $opdCount = $apps->pluck('opd_id')->unique()->count();
+        $sheet->mergeCells("A3:{$lastCol}3");
+        $sheet->setCellValue('A3', 'Dicetak: ' . now()->format('d M Y, H:i') . '  •  Total: ' . $apps->count() . ' aplikasi  •  ' . $opdCount . ' OPD');
+        $sheet->getStyle('A3')->applyFromArray([
+            'font' => ['size' => 9, 'italic' => true, 'color' => ['rgb' => '64748B']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F8FAFC']],
+            'borders' => ['bottom' => ['borderStyle' => Border::BORDER_MEDIUM, 'color' => ['rgb' => '1E40AF']]],
+        ]);
+        $sheet->getRowDimension(3)->setRowHeight(20);
+
+        // ═══════════════════════════════════════
+        // ROW 4: Category Group Headers
+        // ═══════════════════════════════════════
+        $catStyle = fn($rgb) => [
+            'font' => ['bold' => true, 'size' => 9, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => $rgb]],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'FFFFFF']]],
+        ];
+
+        // Informasi Umum: A-F (6 cols)
+        $sheet->mergeCells('A4:F4');
+        $sheet->setCellValue('A4', '📋 INFORMASI UMUM');
+        $sheet->getStyle('A4:F4')->applyFromArray($catStyle('1E40AF'));
+
+        // Stack Teknologi: G-L (6 cols)
+        $sheet->mergeCells('G4:L4');
+        $sheet->setCellValue('G4', '⚙️ STACK TEKNOLOGI');
+        $sheet->getStyle('G4:L4')->applyFromArray($catStyle('7C3AED'));
+
+        // Repository & Backup: M-Q (5 cols)
+        $sheet->mergeCells('M4:Q4');
+        $sheet->setCellValue('M4', '💾 REPOSITORY & BACKUP');
+        $sheet->getStyle('M4:Q4')->applyFromArray($catStyle('0D9488'));
+
+        // Database: R (1 col)
+        $sheet->setCellValue('R4', '🗄️ DATABASE');
+        $sheet->getStyle('R4')->applyFromArray($catStyle('D97706'));
+
+        $sheet->getRowDimension(4)->setRowHeight(22);
+
+        // ═══════════════════════════════════════
+        // ROW 5: Column Headers
+        // ═══════════════════════════════════════
+        $headers = [
+            'A' => 'No',
+            'B' => 'OPD',
+            'C' => 'Nama Aplikasi',
+            'D' => 'Deskripsi',
+            'E' => 'URL',
+            'F' => 'Jenis',
+            'G' => 'Bahasa',
+            'H' => 'Framework',
+            'I' => 'Arsitektur',
+            'J' => 'DBMS',
+            'K' => 'Versi DBMS',
+            'L' => 'Library / Package',
+            'M' => 'Tipe Repository',
+            'N' => 'Penyedia Repo',
+            'O' => 'Lokasi DB',
+            'P' => 'Akses DB',
+            'Q' => 'Backup Source Code',
+            'R' => 'Backup Database',
+        ];
+
+        foreach ($headers as $col => $label) {
+            $sheet->setCellValue($col . '5', $label);
+        }
+
+        // Column header colors matching their category
+        $colHeaderBase = [
+            'font' => ['bold' => true, 'size' => 9, 'color' => ['rgb' => 'FFFFFF']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrapText' => true],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'FFFFFF']]],
+        ];
+
+        $colColors = [
+            'A:F' => '3B82F6',  // Blue  - Informasi Umum
+            'G:L' => '8B5CF6',  // Purple - Stack Teknologi
+            'M:Q' => '14B8A6',  // Teal   - Repository & Backup
+            'R:R' => 'F59E0B',  // Amber  - Database
+        ];
+
+        foreach ($colColors as $range => $rgb) {
+            [$start, $end] = explode(':', $range);
+            $style = $colHeaderBase;
+            $style['fill'] = ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => $rgb]];
+            $sheet->getStyle("{$start}5:{$end}5")->applyFromArray($style);
+        }
+
+        $sheet->getRowDimension(5)->setRowHeight(28);
+
+        // ═══════════════════════════════════════
+        // Fixed column widths
+        // ═══════════════════════════════════════
+        $widths = [
+            'A' => 5, 'B' => 32, 'C' => 28, 'D' => 35, 'E' => 35, 'F' => 14,
+            'G' => 18, 'H' => 18, 'I' => 14, 'J' => 14, 'K' => 12, 'L' => 25,
+            'M' => 14, 'N' => 16, 'O' => 14, 'P' => 14, 'Q' => 18, 'R' => 18,
+        ];
+        foreach ($widths as $c => $w) {
+            $sheet->getColumnDimension($c)->setWidth($w);
+        }
+
+        // Freeze panes (freeze below row 5, after column B)
+        $sheet->freezePane('C6');
+
+        // ═══════════════════════════════════════
+        // DATA ROWS
+        // ═══════════════════════════════════════
+        $row = 6;
+        $currentOpd = null;
+        $opdColors = ['F0F7FF', 'FFFBEB']; // soft blue / soft amber alternating
+        $opdColorIdx = 0;
+
+        $dataStyle = [
+            'alignment' => ['vertical' => Alignment::VERTICAL_CENTER, 'wrapText' => true],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'E2E8F0']]],
+        ];
+
+        foreach ($apps as $i => $app) {
+            $opdName = $app->opd->nama_opd ?? '-';
+            if ($opdName !== $currentOpd) {
+                $currentOpd = $opdName;
+                $opdColorIdx = ($opdColorIdx + 1) % 2;
+            }
+
+            $sheet->setCellValue('A' . $row, $i + 1);
+            $sheet->setCellValue('B' . $row, $opdName);
+            $sheet->setCellValue('C' . $row, $app->nama_web_app);
+            $sheet->setCellValue('D' . $row, $app->deskripsi_singkat);
+            $sheet->setCellValue('E' . $row, $app->alamat_tautan);
+            $sheet->setCellValue('F' . $row, $app->jenis_aplikasi);
+            $sheet->setCellValue('G' . $row, $app->bahasa_pemrograman);
+            $sheet->setCellValue('H' . $row, $app->framework);
+            $sheet->setCellValue('I' . $row, $app->arsitektur_sistem);
+            $sheet->setCellValue('J' . $row, $app->dbms);
+            $sheet->setCellValue('K' . $row, $app->versi_dbms);
+            $sheet->setCellValue('L' . $row, $app->daftar_library_package);
+            $sheet->setCellValue('M' . $row, $app->git_repository);
+            $sheet->setCellValue('N' . $row, $app->penyedia_repository);
+            $sheet->setCellValue('O' . $row, $app->lokasi_database);
+            $sheet->setCellValue('P' . $row, $app->akses_database);
+            $sheet->setCellValue('Q' . $row, $app->metode_backup_source_code);
+            $sheet->setCellValue('R' . $row, $app->metode_backup_database);
+
+            // Apply style
+            $sheet->getStyle("A{$row}:{$lastCol}{$row}")->applyFromArray($dataStyle);
+            $sheet->getStyle("A{$row}:{$lastCol}{$row}")->getFill()
+                ->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($opdColors[$opdColorIdx]);
+
+            // Center the No column
+            $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+            // Make URL clickable
+            if ($app->alamat_tautan) {
+                $sheet->getCell("E{$row}")->getHyperlink()->setUrl($app->alamat_tautan);
+                $sheet->getStyle("E{$row}")->getFont()->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('3B82F6'))->setUnderline(true);
+            }
+
+            $sheet->getRowDimension($row)->setRowHeight(-1); // auto height
+            $row++;
+        }
+
+        // ═══════════════════════════════════════
+        // SUMMARY SECTION
+        // ═══════════════════════════════════════
+        $row++; // blank row
+
+        // Summary banner
+        $sheet->mergeCells("A{$row}:{$lastCol}{$row}");
+        $sheet->setCellValue("A{$row}", '📊 RINGKASAN LAPORAN');
+        $sheet->getStyle("A{$row}")->applyFromArray([
+            'font' => ['bold' => true, 'size' => 12, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '1E293B']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+        ]);
+        $sheet->getRowDimension($row)->setRowHeight(30);
+        $row++;
+
+        // Card 1: Total Aplikasi
+        $sheet->mergeCells("A{$row}:D{$row}");
+        $sheet->setCellValue("A{$row}", '📋  TOTAL APLIKASI');
+        $sheet->getStyle("A{$row}:D{$row}")->applyFromArray([
+            'font' => ['bold' => true, 'size' => 9, 'color' => ['rgb' => '1E40AF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'DBEAFE']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'BFDBFE']]],
+        ]);
+        // Card 2: Total OPD
+        $sheet->mergeCells("E{$row}:I{$row}");
+        $sheet->setCellValue("E{$row}", '🏢  TOTAL OPD (YANG SUDAH INPUT)');
+        $sheet->getStyle("E{$row}:I{$row}")->applyFromArray([
+            'font' => ['bold' => true, 'size' => 9, 'color' => ['rgb' => '065F46']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'D1FAE5']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'A7F3D0']]],
+        ]);
+        // Empty rest
+        $sheet->mergeCells("J{$row}:{$lastCol}{$row}");
+        $sheet->getStyle("J{$row}:{$lastCol}{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('F8FAFC');
+        $sheet->getRowDimension($row)->setRowHeight(22);
+        $row++;
+
+        // Big numbers row
+        $sheet->mergeCells("A{$row}:D{$row}");
+        $sheet->setCellValue("A{$row}", $apps->count());
+        $sheet->getStyle("A{$row}:D{$row}")->applyFromArray([
+            'font' => ['bold' => true, 'size' => 28, 'color' => ['rgb' => '1E40AF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'EFF6FF']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'BFDBFE']]],
+        ]);
+
+        $sheet->mergeCells("E{$row}:I{$row}");
+        $sheet->setCellValue("E{$row}", $opdCount);
+        $sheet->getStyle("E{$row}:I{$row}")->applyFromArray([
+            'font' => ['bold' => true, 'size' => 28, 'color' => ['rgb' => '065F46']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'ECFDF5']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'A7F3D0']]],
+        ]);
+
+        $sheet->mergeCells("J{$row}:{$lastCol}{$row}");
+        $sheet->getStyle("J{$row}:{$lastCol}{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('F8FAFC');
+        $sheet->getRowDimension($row)->setRowHeight(45);
+        $row++;
+
+        // Subtitle row
+        $sheet->mergeCells("A{$row}:D{$row}");
+        $sheet->setCellValue("A{$row}", 'Aplikasi terdaftar');
+        $sheet->getStyle("A{$row}:D{$row}")->applyFromArray([
+            'font' => ['size' => 9, 'italic' => true, 'color' => ['rgb' => '64748B']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'EFF6FF']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['bottom' => ['borderStyle' => Border::BORDER_MEDIUM, 'color' => ['rgb' => '3B82F6']]],
+        ]);
+
+        $sheet->mergeCells("E{$row}:I{$row}");
+        $sheet->setCellValue("E{$row}", 'Organisasi perangkat daerah');
+        $sheet->getStyle("E{$row}:I{$row}")->applyFromArray([
+            'font' => ['size' => 9, 'italic' => true, 'color' => ['rgb' => '64748B']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'ECFDF5']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['bottom' => ['borderStyle' => Border::BORDER_MEDIUM, 'color' => ['rgb' => '10B981']]],
+        ]);
+
+        $sheet->mergeCells("J{$row}:{$lastCol}{$row}");
+        $sheet->getStyle("J{$row}:{$lastCol}{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('F8FAFC');
+        $sheet->getRowDimension($row)->setRowHeight(18);
+
+        // ═══════════════════════════════════════
+        // Print & Page Setup
+        // ═══════════════════════════════════════
+        $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+        $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+        $sheet->getPageSetup()->setFitToWidth(1);
+        $sheet->getPageSetup()->setFitToHeight(0);
+        $sheet->setAutoFilter("A5:{$lastCol}5");
+
+        // Generate
+        $filename = $filePrefix . '-' . now()->format('Y-m-d_His') . '.xlsx';
+        $tempPath = storage_path('app/' . $filename);
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($tempPath);
+
+        return response()->download($tempPath, $filename)->deleteFileAfterSend(true);
     }
 
     /**
@@ -629,6 +1219,23 @@ class AdminMonitoringController extends Controller
     }
 
     /**
+     * Get apps by OPD ID (for modal detail)
+     */
+    public function getOpdApps(Opd $opd)
+    {
+        $apps = $opd->webApps()
+            ->select('id', 'nama_web_app', 'alamat_tautan', 'created_at')
+            ->orderBy('nama_web_app')
+            ->get();
+        
+        return response()->json([
+            'opd' => ['id' => $opd->id, 'nama_opd' => $opd->nama_opd],
+            'apps' => $apps,
+            'total' => $apps->count()
+        ]);
+    }
+
+    /**
      * Get apps filtered by a specific field and value (for clickable stats)
      */
     public function getAppsByFilter(Request $request)
@@ -640,7 +1247,8 @@ class AdminMonitoringController extends Controller
             $allowedFields = [
                 'framework', 'bahasa_pemrograman', 'dbms', 'arsitektur_sistem',
                 'has_repository', 'git_repository', 'penyedia_repository',
-                'lokasi_database', 'akses_database', 'versi_dbms'
+                'lokasi_database', 'akses_database', 'versi_dbms',
+                'daftar_library_package'
             ];
 
             if (!in_array($field, $allowedFields)) {
@@ -669,14 +1277,14 @@ class AdminMonitoringController extends Controller
             $total = $query->count();
             
             $apps = (clone $query)
-                ->orderBy('nama_aplikasi')
+                ->orderBy('nama_web_app')
                 ->limit(50)
                 ->get()
                 ->map(function($app) {
                     return [
                         'id' => $app->id,
-                        'nama_aplikasi' => $app->nama_aplikasi,
-                        'url_aplikasi' => $app->url_aplikasi,
+                        'nama_aplikasi' => $app->nama_web_app,
+                        'url_aplikasi' => $app->alamat_tautan,
                         'opd' => $app->opd ? ['nama_opd' => $app->opd->nama_opd] : null
                     ];
                 });
@@ -694,5 +1302,136 @@ class AdminMonitoringController extends Controller
                 'total' => 0
             ], 500);
         }
+    }
+
+    /**
+     * Get version breakdown for a framework or language (AJAX)
+     */
+    public function getVersionBreakdown(Request $request)
+    {
+        $field = $request->get('field');
+        $value = $request->get('value', '');
+
+        $allowedFields = ['framework', 'bahasa_pemrograman'];
+        if (!in_array($field, $allowedFields)) {
+            return response()->json(['error' => 'Invalid field', 'versions' => []], 400);
+        }
+
+        // Fetch all rows containing the base name
+        $rows = WebApp::whereRaw('LOWER(' . $field . ') LIKE ?', ['%' . strtolower($value) . '%'])
+            ->pluck($field);
+
+        // Parse each value: split by separators, find parts matching the base name
+        $versionCounts = [];
+        $baseLower = strtolower($value);
+
+        foreach ($rows as $rawValue) {
+            // Split by comma, semicolon, newline, "dan", "and", "&"
+            $parts = preg_split('/[,;\\n\\r]+|\\s+dan\\s+|\\s+and\\s+|\\s*&\\s*/i', $rawValue);
+
+            foreach ($parts as $part) {
+                $part = trim($part);
+                if (!$part) continue;
+
+                // Check if this part contains the base name (case-insensitive)
+                if (stripos($part, $value) !== false) {
+                    // Normalize: keep as-is but trim
+                    $versionCounts[$part] = ($versionCounts[$part] ?? 0) + 1;
+                }
+            }
+        }
+
+        // Sort by count descending
+        arsort($versionCounts);
+
+        $versions = collect($versionCounts)->map(fn($total, $name) => [
+            'value' => $name,
+            'total' => $total,
+        ])->values();
+
+        return response()->json([
+            'field' => $field,
+            'base' => $value,
+            'versions' => $versions,
+            'total' => $versions->sum('total'),
+        ]);
+    }
+
+    /**
+     * Get DBMS version breakdown (AJAX)
+     */
+    public function getDbmsVersionBreakdown(Request $request)
+    {
+        $dbmsName = $request->get('value', '');
+
+        // Get all apps matching this DBMS name, combine dbms + versi_dbms
+        $rows = WebApp::select('dbms', 'versi_dbms')
+            ->whereRaw('LOWER(dbms) LIKE ?', ['%' . strtolower($dbmsName) . '%'])
+            ->get();
+
+        $versionCounts = [];
+        foreach ($rows as $row) {
+            $version = trim($row->versi_dbms ?? '');
+            if ($version) {
+                $label = $row->dbms . ' ' . $version;
+            } else {
+                $label = $row->dbms . ' (versi tidak diketahui)';
+            }
+            $versionCounts[$label] = ($versionCounts[$label] ?? 0) + 1;
+        }
+
+        arsort($versionCounts);
+
+        $versions = collect($versionCounts)->map(fn($total, $name) => [
+            'value' => $name,
+            'total' => $total,
+        ])->values();
+
+        return response()->json([
+            'field' => 'dbms',
+            'base' => $dbmsName,
+            'versions' => $versions,
+            'total' => $versions->sum('total'),
+        ]);
+    }
+
+    /**
+     * Get library version breakdown (AJAX)
+     */
+    public function getLibraryVersionBreakdown(Request $request)
+    {
+        $libName = $request->get('value', '');
+
+        // Get all apps containing this library name in daftar_library_package
+        $rows = WebApp::where('daftar_library_package', 'LIKE', '%' . $libName . '%')
+            ->pluck('daftar_library_package');
+
+        $versionCounts = [];
+        $baseLower = strtolower($libName);
+
+        foreach ($rows as $rawValue) {
+            $items = array_map('trim', explode(',', $rawValue));
+            foreach ($items as $item) {
+                if (!$item) continue;
+                // Check if this item contains the library name
+                if (stripos($item, $libName) !== false) {
+                    $versionCounts[$item] = ($versionCounts[$item] ?? 0) + 1;
+                }
+            }
+        }
+
+        arsort($versionCounts);
+
+        $versions = collect($versionCounts)->map(fn($total, $name) => [
+            'value' => $name,
+            'total' => $total,
+        ])->values();
+
+        return response()->json([
+            'field' => 'daftar_library_package',
+            'base' => $libName,
+            'versions' => $versions,
+            'total' => $versions->sum('total'),
+        ]);
     }
 }

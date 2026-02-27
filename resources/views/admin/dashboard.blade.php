@@ -42,20 +42,10 @@
             </svg>
             
             <!-- Concentric Circles (Pulsing) -->
-            <svg class="absolute right-10 top-5 w-[350px] h-[350px] text-blue-400/15" viewBox="0 0 350 350" fill="none">
-                <circle cx="300" cy="50" r="60" stroke="currentColor" stroke-width="1" fill="none" style="animation: pulse-ring 3s ease-out infinite;"/>
-                <circle cx="300" cy="50" r="100" stroke="currentColor" stroke-width="0.8" fill="none" style="animation: pulse-ring 3s ease-out infinite; animation-delay: 0.5s;"/>
-                <circle cx="300" cy="50" r="140" stroke="currentColor" stroke-width="0.6" fill="none" style="animation: pulse-ring 3s ease-out infinite; animation-delay: 1s;"/>
-                <circle cx="300" cy="50" r="180" stroke="currentColor" stroke-width="0.4" fill="none" style="animation: pulse-ring 3s ease-out infinite; animation-delay: 1.5s;"/>
-            </svg>
+            <i class="fa-solid fa-pen-to-square absolute right-10 top-5 w-[350px] h-[350px] text-blue-400/15 flex items-center justify-center" style="animation: pulse-ring 3s ease-out infinite;"></i>
             
             <!-- Diagonal Lines -->
-            <svg class="absolute left-0 bottom-0 w-[300px] h-[200px] text-indigo-400/20" viewBox="0 0 300 200" fill="none" style="animation: sway 10s ease-in-out infinite reverse;">
-                <line x1="0" y1="200" x2="100" y2="0" stroke="currentColor" stroke-width="0.5"/>
-                <line x1="50" y1="200" x2="150" y2="0" stroke="currentColor" stroke-width="0.5"/>
-                <line x1="100" y1="200" x2="200" y2="0" stroke="currentColor" stroke-width="0.5"/>
-                <line x1="150" y1="200" x2="250" y2="0" stroke="currentColor" stroke-width="0.5"/>
-            </svg>
+            <i class="fa-solid fa-pen-to-square absolute left-0 bottom-0 w-[300px] h-[200px] text-indigo-400/20 flex items-center justify-center" style="animation: sway 10s ease-in-out infinite reverse;"></i>
             
             <!-- Sparkle Dots -->
             <div class="absolute top-1/4 right-1/4 w-1 h-1 bg-white/60 rounded-full" style="animation: sparkle 2s ease-in-out infinite;"></div>
@@ -72,12 +62,12 @@
                 </div>
                 
                 <p class="text-slate-600 dark:text-slate-300 text-base max-w-xl leading-relaxed font-medium mt-2">
-                    Pantau dan kelola seluruh inventaris aplikasi Pemerintah Kota Pekanbaru dalam satu dashboard terintegrasi yang modern dan efisien.
+                    {{ App\Models\SiteSetting::get('dashboard_admin_description', 'Pantau dan kelola seluruh inventaris aplikasi Pemerintah Kota Pekanbaru dalam satu dashboard terintegrasi yang modern dan efisien.') }}
                 </p>
 
                  <div class="pt-2 flex flex-wrap gap-3">
                     <span class="inline-flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm">
-                        <svg class="w-3.5 h-3.5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <i class="fa-solid fa-calendar-day w-3.5 h-3.5 mr-2 text-slate-400"></i>
                         {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
                     </span>
                 </div>
@@ -107,11 +97,7 @@
             </svg>
             
             <!-- Pulsing Circles -->
-            <svg class="absolute left-0 top-0 w-[200px] h-[200px] text-indigo-400/10" viewBox="0 0 200 200" fill="none">
-                <circle cx="0" cy="0" r="50" stroke="currentColor" stroke-width="0.5" fill="none" style="animation: pulse-ring 4s ease-out infinite;"/>
-                <circle cx="0" cy="0" r="80" stroke="currentColor" stroke-width="0.5" fill="none" style="animation: pulse-ring 4s ease-out infinite; animation-delay: 0.6s;"/>
-                <circle cx="0" cy="0" r="110" stroke="currentColor" stroke-width="0.5" fill="none" style="animation: pulse-ring 4s ease-out infinite; animation-delay: 1.2s;"/>
-            </svg>
+            <i class="fa-solid fa-pen-to-square absolute left-0 top-0 w-[200px] h-[200px] text-indigo-400/10 flex items-center justify-center" style="animation: pulse-ring 4s ease-out infinite;"></i>
             
             <!-- Floating Orbs -->
             <div class="absolute top-8 right-1/4 w-2 h-2 bg-cyan-400/50 rounded-full blur-sm" style="animation: float 3s ease-in-out infinite;"></div>
@@ -133,9 +119,7 @@
                     <!-- Icon Container -->
                     <div class="relative w-16 h-16 bg-gradient-to-br from-sky-400 via-sky-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-sky-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Cube Stack (Apps) -->
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                        </svg>
+                        <i class="fa-solid fa-cubes text-white text-3xl"></i>
                     </div>
                 </div>
                 <div class="flex-1 min-w-0">
@@ -156,16 +140,14 @@
                     <!-- Icon Container -->
                     <div class="relative w-16 h-16 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-cyan-50 dark:ring-teal-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Building Office 2 -->
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/>
-                        </svg>
+                        <i class="fa-solid fa-building-columns text-white text-3xl"></i>
                     </div>
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Total OPD</p>
                     <h3 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight">{{ $totalOpds }}</h3>
                     <p class="text-xs text-teal-600 dark:text-teal-400 mt-2 flex items-center font-medium">
-                        <svg class="w-3.5 h-3.5 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <i class="fa-solid fa-check-circle w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
                         Terdaftar di sistem
                     </p>
                 </div>
@@ -179,16 +161,14 @@
                     <!-- Icon Container -->
                     <div class="relative w-16 h-16 bg-gradient-to-br from-blue-400 via-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-blue-50 dark:ring-indigo-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Document Chart Bar -->
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
-                        </svg>
+                        <i class="fa-solid fa-file-invoice text-white text-3xl"></i>
                     </div>
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Input Bulan Ini</p>
                     <h3 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight">{{ $appsThisMonth ?? 0 }}</h3>
                     <p class="text-xs text-indigo-600 dark:text-indigo-400 mt-2 flex items-center font-medium">
-                        <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+                        <i class="fa-solid fa-calendar-check w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
                         {{ \Carbon\Carbon::now()->locale('id')->isoFormat('MMMM Y') }}
                     </p>
                 </div>
@@ -206,7 +186,7 @@
             </div>
             <a href="{{ route('admin.web-apps.index') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium hover:underline flex items-center gap-1">
                 Lihat Semua
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <i class="fa-solid fa-chevron-right w-3 h-3 flex items-center justify-center"></i>
             </a>
         </div>
         
@@ -218,37 +198,37 @@
                             <tr>
                                 <th scope="col" class="px-4 py-4 text-center w-16">
                                     <span class="flex items-center justify-center gap-1 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                                        <i class="fa-solid fa-list-ol w-4 h-4 text-slate-400 flex items-center justify-center"></i>
                                         No
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                        <i class="fa-solid fa-laptop-code w-4 h-4 text-blue-500 flex items-center justify-center"></i>
                                         Aplikasi
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                        <i class="fa-solid fa-building-user w-4 h-4 text-emerald-500 flex items-center justify-center"></i>
                                         OPD
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                        <i class="fa-solid fa-user-pen w-4 h-4 text-violet-500 flex items-center justify-center"></i>
                                         Penginput
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        <i class="fa-solid fa-calendar-alt w-4 h-4 text-amber-500 flex items-center justify-center"></i>
                                         Tanggal Pendataan
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-center">
                                     <span class="flex items-center justify-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                        <i class="fa-solid fa-cogs w-4 h-4 text-indigo-500 flex items-center justify-center"></i>
                                         Aksi
                                     </span>
                                 </th>
@@ -265,7 +245,7 @@
                                             <div class="text-sm font-bold text-gray-900 dark:text-gray-100">{{ $app->nama_web_app }}</div>
                                             @if($app->alamat_tautan)
                                                 <a href="{{ $app->alamat_tautan }}" target="_blank" class="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 font-medium bg-blue-50 dark:bg-blue-500/15 px-2 py-0.5 rounded-md hover:bg-blue-100 dark:hover:bg-blue-500/25 transition-colors">
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                                    <i class="fa-solid fa-external-link-alt w-3 h-3 flex items-center justify-center"></i>
                                                     Kunjungi
                                                 </a>
                                             @else
@@ -286,7 +266,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('admin.web-apps.show', $app) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/25 transition-colors text-xs font-semibold">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                            <i class="fa-solid fa-eye w-4 h-4 mr-1 flex items-center justify-center"></i>
                                             Detail
                                         </a>
                                     </td>
@@ -298,7 +278,7 @@
             @else
                 <div class="text-center py-16">
                     <div class="bg-gray-50 dark:bg-white/5 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 dark:text-zinc-600">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <i class="fa-solid fa-folder-open w-10 h-10 flex items-center justify-center"></i>
                     </div>
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Belum Ada Data</h3>
                     <p class="text-gray-500 dark:text-zinc-500 text-sm">Belum ada data aplikasi yang diinput oleh OPD.</p>
@@ -309,6 +289,6 @@
 
     <!-- Footer Note -->
     <div class="mt-8 text-center text-xs text-gray-400 dark:text-zinc-600">
-        &copy; {{ date('Y') }} Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru
+        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('dashboard_admin_copyright', 'Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru') }}
     </div>
 </x-admin-layout>

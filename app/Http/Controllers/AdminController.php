@@ -31,7 +31,7 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        $query = WebApp::with(['user', 'opd']);
+        $query = WebApp::with(['user' => function($q) { $q->withTrashed(); }, 'opd']);
 
         // Filter by OPD if provided
         if ($request->filled('opd_id')) {
@@ -166,7 +166,7 @@ class AdminController extends Controller
      */
     public function show(WebApp $webApp)
     {
-        $webApp->load(['user', 'opd']);
+        $webApp->load(['user' => function($q) { $q->withTrashed(); }, 'opd']);
         return view('admin.web-apps.show', compact('webApp'));
     }
 }

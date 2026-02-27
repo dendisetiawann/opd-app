@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 // Captcha refresh route
 Route::get('captcha/refresh', [CaptchaController::class, 'refresh'])->name('captcha.refresh');
 
+// OPD Search API (for registration autocomplete)
+Route::get('opd/search', [RegisteredUserController::class, 'searchOpd'])
+    ->name('opd.search');
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');

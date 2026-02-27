@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWebAppRequest;
 use App\Http\Requests\UpdateWebAppRequest;
+use App\Models\TechOption;
 use App\Models\WebApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,14 @@ class WebAppController extends Controller
      */
     public function create()
     {
-        return view('web-apps.create');
+        $techData = [
+            'langOptions' => TechOption::groupedByName('bahasa'),
+            'fwOptions' => TechOption::groupedByName('framework'),
+            'libOptions' => TechOption::groupedByName('library'),
+            'dbmsOptions' => TechOption::groupedByName('dbms'),
+        ];
+
+        return view('web-apps.create', $techData);
     }
 
     /**
@@ -72,7 +80,23 @@ class WebAppController extends Controller
             }
         }
 
-        WebApp::create($data);
+        $webApp = WebApp::create($data);
+
+        // Auto-save new tech entries to opsi_teknologi
+        $this->syncTechOptions($data);
+
+        // Audit log: app_created
+        \App\Models\ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'app_created',
+            'new_value' => json_encode([
+                'nama' => $webApp->nama_web_app,
+                'url' => $webApp->url_web_app ?? '',
+                'framework' => $webApp->framework ?? '',
+            ]),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
 
         return redirect()
             ->route('web-apps.index')
@@ -97,7 +121,14 @@ class WebAppController extends Controller
     {
         $this->authorize('update', $webApp);
 
-        return view('web-apps.edit', compact('webApp'));
+        $techData = [
+            'langOptions' => TechOption::groupedByName('bahasa'),
+            'fwOptions' => TechOption::groupedByName('framework'),
+            'libOptions' => TechOption::groupedByName('library'),
+            'dbmsOptions' => TechOption::groupedByName('dbms'),
+        ];
+
+        return view('web-apps.edit', compact('webApp') + $techData);
     }
 
     /**
@@ -117,7 +148,31 @@ class WebAppController extends Controller
             }
         }
 
+        // Capture old values before update
+        $oldValues = [
+            'nama' => $webApp->nama_web_app,
+            'url' => $webApp->url_web_app ?? '',
+            'framework' => $webApp->framework ?? '',
+        ];
+
         $webApp->update($data);
+
+        // Auto-save new tech entries to opsi_teknologi
+        $this->syncTechOptions($data);
+
+        // Audit log: app_updated
+        \App\Models\ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'app_updated',
+            'old_value' => json_encode($oldValues),
+            'new_value' => json_encode([
+                'nama' => $webApp->nama_web_app,
+                'url' => $webApp->url_web_app ?? '',
+                'framework' => $webApp->framework ?? '',
+            ]),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
 
         return redirect()
             ->route('web-apps.show', $webApp)
@@ -131,10 +186,64 @@ class WebAppController extends Controller
     {
         $this->authorize('delete', $webApp);
 
+        // Audit log: app_deleted
+        \App\Models\ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'app_deleted',
+            'old_value' => json_encode([
+                'nama' => $webApp->nama_web_app,
+                'url' => $webApp->url_web_app ?? '',
+                'framework' => $webApp->framework ?? '',
+            ]),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         $webApp->delete();
 
         return redirect()
             ->route('web-apps.index')
             ->with('success', 'Aplikasi berhasil dihapus.');
+    }
+
+    /**
+     * Sync new tech entries from form submission to opsi_teknologi table.
+     */
+    private function syncTechOptions(array $data): void
+    {
+        // Sync bahasa_pemrograman (format: "PHP 8.4, JavaScript ES2024")
+        if (!empty($data['bahasa_pemrograman'])) {
+            $items = array_map('trim', explode(',', $data['bahasa_pemrograman']));
+            foreach ($items as $item) {
+                if (preg_match('/^(.+?)\s+([\d\.]+\S*)$/', $item, $m)) {
+                    TechOption::syncFromSubmission('bahasa', $m[1], $m[2]);
+                }
+            }
+        }
+
+        // Sync framework (format: "Laravel 12.0, Vue.js 3.5")
+        if (!empty($data['framework'])) {
+            $items = array_map('trim', explode(',', $data['framework']));
+            foreach ($items as $item) {
+                if (preg_match('/^(.+?)\s+([\d\.]+\S*)$/', $item, $m)) {
+                    TechOption::syncFromSubmission('framework', $m[1], $m[2]);
+                }
+            }
+        }
+
+        // Sync library (format: "Livewire 3.5, Axios 1.7")
+        if (!empty($data['daftar_library_package'])) {
+            $items = array_map('trim', explode(',', $data['daftar_library_package']));
+            foreach ($items as $item) {
+                if (preg_match('/^(.+?)\s+([\d\.]+\S*)$/', $item, $m)) {
+                    TechOption::syncFromSubmission('library', $m[1], $m[2]);
+                }
+            }
+        }
+
+        // Sync DBMS (single value)
+        if (!empty($data['dbms']) && !empty($data['versi_dbms'])) {
+            TechOption::syncFromSubmission('dbms', $data['dbms'], $data['versi_dbms']);
+        }
     }
 }

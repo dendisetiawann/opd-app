@@ -12,19 +12,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-3">
                     <li class="inline-flex items-center">
                         <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                            <i class="fa-solid fa-house w-4 h-4 mr-2 flex items-center justify-center"></i>
                             Dashboard
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <i class="fa-solid fa-chevron-right w-6 h-6 text-gray-400 flex items-center justify-center"></i>
                             <a href="{{ route('admin.web-apps.index') }}" class="ml-1 text-sm font-medium text-gray-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2">Data Aplikasi</a>
                         </div>
                     </li>
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <i class="fa-solid fa-chevron-right w-6 h-6 text-gray-400 flex items-center justify-center"></i>
                             <span class="ml-1 text-sm font-medium text-gray-800 dark:text-zinc-200 md:ml-2">{{ Str::limit($webApp->nama_web_app, 20) }}</span>
                         </div>
                     </li>
@@ -32,7 +32,7 @@
             </nav>
             
             <a href="{{ route('admin.web-apps.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-zinc-700 shadow-sm text-sm font-medium rounded-lg text-gray-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <i class="fa-solid fa-arrow-left w-4 h-4 mr-2 text-gray-500 flex items-center justify-center"></i>
                 Kembali
             </a>
         </div>
@@ -48,7 +48,7 @@
                 <!-- Top Badge (Date only) -->
                 <div class="flex flex-wrap items-center gap-2 mb-4">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
-                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <i class="fa-regular fa-calendar w-3 h-3 mr-1 flex items-center justify-center"></i>
                         {{ $webApp->created_at->format('d M Y') }}
                     </span>
                 </div>
@@ -61,9 +61,7 @@
                         <div class="relative flex-shrink-0">
                             <div class="absolute inset-0 bg-sky-400 rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <div class="relative w-12 h-12 bg-gradient-to-br from-sky-400 via-sky-500 to-blue-500 rounded-xl flex items-center justify-center shadow-md ring-2 ring-sky-50 group-hover:scale-105 transition-transform">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                                </svg>
+                                <i class="fa-solid fa-circle-check w-6 h-6 text-white flex items-center justify-center"></i>
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -77,9 +75,7 @@
                         <div class="relative flex-shrink-0">
                             <div class="absolute inset-0 bg-cyan-400 rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <div class="relative w-12 h-12 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md ring-2 ring-cyan-50 group-hover:scale-105 transition-transform">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                </svg>
+                                <i class="fa-solid fa-building w-6 h-6 text-white flex items-center justify-center"></i>
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -93,14 +89,17 @@
                         <div class="relative flex-shrink-0">
                             <div class="absolute inset-0 bg-emerald-400 rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <div class="relative w-12 h-12 bg-gradient-to-br from-emerald-400 via-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-md ring-2 ring-emerald-50 group-hover:scale-105 transition-transform">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
+                                <i class="fa-solid fa-user w-6 h-6 text-white flex items-center justify-center"></i>
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Dikelola Oleh</p>
-                            <h3 class="text-base font-bold text-slate-800 dark:text-white tracking-tight truncate">{{ $webApp->user->name }}</h3>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-base font-bold text-slate-800 dark:text-white tracking-tight truncate">{{ $webApp->user->name }}</h3>
+                                @if($webApp->user->deleted_at)
+                                    <span class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300">Nonaktif</span>
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -109,9 +108,7 @@
                         <div class="relative flex-shrink-0">
                             <div class="absolute inset-0 bg-blue-400 rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <div class="relative w-12 h-12 bg-gradient-to-br from-blue-400 via-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md ring-2 ring-blue-50 group-hover:scale-105 transition-transform">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
+                                <i class="fa-solid fa-arrow-up-right-from-square w-6 h-6 text-white flex items-center justify-center"></i>
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -119,7 +116,7 @@
                             @if($webApp->alamat_tautan)
                                 <a href="{{ str_starts_with($webApp->alamat_tautan, 'http') ? $webApp->alamat_tautan : 'http://' . $webApp->alamat_tautan }}" target="_blank" class="text-base font-bold text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1.5 group-hover:underline">
                                     Buka
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                    <i class="fa-solid fa-arrow-up-right-from-square w-3.5 h-3.5 flex items-center justify-center"></i>
                                 </a>
                             @else
                                 <span class="text-base font-medium text-slate-400 italic">-</span>
@@ -141,7 +138,7 @@
                 <section class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800">
                     <div class="px-6 py-5 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <i class="fa-solid fa-circle-info w-5 h-5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Informasi Dasar</h2>
@@ -157,12 +154,21 @@
                                 </div>
                             </div>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Jenis Aplikasi</h3>
+                                    <div class="flex items-center">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-500/25">
+                                            <i class="fa-solid fa-desktop w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
+                                            {{ $webApp->jenis_aplikasi ?? '-' }}
+                                        </span>
+                                    </div>
+                                </div>
                                 <div>
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Alamat Tautan</h3>
                                     <div class="flex items-center text-sm font-medium text-gray-900">
                                         @if($webApp->alamat_tautan)
-                                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                                            <i class="fa-solid fa-circle-check w-4 h-4 mr-2 text-gray-400 flex items-center justify-center"></i>
                                             <a href="{{ str_starts_with($webApp->alamat_tautan, 'http') ? $webApp->alamat_tautan : 'http://' . $webApp->alamat_tautan }}" target="_blank" class="text-blue-600 hover:underline">{{ $webApp->alamat_tautan }}</a>
                                         @else
                                             <span class="text-gray-400 italic">Tidak tersedia</span>
@@ -173,7 +179,7 @@
                                     <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Arsitektur</h3>
                                      <div class="flex items-center">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-50 text-purple-700 border border-purple-100">
-                                            <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                            <i class="fa-solid fa-server w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
                                             @if($webApp->arsitektur_sistem == 'monolith')
                                                 Monolith (Satu codebase)
                                             @elseif($webApp->arsitektur_sistem == 'be-fe')
@@ -193,7 +199,7 @@
                 <section class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800">
                     <div class="px-6 py-5 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/15 flex items-center justify-center">
-                             <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                             <i class="fa-solid fa-pen-to-square w-5 h-5 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Stack Teknologi</h2>
@@ -262,7 +268,7 @@
                 <section class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800">
                     <div class="px-6 py-5 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
                          <div class="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-500/15 flex items-center justify-center">
-                             <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                             <i class="fa-solid fa-triangle-exclamation w-5 h-5 text-orange-600 dark:text-orange-400 flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Integrasi & Keamanan</h2>
@@ -357,7 +363,7 @@
                 <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800 overflow-hidden">
                     <div class="p-5 bg-gray-50 dark:bg-black/30 border-b border-gray-100 dark:border-zinc-800">
                         <h3 class="font-bold text-gray-900 dark:text-white flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            <i class="fa-solid fa-users w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400 flex items-center justify-center"></i>
                             Tim Pengembang
                         </h3>
                     </div>
@@ -366,7 +372,7 @@
                             <span class="block text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase mb-2">Data Tim Pengembang</span>
                             <div class="flex items-start gap-3">
                                 <div class="bg-blue-100 dark:bg-blue-500/15 p-2 rounded-lg text-blue-600 dark:text-blue-400">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                    <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
                                 </div>
                                 <div class="text-sm font-medium text-gray-900 dark:text-zinc-200 pt-1 whitespace-pre-line">
                                     {{ $webApp->data_tim_programmer ?? 'Internal Diskominfo' }}
@@ -374,15 +380,33 @@
                             </div>
                         </div>
                         
-                        <div class="border-t border-gray-100 dark:border-zinc-800 pt-4">
+                        <div class="border-t border-gray-100 dark:border-zinc-800 pt-4 space-y-3">
                             <span class="block text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase mb-2">Kontak Narahubung</span>
+                            
+                            <!-- Email -->
                             @if($webApp->email_narahubung)
                                 <a href="mailto:{{ $webApp->email_narahubung }}" class="flex items-center p-3 rounded-lg bg-blue-50 dark:bg-blue-500/12 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <i class="fa-regular fa-envelope w-4 h-4 mr-2 flex items-center justify-center"></i>
                                     <span class="text-sm font-medium truncate">{{ $webApp->email_narahubung }}</span>
                                 </a>
                             @else
                                 <span class="text-sm text-gray-400 italic">Tidak ada email kontak</span>
+                            @endif
+                            
+                            <!-- WhatsApp -->
+                            @if($webApp->whatsapp_narahubung)
+                                @php
+                                    $waNumber = preg_replace('/[^0-9]/', '', $webApp->whatsapp_narahubung);
+                                    $waNumber = ltrim($waNumber, '0');
+                                    $waNumber = '62' . $waNumber;
+                                @endphp
+                                <a href="https://wa.me/{{ $waNumber }}" target="_blank" class="flex items-center p-3 rounded-lg bg-green-50 dark:bg-green-500/12 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-500/20 transition-colors">
+                                    <i class="fa-brands fa-whatsapp w-4 h-4 mr-2 flex items-center justify-center"></i>
+                                    <span class="text-sm font-medium">{{ $webApp->whatsapp_narahubung }}</span>
+                                    <span class="ml-auto text-[10px] bg-green-200 dark:bg-green-800 px-1.5 py-0.5 rounded">Klik untuk chat</span>
+                                </a>
+                            @else
+                                <span class="text-sm text-gray-400 italic">Tidak ada nomor WhatsApp</span>
                             @endif
                         </div>
                     </div>
@@ -392,7 +416,7 @@
                 <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800 overflow-hidden">
                     <div class="p-5 bg-gray-50 dark:bg-black/30 border-b border-gray-100 dark:border-zinc-800">
                         <h3 class="font-bold text-gray-900 dark:text-white flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <i class="fa-solid fa-folder-open w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400 flex items-center justify-center"></i>
                             Repository
                         </h3>
                     </div>
@@ -402,12 +426,12 @@
                             <span class="text-sm text-gray-600 dark:text-zinc-400">Memiliki Repository</span>
                             @if($webApp->has_repository == 'ya')
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-700 border border-green-100">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <i class="fa-solid fa-check w-3 h-3 mr-1 flex items-center justify-center"></i>
                                     Ya
                                 </span>
                             @elseif($webApp->has_repository == 'tidak')
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <i class="fa-solid fa-xmark w-3 h-3 mr-1 flex items-center justify-center"></i>
                                     Tidak
                                 </span>
                             @else
@@ -421,12 +445,12 @@
                             <span class="text-sm text-gray-600 dark:text-zinc-400">Akses Repository</span>
                             @if($webApp->git_repository == 'private')
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-red-50 text-red-700 border border-red-100">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                    <i class="fa-solid fa-lock w-3 h-3 mr-1 flex items-center justify-center"></i>
                                     Private
                                 </span>
                             @elseif($webApp->git_repository == 'public')
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-700 border border-green-100">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <i class="fa-solid fa-circle-check w-3 h-3 mr-1 flex items-center justify-center"></i>
                                     Public
                                 </span>
                             @endif
@@ -438,7 +462,7 @@
                         <div class="flex items-center justify-between">
                             <span class="text-sm text-gray-600 dark:text-zinc-400">Penyedia</span>
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                <i class="fa-solid fa-circle-check w-3 h-3 mr-1 flex items-center justify-center"></i>
                                 {{ $webApp->penyedia_repository }}
                             </span>
                         </div>
@@ -450,7 +474,7 @@
                 <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800 overflow-hidden">
                     <div class="p-5 bg-gray-50 dark:bg-black/30 border-b border-gray-100 dark:border-zinc-800">
                         <h3 class="font-bold text-gray-900 dark:text-white flex items-center">
-                             <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                             <i class="fa-solid fa-circle-check w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400 flex items-center justify-center"></i>
                             Database & Server
                         </h3>
                     </div>
@@ -466,21 +490,11 @@
                                 <span class="text-gray-500 dark:text-zinc-400">Versi DBMS</span>
                                 <span class="font-medium text-gray-900 dark:text-zinc-200">{{ $webApp->versi_dbms ?? '-' }}</span>
                             </div>
-                            <!-- Nama Database -->
-                            <div class="py-3 flex justify-between items-center text-sm">
-                                <span class="text-gray-500 dark:text-zinc-400">Nama Database</span>
-                                <span class="font-medium text-gray-900 dark:text-zinc-200">{{ $webApp->nama_database ?? '-' }}</span>
-                            </div>
-                            <!-- Versi Database -->
-                            <div class="py-3 flex justify-between items-center text-sm">
-                                <span class="text-gray-500 dark:text-zinc-400">Versi Database</span>
-                                <span class="font-medium text-gray-900 dark:text-zinc-200">{{ $webApp->versi_database ?? '-' }}</span>
-                            </div>
                             <!-- Location -->
                             <div class="py-3 flex justify-between items-center text-sm">
-                                <span class="text-gray-500 dark:text-zinc-400">Lokasi</span>
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold {{ $webApp->lokasi_database == 'server' ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-700' }}">
-                                    {{ ucfirst($webApp->lokasi_database) ?? '-' }}
+                                <span class="text-gray-500 dark:text-zinc-400">Lokasi Server DBMS</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold {{ $webApp->lokasi_database == 'Server Kominfo' ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-700' }}">
+                                    {{ $webApp->lokasi_database == 'Lainnya' ? 'Lainnya (di luar Server Kominfo)' : ($webApp->lokasi_database ?? '-') }}
                                 </span>
                             </div>
                              <!-- Access -->

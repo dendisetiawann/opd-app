@@ -26,10 +26,12 @@ class StoreWebAppRequest extends FormRequest
             'nama_web_app' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string',
             'alamat_tautan' => 'required|string|max:255',
+            'jenis_aplikasi' => 'required|string|max:100',
             
             // Tim & Kontak
             'data_tim_programmer' => 'required|string',
             'email_narahubung' => 'required|string|max:255',
+            'whatsapp_narahubung' => 'required|string|max:255',
             
             // Stack Teknologi
             'bahasa_pemrograman' => 'required|string',
@@ -46,11 +48,9 @@ class StoreWebAppRequest extends FormRequest
             'metode_backup_asset' => 'required|string',
             
             // Database
-            'nama_database' => 'required|string|max:100',
-            'versi_database' => 'required|string|max:50',
             'dbms' => 'required|string|max:100',
             'versi_dbms' => 'required|string|max:50',
-            'lokasi_database' => 'required|in:local,server',
+            'lokasi_database' => 'required|in:Server Kominfo,Lainnya',
             'akses_database' => 'required|in:public,private',
             'metode_backup_database' => 'required|string',
             
@@ -88,7 +88,7 @@ class StoreWebAppRequest extends FormRequest
             'git_repository.in' => 'Status repository harus public atau private.',
             
             // Database
-            'lokasi_database.in' => 'Lokasi DBMS harus local atau server.',
+            'lokasi_database.in' => 'Lokasi DBMS harus Server Kominfo atau Lainnya.',
             'akses_database.in' => 'Akses database harus public atau private.',
         ];
     }

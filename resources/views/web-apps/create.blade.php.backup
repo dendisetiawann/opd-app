@@ -1,0 +1,1508 @@
+<x-app-layout>
+    <!-- Custom Style for Blob Animation (Reuse from dashboard/index) -->
+    <style>
+        .animate-blob { animation: blob 10s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+    </style>
+
+    <div class="relative z-10 py-8 min-h-screen bg-gray-50 dark:bg-black transition-colors duration-300 overflow-hidden">
+        
+        <!-- ✨ ANIMATED DARK MODE BACKGROUND DECORATIONS ✨ -->
+        <div class="fixed inset-0 z-0 pointer-events-none hidden dark:block">
+            <!-- Gradient Mesh -->
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[100px] animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[100px]" style="animation: pulse-ring 6s infinite"></div>
+            <!-- Floating Orbs -->
+            <div class="absolute top-20 left-20 w-32 h-32 bg-cyan-900/10 rounded-full blur-2xl" style="animation: float 4s ease-in-out infinite"></div>
+            <div class="absolute bottom-40 right-20 w-40 h-40 bg-violet-900/10 rounded-full blur-2xl" style="animation: float 5s ease-in-out infinite reverse"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Back Button (Top Left) -->
+            <div class="mb-6">
+                <a href="{{ route('web-apps.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 text-sm font-bold rounded-full border border-blue-200 dark:border-blue-900/30 shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 transition-all group">
+                    <svg class="w-4 h-4 text-blue-400 dark:text-blue-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Kembali ke Daftar
+                </a>
+            </div>
+
+            <!-- Header Title & OPD Badge -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-white tracking-tight leading-none">
+                        Tambah Data Aplikasi Baru
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-base mt-2 font-medium">
+                        Lengkapi data sistem informasi untuk inventarisasi digital.
+                    </p>
+                </div>
+                
+                <!-- OPD Badge (Simple) -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl px-5 py-3 shadow-sm flex-shrink-0">
+                    <p class="text-[10px] font-bold text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-0.5">OPD :</p>
+                    <p class="text-sm font-bold text-slate-800 dark:text-white">{{ auth()->user()->opd->nama_opd }}</p>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('web-apps.store') }}" class="space-y-8">
+                @csrf
+
+                <!-- Step 1: Informasi Umum -->
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">1</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white">Informasi Umum</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Identitas dasar aplikasi atau website.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <x-input-label for="nama_web_app" :value="__('Nama Aplikasi / Website *')" />
+                                <x-text-input id="nama_web_app" class="block mt-1 w-full text-sm" type="text" name="nama_web_app" :value="old('nama_web_app')" required placeholder="Misal: Sistem Informasi Kepegawaian" />
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Nama resmi aplikasi sesuai SK atau penggunaan umum di instansi.</p>
+                                <x-input-error :messages="$errors->get('nama_web_app')" class="mt-2" />
+                            </div>
+                            
+                            <div>
+                                <x-input-label for="alamat_tautan" :value="__('Alamat Tautan *')" />
+                                <div class="relative mt-1">
+                                    <x-text-input id="alamat_tautan" class="block w-full text-sm" type="url" name="alamat_tautan" :value="old('alamat_tautan')" required placeholder="https://example.id atau tautan akses lainnya" />
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Alamat lengkap akses aplikasi yang bisa dibuka publik.</p>
+                                <x-input-error :messages="$errors->get('alamat_tautan')" class="mt-2" />
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <x-input-label for="deskripsi_singkat" :value="__('Deskripsi Singkat *')" />
+                                <textarea id="deskripsi_singkat" name="deskripsi_singkat" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" required placeholder="Jelaskan fungsi utama aplikasi ini...">{{ old('deskripsi_singkat') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Jelaskan secara singkat tujuan dan fungsi utama dari aplikasi ini.</p>
+                                <x-input-error :messages="$errors->get('deskripsi_singkat')" class="mt-2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Tim & Kontak -->
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">2</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white">Tim & Kontak</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Informasi pengelola teknis dan narahubung sistem.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <x-input-label for="data_tim_programmer" :value="__('Data Tim Pengembang *')" />
+                                <textarea id="data_tim_programmer" name="data_tim_programmer" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" required placeholder="Sebutkan nama programmer...">{{ old('data_tim_programmer') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Daftar nama programmer.</p>
+                                <x-input-error :messages="$errors->get('data_tim_programmer')" class="mt-2" />
+                            </div>
+                            
+                            <!-- Email Narahubung -->
+                            <div>
+                                <x-input-label for="email_narahubung" :value="__('Email Narahubung *')" />
+                                <div class="relative mt-1">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
+                                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                        </svg>
+                                    </div>
+                                    <x-text-input id="email_narahubung" class="block w-full text-sm pl-9" type="email" name="email_narahubung" :value="old('email_narahubung')" required placeholder="contoh@pekanbaru.go.id" />
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Email aktif untuk komunikasi resmi.</p>
+                                <x-input-error :messages="$errors->get('email_narahubung')" class="mt-2" />
+                            </div>
+                            
+                            <!-- WhatsApp Narahubung -->
+                            <div>
+                                <x-input-label for="whatsapp_narahubung" :value="__('Nomor WhatsApp *')" />
+                                <div class="relative mt-1">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                        </svg>
+                                    </div>
+                                    <x-text-input id="whatsapp_narahubung" class="block w-full text-sm pl-9" type="text" name="whatsapp_narahubung" :value="old('whatsapp_narahubung')" required placeholder="081234567890" />
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Nomor WA aktif tanpa spasi atau tanda baca.</p>
+                                <x-input-error :messages="$errors->get('whatsapp_narahubung')" class="mt-2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Stack Teknologi -->
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm" x-data="techStackSelector()" x-init="init()">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">3</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white">Stack Teknologi</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Stack teknis yang digunakan aplikasi.</p>
+                            </div>
+                        </div>
+
+                        <!-- Panduan -->
+                        <div class="mb-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-200 dark:border-indigo-800/30 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                                </svg>
+                                <span class="font-semibold text-sm text-gray-800 dark:text-gray-200">Panduan Stack Teknologi</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                                <div class="flex items-start gap-2 bg-white dark:bg-zinc-800/50 p-2.5 rounded-lg">
+                                    <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-[10px]">1</span>
+                                    </div>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <span class="font-medium text-gray-700 dark:text-gray-300">Pilih Bahasa & Versi</span>
+                                        <p class="mt-0.5">Pilih bahasa → pilih satu atau lebih versi</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white dark:bg-zinc-800/50 p-2.5 rounded-lg">
+                                    <div class="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-[10px]">2</span>
+                                    </div>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <span class="font-medium text-gray-700 dark:text-gray-300">Pilih Framework</span>
+                                        <p class="mt-0.5">Framework akan terfilter berdasarkan bahasa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Bahasa Pemrograman -->
+                            <div>
+                                <x-input-label :value="__('Bahasa Pemrograman beserta versinya *')" />
+                                
+                                <!-- Language Selector -->
+                                <div class="relative mt-2">
+                                    <input 
+                                        type="text" 
+                                        x-model="langSearch"
+                                        @input="onLangSearch()"
+                                        @focus="langOpen = true"
+                                        @keydown.escape="langOpen = false"
+                                        @keydown.arrow-down.prevent="highlightNextLang()"
+                                        @keydown.arrow-up.prevent="highlightPrevLang()"
+                                        @keydown.enter.prevent="selectHighlightedLang()"
+                                        class="block w-full rounded-xl border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm text-sm py-2.5 px-3"
+                                        placeholder="Ketik untuk mencari bahasa pemrograman..."
+                                        autocomplete="off"
+                                        :disabled="selectedLanguages.length >= 5"
+                                    >
+                                    
+                                    <!-- Dropdown -->
+                                    <div 
+                                        x-show="langOpen && (langResults.length > 0 || (langSearch && !langExactMatch))"
+                                        x-transition
+                                        @click.outside="langOpen = false"
+                                        class="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-700 max-h-60 overflow-auto"
+                                    >
+                                        <!-- Existing Languages -->
+                                        <template x-for="(lang, index) in langResults" :key="lang.name">
+                                            <div 
+                                                @click="selectLanguage(lang)"
+                                                @mouseenter="langHighlightedIndex = index"
+                                                :class="{ 'bg-blue-50 dark:bg-blue-900/30': langHighlightedIndex === index }"
+                                                class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-b border-gray-100 dark:border-zinc-700 last:border-b-0"
+                                            >
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
+                                                        <span class="text-blue-600 dark:text-blue-400 font-bold text-sm" x-text="lang.name.substring(0,2).toUpperCase()"></span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="lang.name"></div>
+                                                        <div class="text-xs text-gray-500" x-text="lang.versions.length + ' versi tersedia'"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        
+                                        <!-- Add New Language Option -->
+                                        <div 
+                                            x-show="langSearch && !langExactMatch"
+                                            @click="selectNewLanguage()"
+                                            @mouseenter="langHighlightedIndex = langResults.length"
+                                            :class="{ 'bg-emerald-50 dark:bg-emerald-900/30': langHighlightedIndex === langResults.length }"
+                                            class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-t border-gray-200 dark:border-zinc-600"
+                                        >
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                        <path d="M5 12h14M12 5v14"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                                                        Tambah: "<span x-text="langSearch"></span>"
+                                                    </div>
+                                                    <div class="text-xs text-gray-500">Bahasa baru akan dibuat</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Selected Languages with Versions -->
+                                <div class="mt-3 space-y-3">
+                                    <template x-for="(selected, index) in selectedLanguages" :key="selected.name">
+                                        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
+                                                    <!-- Existing Language Badge -->
+                                                    <span x-show="!selected.isNew" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                                                        <span x-text="selected.name"></span>
+                                                    </span>
+                                                    <!-- New Language Badge -->
+                                                    <span x-show="selected.isNew" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M5 12h14M12 5v14"/>
+                                                        </svg>
+                                                        <span x-text="selected.name"></span>
+                                                    </span>
+                                                    <span x-show="selected.isNew" class="text-xs text-emerald-600">(Bahasa Baru)</span>
+                                                </div>
+                                                <button type="button" @click="removeLanguage(index)" class="text-gray-400 hover:text-red-500">
+                                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Version Section -->
+                                            <div class="space-y-2">
+                                                <!-- Version Radio Buttons (Existing) -->
+                                                <div class="flex flex-wrap gap-2">
+                                                    <template x-for="version in selected.availableVersions" :key="version">
+                                                        <label class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border cursor-pointer transition-colors"
+                                                            :class="selected.version === version ? 'bg-purple-100 border-purple-300 text-purple-800 dark:bg-purple-900/30 dark:border-purple-700 dark:text-purple-300' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 dark:text-gray-400'">
+                                                            <input type="radio" :name="'lang-version-' + selected.name" :value="version" x-model="selected.version" class="hidden">
+                                                            <span class="text-xs font-medium" x-text="version"></span>
+                                                        </label>
+                                                    </template>
+                                                    
+                                                    <!-- Add Custom Version Button -->
+                                                    <button type="button" 
+                                                        @click="selected.showVersionInput = true"
+                                                        x-show="!selected.showVersionInput"
+                                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-dashed border-gray-300 text-gray-500 hover:border-emerald-400 hover:text-emerald-600 transition-colors text-xs">
+                                                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M5 12h14M12 5v14"/>
+                                                        </svg>
+                                                        Tambah Versi
+                                                    </button>
+                                                </div>
+                                                
+                                                <!-- Custom Version Input -->
+                                                <div x-show="selected.showVersionInput" class="flex items-center gap-2">
+                                                    <input type="text" 
+                                                        x-model="selected.newVersion"
+                                                        @keydown.enter.prevent="addCustomVersion(index)"
+                                                        placeholder="Contoh: 2.0"
+                                                        class="flex-1 text-xs rounded-lg border-gray-300 dark:border-zinc-700 px-2.5 py-1.5 focus:ring-1 focus:ring-emerald-500">
+                                                    <button type="button" @click="addCustomVersion(index)" class="text-emerald-600 hover:text-emerald-700">
+                                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <polyline points="20 6 9 17 4 12"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button type="button" @click="selected.showVersionInput = false; selected.newVersion = ''" class="text-gray-400 hover:text-gray-600">
+                                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M18 6L6 18M6 6l12 12"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                
+                                                <!-- Selected Custom Version Badge -->
+                                                <div x-show="selected.isCustomVersion" class="flex items-center gap-2">
+                                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-700">
+                                                        <span x-text="selected.version"></span>
+                                                        <span class="text-emerald-500">(versi baru)</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <input type="hidden" name="bahasa_pemrograman" x-model="languageOutput">
+                                <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Pilih bahasa dan satu atau lebih versi (maksimal 5 bahasa).</p>
+                                <x-input-error :messages="$errors->get('bahasa_pemrograman')" class="mt-2" />
+                            </div>
+
+                            <!-- Arsitektur (tetap) -->
+                            <div>
+                                <x-input-label for="arsitektur_sistem" :value="__('Arsitektur Sistem *')" />
+                                <select id="arsitektur_sistem" name="arsitektur_sistem" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="monolith" {{ old('arsitektur_sistem') == 'monolith' ? 'selected' : '' }}>Monolith (Satu codebase)</option>
+                                    <option value="be-fe" {{ old('arsitektur_sistem') == 'be-fe' ? 'selected' : '' }}>Terpisah (Backend & Frontend)</option>
+                                </select>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Struktur rancangan aplikasi Anda.</p>
+                                <x-input-error :messages="$errors->get('arsitektur_sistem')" class="mt-2" />
+                            </div>
+
+                            <!-- Framework -->
+                            <div>
+                                <x-input-label :value="__('Framework Utama & Versi *')" />
+                                
+                                <!-- Framework Selector -->
+                                <div class="relative mt-2">
+                                    <input 
+                                        type="text" 
+                                        x-model="fwSearch"
+                                        @input="onFwSearch()"
+                                        @focus="fwOpen = true"
+                                        @keydown.escape="fwOpen = false"
+                                        @keydown.arrow-down.prevent="highlightNextFw()"
+                                        @keydown.arrow-up.prevent="highlightPrevFw()"
+                                        @keydown.enter.prevent="selectHighlightedFw()"
+                                        class="block w-full rounded-xl border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm text-sm py-2.5 px-3"
+                                        placeholder="Ketik untuk mencari framework..."
+                                        autocomplete="off"
+                                        :disabled="selectedLanguages.length === 0 || selectedFrameworks.length >= 5"
+                                    >
+                                    
+                                    <!-- Dropdown Frameworks -->
+                                    <div 
+                                        x-show="fwOpen && filteredFrameworks.length > 0"
+                                        x-transition
+                                        @click.outside="fwOpen = false"
+                                        class="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-700 max-h-60 overflow-auto"
+                                    >
+                                        <template x-for="(fw, index) in filteredFrameworks" :key="fw.name">
+                                            <div 
+                                                @click="selectFramework(fw)"
+                                                @mouseenter="fwHighlightedIndex = index"
+                                                :class="{ 'bg-purple-50 dark:bg-purple-900/30': fwHighlightedIndex === index }"
+                                                class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-b border-gray-100 dark:border-zinc-700 last:border-b-0"
+                                            >
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
+                                                            <span class="text-purple-600 dark:text-purple-400 font-bold text-xs" x-text="fw.name.substring(0,2).toUpperCase()"></span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="fw.name"></div>
+                                                            <div class="text-xs text-gray-500">
+                                                                <span x-text="fw.language"></span> • <span x-text="fw.versions.length + ' versi'"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-xs text-gray-400" x-text="fw.type"></span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Selected Frameworks -->
+                                <div class="mt-3 space-y-3">
+                                    <template x-for="(selected, index) in selectedFrameworks" :key="selected.name + index">
+                                        <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800/30 rounded-xl p-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
+                                                        <span x-text="selected.name"></span>
+                                                    </span>
+                                                    <span class="text-xs text-gray-500" x-text="'(' + selected.language + ')'"></span>
+                                                </div>
+                                                <button type="button" @click="removeFramework(index)" class="text-gray-400 hover:text-red-500">
+                                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Version Selector -->
+                                            <div class="flex flex-wrap gap-2">
+                                                <template x-for="version in selected.availableVersions" :key="version">
+                                                    <button type="button"
+                                                        @click="selected.version = version"
+                                                        class="px-2.5 py-1 rounded-lg text-xs font-medium transition-colors"
+                                                        :class="selected.version === version ? 'bg-indigo-500 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 dark:text-gray-400'"
+                                                        x-text="version">
+                                                    </button>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <input type="hidden" name="framework" x-model="frameworkOutput">
+                                <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Pilih framework dan versinya (maksimal 5 framework).</p>
+                                <x-input-error :messages="$errors->get('framework')" class="mt-2" />
+                            </div>
+
+                            <!-- Libraries (tetap) -->
+                            <div class="md:col-span-2">
+                                <x-input-label for="daftar_library_package" :value="__('Libraries / Packages *')" />
+                                <textarea id="daftar_library_package" name="daftar_library_package" rows="2" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" required placeholder="Contoh: Spatie Permission, Guzzle, LeafletJS">{{ old('daftar_library_package') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Daftar library utama yang digunakan dalam pengembangan.</p>
+                                <x-input-error :messages="$errors->get('daftar_library_package')" class="mt-2" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alpine Component Script -->
+                    <script>
+                        function techStackSelector() {
+                            return {
+                                // Data Master
+                                languagesData: [
+                                    { name: 'PHP', versions: ['8.3', '8.2', '8.1', '8.0', '7.4'], frameworks: ['Laravel', 'CodeIgniter', 'Symfony', 'CakePHP'] },
+                                    { name: 'Python', versions: ['3.12', '3.11', '3.10', '3.9', '3.8'], frameworks: ['Django', 'Flask', 'FastAPI', 'Pyramid'] },
+                                    { name: 'JavaScript', versions: ['ES2023', 'ES2022', 'ES2021', 'ES6'], frameworks: ['Express.js', 'NestJS', 'Next.js', 'Nuxt.js', 'React', 'Vue.js'] },
+                                    { name: 'TypeScript', versions: ['5.3', '5.2', '5.1', '5.0', '4.9'], frameworks: ['Next.js', 'NestJS', 'Angular', 'Vue.js'] },
+                                    { name: 'Java', versions: ['21', '17', '11', '8'], frameworks: ['Spring Boot', 'Jakarta EE', 'Micronaut', 'Quarkus'] },
+                                    { name: 'Go', versions: ['1.21', '1.20', '1.19'], frameworks: ['Gin', 'Echo', 'Fiber', 'Beego'] },
+                                    { name: 'Ruby', versions: ['3.2', '3.1', '3.0'], frameworks: ['Ruby on Rails', 'Sinatra', 'Hanami'] },
+                                    { name: 'C#', versions: ['12.0', '11.0', '10.0'], frameworks: ['.NET 8', '.NET 7', '.NET 6', 'ASP.NET Core'] },
+                                    { name: 'Rust', versions: ['1.75', '1.74', '1.73'], frameworks: ['Actix-web', 'Axum', 'Rocket'] },
+                                ],
+                                
+                                frameworksData: [
+                                    { name: 'Laravel', language: 'PHP', type: 'Backend', versions: ['11.x', '10.x', '9.x', '8.x'] },
+                                    { name: 'CodeIgniter', language: 'PHP', type: 'Backend', versions: ['4.x', '3.x'] },
+                                    { name: 'Symfony', language: 'PHP', type: 'Backend', versions: ['7.x', '6.x', '5.x'] },
+                                    { name: 'CakePHP', language: 'PHP', type: 'Backend', versions: ['5.x', '4.x'] },
+                                    { name: 'Django', language: 'Python', type: 'Backend', versions: ['5.0', '4.2', '4.1'] },
+                                    { name: 'Flask', language: 'Python', type: 'Backend', versions: ['3.0', '2.3', '2.2'] },
+                                    { name: 'FastAPI', language: 'Python', type: 'Backend', versions: ['0.109', '0.100', '0.95'] },
+                                    { name: 'Express.js', language: 'JavaScript', type: 'Backend', versions: ['4.18', '4.17'] },
+                                    { name: 'NestJS', language: 'TypeScript', type: 'Backend', versions: ['10.x', '9.x', '8.x'] },
+                                    { name: 'Next.js', language: 'JavaScript', type: 'Fullstack', versions: ['14.x', '13.x', '12.x'] },
+                                    { name: 'Nuxt.js', language: 'JavaScript', type: 'Fullstack', versions: ['3.x', '2.x'] },
+                                    { name: 'React', language: 'JavaScript', type: 'Frontend', versions: ['18.x', '17.x'] },
+                                    { name: 'Vue.js', language: 'JavaScript', type: 'Frontend', versions: ['3.4', '3.3', '2.7'] },
+                                    { name: 'Angular', language: 'TypeScript', type: 'Frontend', versions: ['17.x', '16.x', '15.x'] },
+                                    { name: 'Spring Boot', language: 'Java', type: 'Backend', versions: ['3.2', '3.1', '2.7'] },
+                                    { name: 'Gin', language: 'Go', type: 'Backend', versions: ['1.9', '1.8'] },
+                                    { name: 'Ruby on Rails', language: 'Ruby', type: 'Backend', versions: ['7.1', '7.0', '6.1'] },
+                                    { name: '.NET 8', language: 'C#', type: 'Fullstack', versions: ['8.0', '7.0', '6.0'] },
+                                ],
+                                
+                                // State Language
+                                langSearch: '',
+                                langResults: [],
+                                langOpen: false,
+                                langHighlightedIndex: -1,
+                                langExactMatch: false,
+                                selectedLanguages: [],
+                                
+                                // State Framework
+                                fwSearch: '',
+                                fwOpen: false,
+                                fwHighlightedIndex: -1,
+                                selectedFrameworks: [],
+                                
+                                init() {
+                                    this.$watch('selectedLanguages', () => {
+                                        this.updateFrameworkFilter();
+                                    });
+                                },
+                                
+                                // Helper Methods
+                                normalizeLanguageName(name) {
+                                    // Title Case: "pHP" → "Php", "javaSCRIPT" → "Javascript"
+                                    return name.trim().toLowerCase().split(/\s+/).map(word => 
+                                        word.charAt(0).toUpperCase() + word.slice(1)
+                                    ).join(' ');
+                                },
+                                
+                                // Language Methods
+                                onLangSearch() {
+                                    this.langHighlightedIndex = -1;
+                                    if (this.langSearch.length < 1) {
+                                        this.langResults = [];
+                                        this.langOpen = false;
+                                        return;
+                                    }
+                                    const query = this.langSearch.toLowerCase();
+                                    const selectedNames = this.selectedLanguages.map(l => l.name.toLowerCase());
+                                    this.langResults = this.languagesData
+                                        .filter(l => !selectedNames.includes(l.name.toLowerCase()))
+                                        .filter(l => l.name.toLowerCase().includes(query));
+                                    
+                                    // Check exact match
+                                    this.langExactMatch = this.langResults.some(l => 
+                                        l.name.toLowerCase() === query
+                                    );
+                                    
+                                    this.langOpen = true;
+                                },
+                                
+                                selectLanguage(lang) {
+                                    if (this.selectedLanguages.length >= 5) return;
+                                    this.selectedLanguages.push({
+                                        name: lang.name,
+                                        availableVersions: lang.versions,
+                                        version: lang.versions[0], // Default pilih versi pertama
+                                        isNew: false,
+                                        isCustomVersion: false,
+                                        showVersionInput: false,
+                                        newVersion: ''
+                                    });
+                                    this.langSearch = '';
+                                    this.langResults = [];
+                                    this.langOpen = false;
+                                },
+                                
+                                selectNewLanguage() {
+                                    if (this.selectedLanguages.length >= 5) return;
+                                    const normalized = this.normalizeLanguageName(this.langSearch);
+                                    this.selectedLanguages.push({
+                                        name: normalized,
+                                        availableVersions: [], // Bahasa baru, versi kosong
+                                        version: '', // User harus input versi
+                                        isNew: true,
+                                        isCustomVersion: true,
+                                        showVersionInput: true,
+                                        newVersion: ''
+                                    });
+                                    this.langSearch = '';
+                                    this.langResults = [];
+                                    this.langOpen = false;
+                                },
+                                
+                                addCustomVersion(index) {
+                                    const lang = this.selectedLanguages[index];
+                                    if (!lang.newVersion || !lang.newVersion.trim()) return;
+                                    
+                                    const version = lang.newVersion.trim();
+                                    lang.version = version;
+                                    lang.isCustomVersion = true;
+                                    
+                                    // Tambah ke available versions jika belum ada
+                                    if (!lang.availableVersions.includes(version)) {
+                                        lang.availableVersions.push(version);
+                                    }
+                                    
+                                    lang.showVersionInput = false;
+                                    lang.newVersion = '';
+                                },
+                                
+                                removeLanguage(index) {
+                                    const removedLang = this.selectedLanguages[index].name;
+                                    this.selectedLanguages.splice(index, 1);
+                                    // Hapus framework yang menggunakan bahasa ini
+                                    this.selectedFrameworks = this.selectedFrameworks.filter(fw => fw.language !== removedLang);
+                                },
+                                
+                                highlightNextLang() {
+                                    const maxIndex = this.langResults.length + (this.langSearch && !this.langExactMatch ? 0 : -1);
+                                    if (this.langHighlightedIndex < maxIndex) {
+                                        this.langHighlightedIndex++;
+                                    }
+                                },
+                                
+                                highlightPrevLang() {
+                                    if (this.langHighlightedIndex > 0) {
+                                        this.langHighlightedIndex--;
+                                    }
+                                },
+                                
+                                selectHighlightedLang() {
+                                    if (this.langHighlightedIndex >= 0 && this.langHighlightedIndex < this.langResults.length) {
+                                        this.selectLanguage(this.langResults[this.langHighlightedIndex]);
+                                    } else if (this.langHighlightedIndex === this.langResults.length && this.langSearch && !this.langExactMatch) {
+                                        this.selectNewLanguage();
+                                    }
+                                },
+                                
+                                // Framework Methods
+                                onFwSearch() {
+                                    this.fwHighlightedIndex = -1;
+                                    if (this.fwSearch.length < 1) {
+                                        this.fwOpen = false;
+                                        return;
+                                    }
+                                    this.fwOpen = true;
+                                },
+                                
+                                get filteredFrameworks() {
+                                    const query = this.fwSearch.toLowerCase();
+                                    const selectedNames = this.selectedFrameworks.map(f => f.name);
+                                    const selectedLangs = this.selectedLanguages.map(l => l.name);
+                                    
+                                    return this.frameworksData
+                                        .filter(fw => !selectedNames.includes(fw.name))
+                                        .filter(fw => selectedLangs.includes(fw.language))
+                                        .filter(fw => fw.name.toLowerCase().includes(query) || fw.language.toLowerCase().includes(query));
+                                },
+                                
+                                selectFramework(fw) {
+                                    if (this.selectedFrameworks.length >= 5) return;
+                                    this.selectedFrameworks.push({
+                                        name: fw.name,
+                                        language: fw.language,
+                                        availableVersions: fw.versions,
+                                        version: fw.versions[0]
+                                    });
+                                    this.fwSearch = '';
+                                    this.fwOpen = false;
+                                },
+                                
+                                removeFramework(index) {
+                                    this.selectedFrameworks.splice(index, 1);
+                                },
+                                
+                                highlightNextFw() {
+                                    if (this.fwHighlightedIndex < this.filteredFrameworks.length - 1) {
+                                        this.fwHighlightedIndex++;
+                                    }
+                                },
+                                
+                                highlightPrevFw() {
+                                    if (this.fwHighlightedIndex > 0) {
+                                        this.fwHighlightedIndex--;
+                                    }
+                                },
+                                
+                                selectHighlightedFw() {
+                                    if (this.fwHighlightedIndex >= 0 && this.filteredFrameworks[this.fwHighlightedIndex]) {
+                                        this.selectFramework(this.filteredFrameworks[this.fwHighlightedIndex]);
+                                    }
+                                },
+                                
+                                updateFrameworkFilter() {
+                                    // Trigger recomputation of filteredFrameworks
+                                },
+                                
+                                // Output Generation
+                                get languageOutput() {
+                                    if (this.selectedLanguages.length === 0) return '';
+                                    return this.selectedLanguages.map(lang => {
+                                        return `${lang.name} versi ${lang.version}`;
+                                    }).join(', ');
+                                },
+                                
+                                get frameworkOutput() {
+                                    if (this.selectedFrameworks.length === 0) return '';
+                                    return this.selectedFrameworks.map(fw => `${fw.name} ${fw.version}`).join(', ');
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+                <!-- Step 4: Repository -->
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">4</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white">Source Code</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Manajemen kode sumber dan backup.</p>
+                            </div>
+                        </div>
+
+                         <!-- Educational Note -->
+                         <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 rounded-xl p-4 mb-6 flex items-start gap-3">
+                            <svg class="h-5 w-5 text-amber-500 dark:text-amber-400 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <p class="text-xs font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wide mb-1">Rekomendasi Keamanan</p>
+                                <p class="text-sm text-amber-700 dark:text-amber-400">
+                                    Gunakan repository <strong>Private</strong> untuk melindungi source code instansi.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Toggle Repo -->
+                            <div>
+                                <x-input-label :value="__('Memiliki Repository Git? *')" class="mb-2" />
+                                <div class="flex items-center gap-4">
+                                    <label class="group relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-zinc-700 cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all">
+                                        <input type="radio" name="has_repository" value="ya" required class="w-4 h-4 text-indigo-600 border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 focus:ring-indigo-500" {{ old('has_repository') == 'ya' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
+                                        <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Ya, Ada</span>
+                                    </label>
+                                    <label class="group relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-zinc-700 cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all">
+                                        <input type="radio" name="has_repository" value="tidak" required class="w-4 h-4 text-indigo-600 border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 focus:ring-indigo-500" {{ old('has_repository') == 'tidak' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
+                                        <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Tidak Ada</span>
+                                    </label>
+                                </div>
+                                <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">Apakah source code aplikasi ini disimpan dalam version control system?</p>
+                                <x-input-error :messages="$errors->get('has_repository')" class="mt-2" />
+                            </div>
+
+                            <!-- Repo Details -->
+                            <div id="repository_status_wrapper" class="hidden pl-4 border-l-2 border-indigo-100 dark:border-indigo-900 space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <x-input-label for="penyedia_repository" :value="__('Platform Repository *')" />
+                                        <x-text-input id="penyedia_repository" name="penyedia_repository" type="text" class="block mt-1 w-full text-sm" :value="old('penyedia_repository')" placeholder="GitHub, GitLab, dll" />
+                                        <p class="mt-1 text-xs text-slate-400 dark:text-slate-500">Layanan hosing repository yang digunakan.</p>
+                                    </div>
+                                    <div>
+                                        <x-input-label for="git_repository" :value="__('Visibilitas *')" />
+                                        <select id="git_repository" name="git_repository" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                            <option value="">-- Pilih --</option>
+                                            <option value="private" {{ old('git_repository') == 'private' ? 'selected' : '' }}>Private (Tertutup)</option>
+                                            <option value="public" {{ old('git_repository') == 'public' ? 'selected' : '' }}>Public (Terbuka)</option>
+                                        </select>
+                                        <p class="mt-1 text-xs text-slate-400 dark:text-slate-500">Siapa yang dapat melihat kode sumber ini.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Backup Info -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <x-input-label for="metode_backup_source_code" :value="__('Backup Source Code *')" />
+                                    <x-text-input id="metode_backup_source_code" class="block mt-1 w-full text-sm" type="text" name="metode_backup_source_code" :value="old('metode_backup_source_code')" required placeholder="Misal: Git Push Harian" />
+                                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Strategi pengamanan kode sumber.</p>
+                                </div>
+                                <div>
+                                    <x-input-label for="metode_backup_asset" :value="__('Backup Assets (File/Gambar) *')" />
+                                    <x-text-input id="metode_backup_asset" class="block mt-1 w-full text-sm" type="text" name="metode_backup_asset" :value="old('metode_backup_asset')" required placeholder="Contoh: Sinkronisasi ke Object Storage, Backup Harian ke Server Lain, atau Copy Manual ke HDD Eksternal" />
+                                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Jelaskan metode pengamanan file upload (foto/dokumen) agar data tetap aman jika terjadi gangguan server.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Database -->
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm" x-data="dbmsSelector()" x-init="init()">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">5</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white">Database</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Spesifikasi penyimpanan data.</p>
+                            </div>
+                        </div>
+
+                        <!-- Panduan Penggunaan DBMS -->
+                        <div class="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                                </svg>
+                                <span class="font-semibold text-sm text-gray-800 dark:text-gray-200">Panduan Pengisian DBMS</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                                <!-- Langkah 1 -->
+                                <div class="flex items-start gap-2 bg-white dark:bg-zinc-800/50 p-2.5 rounded-lg">
+                                    <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-[10px]">1</span>
+                                    </div>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <span class="font-medium text-gray-700 dark:text-gray-300">Pilih Jenis DBMS</span>
+                                        <p class="mt-0.5">Ketik nama DBMS → pilih dari daftar atau tambah baru jika tidak ada</p>
+                                    </div>
+                                </div>
+                                <!-- Langkah 2 -->
+                                <div class="flex items-start gap-2 bg-white dark:bg-zinc-800/50 p-2.5 rounded-lg">
+                                    <div class="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-[10px]">2</span>
+                                    </div>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <span class="font-medium text-gray-700 dark:text-gray-300">Pilih Versi</span>
+                                        <p class="mt-0.5">Setelah DBMS terpilih, pilih versi yang tersedia atau tambah versi custom</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Jenis DBMS Autocomplete -->
+                            <div class="relative">
+                                <x-input-label for="dbms_search" :value="__('Jenis DBMS *')" />
+                                <div class="relative mt-1">
+                                    <input 
+                                        type="text" 
+                                        id="dbms_search" 
+                                        x-model="dbmsSearch"
+                                        @input="onDbmsSearch()"
+                                        @focus="dbmsOpen = true"
+                                        @keydown.escape="dbmsOpen = false"
+                                        @keydown.arrow-down.prevent="highlightNextDbms()"
+                                        @keydown.arrow-up.prevent="highlightPrevDbms()"
+                                        @keydown.enter.prevent="selectHighlightedDbms()"
+                                        class="block w-full rounded-xl border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm text-sm py-2.5 px-3"
+                                        :class="{ 'ring-red-300': dbmsError, 'bg-gray-50 dark:bg-zinc-800': selectedDbms }"
+                                        :placeholder="selectedDbms ? selectedDbms : 'Ketik untuk mencari DBMS...'"
+                                        autocomplete="off"
+                                    >
+                                    <!-- Clear Button -->
+                                    <button 
+                                        type="button"
+                                        x-show="selectedDbms"
+                                        @click="clearDbms()"
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors"
+                                    >
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M18 6L6 18M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Dropdown DBMS -->
+                                <div 
+                                    x-show="dbmsOpen && (dbmsResults.length > 0 || (dbmsSearch && !selectedDbmsId))"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 translate-y-1"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 translate-y-1"
+                                    @click.outside="dbmsOpen = false"
+                                    class="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-700 max-h-60 overflow-auto"
+                                >
+                                    <!-- Existing DBMS Results -->
+                                    <template x-for="(dbms, index) in dbmsResults" :key="dbms.name">
+                                        <div 
+                                            @click="selectDbms(dbms)"
+                                            @mouseenter="dbmsHighlightedIndex = index"
+                                            :class="{ 
+                                                'bg-blue-50 dark:bg-blue-900/30': dbmsHighlightedIndex === index,
+                                                'border-l-4 border-blue-500': selectedDbmsId === dbms.name
+                                            }"
+                                            class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-b border-gray-100 dark:border-zinc-700 last:border-b-0 transition-colors"
+                                        >
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                        <path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="dbms.name"></div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">Versi tersedia: <span x-text="dbms.versions.slice(0,3).join(', ')"></span>...</div>
+                                                </div>
+                                                <svg x-show="selectedDbmsId === dbms.name" class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Add New DBMS Option -->
+                                    <div 
+                                        x-show="dbmsSearch && !dbmsExactMatch"
+                                        @click="selectNewDbms()"
+                                        @mouseenter="dbmsHighlightedIndex = dbmsResults.length"
+                                        :class="{ 'bg-emerald-50 dark:bg-emerald-900/30': dbmsHighlightedIndex === dbmsResults.length }"
+                                        class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-t border-gray-200 dark:border-zinc-600 transition-colors"
+                                    >
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <path d="M5 12h14M12 5v14"/>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                                                    Tambah: "<span x-text="dbmsSearch"></span>"
+                                                </div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">DBMS baru akan dibuat</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Selected DBMS Badge -->
+                                <div x-show="selectedDbms && !isNewDbms" class="mt-2 flex items-center gap-2">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                        <span x-text="selectedDbms"></span>
+                                    </span>
+                                    <span class="text-xs text-gray-500">terpilih</span>
+                                </div>
+
+                                <!-- New DBMS Indicator -->
+                                <div x-show="isNewDbms && dbmsSearch" class="mt-2 flex items-center gap-2">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M5 12h14M12 5v14"/>
+                                        </svg>
+                                        <span x-text="dbmsSearch"></span>
+                                    </span>
+                                    <span class="text-xs text-emerald-600">(DBMS Baru)</span>
+                                </div>
+
+                                <input type="hidden" name="dbms" x-model="dbmsValue">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Software database yang digunakan.</p>
+                            </div>
+
+                            <!-- Versi DBMS Autocomplete -->
+                            <div class="relative" x-show="selectedDbms || isNewDbms" x-transition>
+                                <x-input-label for="versi_dbms_search" :value="__('Versi DBMS *')" />
+                                <div class="relative mt-1">
+                                    <input 
+                                        type="text" 
+                                        id="versi_dbms_search" 
+                                        x-model="versiSearch"
+                                        @input="onVersiSearch()"
+                                        @focus="versiOpen = true"
+                                        @keydown.escape="versiOpen = false"
+                                        @keydown.arrow-down.prevent="highlightNextVersi()"
+                                        @keydown.arrow-up.prevent="highlightPrevVersi()"
+                                        @keydown.enter.prevent="selectHighlightedVersi()"
+                                        class="block w-full rounded-xl border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm text-sm py-2.5 px-3"
+                                        :class="{ 'bg-gray-50 dark:bg-zinc-800': selectedVersi }"
+                                        :placeholder="selectedVersi ? selectedVersi : (selectedDbms ? 'Pilih versi ' + selectedDbms + '...' : 'Ketik versi DBMS...')"
+                                        autocomplete="off"
+                                        :disabled="!selectedDbms && !isNewDbms"
+                                    >
+                                    <!-- Clear Button -->
+                                    <button 
+                                        type="button"
+                                        x-show="selectedVersi"
+                                        @click="clearVersi()"
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors"
+                                    >
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M18 6L6 18M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Dropdown Versi -->
+                                <div 
+                                    x-show="versiOpen && (versiResults.length > 0 || (versiSearch && !selectedVersi && (selectedDbms || isNewDbms)))"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 translate-y-1"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 translate-y-1"
+                                    @click.outside="versiOpen = false"
+                                    class="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-700 max-h-60 overflow-auto"
+                                >
+                                    <!-- Existing Versi Results -->
+                                    <template x-for="(versi, index) in versiResults" :key="versi">
+                                        <div 
+                                            @click="selectVersi(versi)"
+                                            @mouseenter="versiHighlightedIndex = index"
+                                            :class="{ 
+                                                'bg-blue-50 dark:bg-blue-900/30': versiHighlightedIndex === index,
+                                                'border-l-4 border-blue-500': selectedVersi === versi
+                                            }"
+                                            class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-b border-gray-100 dark:border-zinc-700 last:border-b-0 transition-colors"
+                                        >
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                        <path d="M12 2v20M2 12h20"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="versi"></div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">Versi tersedia</div>
+                                                </div>
+                                                <svg x-show="selectedVersi === versi" class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Add New Versi Option -->
+                                    <div 
+                                        x-show="versiSearch && !versiExactMatch"
+                                        @click="selectNewVersi()"
+                                        @mouseenter="versiHighlightedIndex = versiResults.length"
+                                        :class="{ 'bg-emerald-50 dark:bg-emerald-900/30': versiHighlightedIndex === versiResults.length }"
+                                        class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 border-t border-gray-200 dark:border-zinc-600 transition-colors"
+                                    >
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <path d="M5 12h14M12 5v14"/>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                                                    Tambah Versi: "<span x-text="versiSearch"></span>"
+                                                </div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">Versi baru akan digunakan</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Selected Versi Badge -->
+                                <div x-show="selectedVersi" class="mt-2 flex items-center gap-2">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                        <span x-text="selectedVersi"></span>
+                                    </span>
+                                    <span x-show="!isNewVersi" class="text-xs text-gray-500">terpilih</span>
+                                    <span x-show="isNewVersi" class="text-xs text-purple-600">(versi baru)</span>
+                                </div>
+
+                                <input type="hidden" name="versi_dbms" x-model="versiValue">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Versi perangkat lunak database.</p>
+                            </div>
+
+                            <div>
+                                <x-input-label for="lokasi_database" :value="__('Lokasi Server DBMS *')" />
+                                <select id="lokasi_database" name="lokasi_database" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Server Kominfo" {{ old('lokasi_database') == 'Server Kominfo' ? 'selected' : '' }}>Server Kominfo</option>
+                                    <option value="Lokal" {{ old('lokasi_database') == 'Lokal' ? 'selected' : '' }}>Lokal</option>
+                                </select>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Dimana database ini disimpan.</p>
+                            </div>
+
+                            <div>
+                                <x-input-label for="akses_database" :value="__('Akses Database *')" />
+                                <select id="akses_database" name="akses_database" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="public" {{ old('akses_database') == 'public' ? 'selected' : '' }}>Public (Terbuka)</option>
+                                    <option value="private" {{ old('akses_database') == 'private' ? 'selected' : '' }}>Private (Tertutup)</option>
+                                </select>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Apakah database bisa diakses jaringan luar?</p>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <x-input-label for="metode_backup_database" :value="__('Strategi Backup DB *')" />
+                                <x-text-input id="metode_backup_database" class="block mt-1 w-full text-sm" type="text" name="metode_backup_database" :value="old('metode_backup_database')" required placeholder="Misal: Auto-dump setiap jam 00:00" />
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Prosedur penyelamatan data jika terjadi kerusakan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alpine.js Component Script -->
+                    <script>
+                        function dbmsSelector() {
+                            return {
+                                // Data master DBMS dan versinya
+                                dbmsData: [
+                                    { name: 'MySQL', versions: ['8.0', '5.7', '5.6', '5.5'] },
+                                    { name: 'MariaDB', versions: ['10.11', '10.6', '10.5', '10.4', '10.3'] },
+                                    { name: 'PostgreSQL', versions: ['16', '15', '14', '13', '12'] },
+                                    { name: 'SQL Server', versions: ['2022', '2019', '2017', '2016'] },
+                                    { name: 'MongoDB', versions: ['7.0', '6.0', '5.0', '4.4'] },
+                                    { name: 'SQLite', versions: ['3.44', '3.40', '3.35'] },
+                                    { name: 'Oracle', versions: ['23c', '21c', '19c', '12c'] },
+                                    { name: 'Redis', versions: ['7.2', '7.0', '6.2'] },
+                                    { name: 'Elasticsearch', versions: ['8.11', '8.0', '7.17'] },
+                                    { name: 'Firebase', versions: ['Latest', '9.x', '8.x'] },
+                                ],
+                                
+                                // State DBMS
+                                dbmsSearch: '',
+                                dbmsResults: [],
+                                selectedDbmsId: null,
+                                selectedDbms: null,
+                                isNewDbms: false,
+                                dbmsValue: '',
+                                dbmsOpen: false,
+                                dbmsHighlightedIndex: -1,
+                                dbmsError: false,
+                                dbmsExactMatch: false,
+                                
+                                // State Versi
+                                versiSearch: '',
+                                versiResults: [],
+                                selectedVersi: null,
+                                isNewVersi: false,
+                                versiValue: '',
+                                versiOpen: false,
+                                versiHighlightedIndex: -1,
+                                versiExactMatch: false,
+                                
+                                init() {
+                                    // Watch perubahan DBMS untuk reset versi
+                                    this.$watch('selectedDbms', (value) => {
+                                        if (value) {
+                                            this.clearVersi();
+                                            this.updateVersiOptions();
+                                        }
+                                    });
+                                },
+                                
+                                // ===== Helper Methods =====
+                                normalizeDbmsName(name) {
+                                    // Normalisasi nama DBMS: Title Case + DB suffix jika perlu
+                                    // Contoh: "cockroach" → "Cockroach", "cockroachdb" → "CockroachDB", "POSTGRESQL" → "Postgresql"
+                                    const trimmed = name.trim();
+                                    if (!trimmed) return '';
+                                    
+                                    // Special cases mapping
+                                    const specialCases = {
+                                        'mysql': 'MySQL',
+                                        'mariadb': 'MariaDB',
+                                        'postgresql': 'PostgreSQL',
+                                        'postgres': 'PostgreSQL',
+                                        'sqlserver': 'SQL Server',
+                                        'sql server': 'SQL Server',
+                                        'mongodb': 'MongoDB',
+                                        'mongo': 'MongoDB',
+                                        'sqlite': 'SQLite',
+                                        'oracle': 'Oracle',
+                                        'redis': 'Redis',
+                                        'elasticsearch': 'Elasticsearch',
+                                        'firebase': 'Firebase',
+                                        'supabase': 'Supabase',
+                                        'cockroachdb': 'CockroachDB',
+                                        'cockroach': 'CockroachDB',
+                                        'dynamodb': 'DynamoDB',
+                                        'cassandra': 'Cassandra',
+                                        'neo4j': 'Neo4j',
+                                        'influxdb': 'InfluxDB',
+                                    };
+                                    
+                                    const lower = trimmed.toLowerCase();
+                                    if (specialCases[lower]) {
+                                        return specialCases[lower];
+                                    }
+                                    
+                                    // Generic Title Case untuk yang lain
+                                    // Contoh: "custom database" → "Custom Database"
+                                    return trimmed
+                                        .toLowerCase()
+                                        .split(/[\s\-_]+/)
+                                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                        .join(' ');
+                                },
+                                
+                                // ===== DBMS Methods =====
+                                onDbmsSearch() {
+                                    this.selectedDbmsId = null;
+                                    this.isNewDbms = false;
+                                    this.dbmsValue = this.dbmsSearch;
+                                    this.dbmsHighlightedIndex = -1;
+                                    
+                                    if (this.dbmsSearch.length < 1) {
+                                        this.dbmsResults = [];
+                                        this.dbmsOpen = false;
+                                        return;
+                                    }
+                                    
+                                    const query = this.dbmsSearch.toLowerCase();
+                                    this.dbmsResults = this.dbmsData
+                                        .filter(dbms => dbms.name.toLowerCase().includes(query))
+                                        .slice(0, 10);
+                                    
+                                    this.checkDbmsExactMatch();
+                                    this.dbmsOpen = true;
+                                },
+                                
+                                checkDbmsExactMatch() {
+                                    this.dbmsExactMatch = this.dbmsResults.some(dbms => 
+                                        dbms.name.toLowerCase() === this.dbmsSearch.toLowerCase()
+                                    );
+                                },
+                                
+                                selectDbms(dbms) {
+                                    this.selectedDbmsId = dbms.name;
+                                    this.selectedDbms = dbms.name;
+                                    this.dbmsSearch = dbms.name;
+                                    this.dbmsValue = dbms.name;
+                                    this.isNewDbms = false;
+                                    this.dbmsOpen = false;
+                                    this.dbmsHighlightedIndex = -1;
+                                    this.updateVersiOptions();
+                                },
+                                
+                                selectNewDbms() {
+                                    const normalized = this.normalizeDbmsName(this.dbmsSearch);
+                                    this.selectedDbmsId = null;
+                                    this.selectedDbms = normalized;
+                                    this.isNewDbms = true;
+                                    this.dbmsValue = normalized;
+                                    this.dbmsSearch = normalized; // Update input dengan nama normalized
+                                    this.dbmsOpen = false;
+                                    this.dbmsHighlightedIndex = -1;
+                                    // Kosongkan versi untuk DBMS baru
+                                    this.versiResults = [];
+                                },
+                                
+                                clearDbms() {
+                                    this.selectedDbmsId = null;
+                                    this.selectedDbms = null;
+                                    this.isNewDbms = false;
+                                    this.dbmsSearch = '';
+                                    this.dbmsValue = '';
+                                    this.dbmsResults = [];
+                                    this.dbmsOpen = false;
+                                    this.clearVersi();
+                                },
+                                
+                                highlightNextDbms() {
+                                    const maxIndex = this.dbmsResults.length + (this.dbmsSearch && !this.dbmsExactMatch ? 0 : -1);
+                                    if (this.dbmsHighlightedIndex < maxIndex) {
+                                        this.dbmsHighlightedIndex++;
+                                    }
+                                },
+                                
+                                highlightPrevDbms() {
+                                    if (this.dbmsHighlightedIndex > 0) {
+                                        this.dbmsHighlightedIndex--;
+                                    }
+                                },
+                                
+                                selectHighlightedDbms() {
+                                    if (this.dbmsHighlightedIndex >= 0 && this.dbmsHighlightedIndex < this.dbmsResults.length) {
+                                        this.selectDbms(this.dbmsResults[this.dbmsHighlightedIndex]);
+                                    } else if (this.dbmsHighlightedIndex === this.dbmsResults.length && this.dbmsSearch && !this.dbmsExactMatch) {
+                                        this.selectNewDbms();
+                                    }
+                                },
+                                
+                                // ===== Versi Methods =====
+                                updateVersiOptions() {
+                                    const dbms = this.dbmsData.find(d => d.name === this.selectedDbms);
+                                    if (dbms) {
+                                        this.versiResults = dbms.versions;
+                                    } else {
+                                        this.versiResults = [];
+                                    }
+                                },
+                                
+                                onVersiSearch() {
+                                    this.selectedVersi = null;
+                                    this.isNewVersi = false;
+                                    this.versiValue = this.versiSearch;
+                                    this.versiHighlightedIndex = -1;
+                                    
+                                    if (this.versiSearch.length < 1) {
+                                        this.versiResults = this.getCurrentDbmsVersions();
+                                        this.versiOpen = false;
+                                        return;
+                                    }
+                                    
+                                    // Normalisasi query untuk search (v8.0 = 8.0 = V8.0)
+                                    const normalizedQuery = this.normalizeVersion(this.versiSearch).toLowerCase();
+                                    const allVersions = this.getCurrentDbmsVersions();
+                                    
+                                    // Filter dengan normalisasi
+                                    this.versiResults = allVersions.filter(v => {
+                                        const normalizedV = this.normalizeVersion(v).toLowerCase();
+                                        return normalizedV.includes(normalizedQuery) || 
+                                               v.toLowerCase().includes(this.versiSearch.toLowerCase());
+                                    });
+                                    
+                                    this.checkVersiExactMatch();
+                                    this.versiOpen = true;
+                                },
+                                
+                                getCurrentDbmsVersions() {
+                                    if (this.isNewDbms) return [];
+                                    const dbms = this.dbmsData.find(d => d.name === this.selectedDbms);
+                                    return dbms ? dbms.versions : [];
+                                },
+                                
+                                checkVersiExactMatch() {
+                                    const normalizedSearch = this.normalizeVersion(this.versiSearch).toLowerCase();
+                                    this.versiExactMatch = this.versiResults.some(versi => {
+                                        const normalizedVersi = this.normalizeVersion(versi).toLowerCase();
+                                        return normalizedVersi === normalizedSearch;
+                                    });
+                                },
+                                
+                                selectVersi(versi) {
+                                    this.selectedVersi = versi;
+                                    this.versiSearch = versi;
+                                    this.versiValue = versi;
+                                    this.isNewVersi = false;
+                                    this.versiOpen = false;
+                                    this.versiHighlightedIndex = -1;
+                                },
+                                
+                                normalizeVersion(version) {
+                                    // SMART VERSION NORMALIZATION
+                                    // Menangani berbagai format versi agar konsisten
+                                    
+                                    let normalized = version.trim();
+                                    
+                                    // STEP 1: Hapus prefix v, V, version, VERSION
+                                    normalized = normalized.replace(/^(v|version)\s*/i, '');
+                                    normalized = normalized.trim();
+                                    
+                                    // STEP 2: Khusus untuk "latest" → capitalize
+                                    if (normalized.toLowerCase() === 'latest') {
+                                        return 'Latest';
+                                    }
+                                    
+                                    // STEP 3: Deteksi tipe versi
+                                    const isYearVersion = /^\d{4}$/.test(normalized);           // 2022, 2019
+                                    const isOracleVersion = /^\d+c$/i.test(normalized);         // 19c, 21c
+                                    const isSemver = /^\d+(\.\d+)*$/.test(normalized);         // 8, 8.0, 8.0.1
+                                    
+                                    // STEP 4: Normalisasi berdasarkan tipe
+                                    
+                                    // Kasus 1: SQL Server style (tahun)
+                                    if (isYearVersion) {
+                                        // 2022, 2019, 2017 → tetap
+                                        return normalized;
+                                    }
+                                    
+                                    // Kasus 2: Oracle style (19c, 21c)
+                                    if (isOracleVersion) {
+                                        // 19c, 21C → 19c, 21c (lowercase c)
+                                        return normalized.toLowerCase();
+                                    }
+                                    
+                                    // Kasus 3: Semver (8, 8.0, 8.0.0)
+                                    if (isSemver) {
+                                        // Hapus leading zeros: 08 → 8, 08.09 → 8.9
+                                        normalized = normalized.replace(/\b0+(\d)/g, '$1');
+                                        
+                                        // Normalisasi tier:
+                                        // "8" → "8.0" (angka tunggal jadi x.y)
+                                        if (/^\d+$/.test(normalized)) {
+                                            normalized = normalized + '.0';
+                                        }
+                                        
+                                        // "8.0.0" → "8.0" (hapus .0 akhir)
+                                        // "8.1.0" → "8.1" (hapus .0 akhir)
+                                        while (/\.0$/.test(normalized) && normalized.split('.').length > 2) {
+                                            normalized = normalized.replace(/\.0$/, '');
+                                        }
+                                        
+                                        return normalized;
+                                    }
+                                    
+                                    // Kasus 4: Format lain (beta, rc, dll)
+                                    // "1.0-beta" → "1.0-beta" (tetap, hanya lowercase)
+                                    return normalized.toLowerCase();
+                                },
+                                
+                                selectNewVersi() {
+                                    const normalized = this.normalizeVersion(this.versiSearch);
+                                    this.selectedVersi = normalized;
+                                    this.isNewVersi = true;
+                                    this.versiValue = normalized;
+                                    this.versiSearch = normalized;
+                                    this.versiOpen = false;
+                                    this.versiHighlightedIndex = -1;
+                                },
+                                
+                                highlightNextVersi() {
+                                    const maxIndex = this.versiResults.length + (this.versiSearch && !this.versiExactMatch ? 0 : -1);
+                                    if (this.versiHighlightedIndex < maxIndex) {
+                                        this.versiHighlightedIndex++;
+                                    }
+                                },
+                                
+                                highlightPrevVersi() {
+                                    if (this.versiHighlightedIndex > 0) {
+                                        this.versiHighlightedIndex--;
+                                    }
+                                },
+                                
+                                selectHighlightedVersi() {
+                                    if (this.versiHighlightedIndex >= 0 && this.versiHighlightedIndex < this.versiResults.length) {
+                                        this.selectVersi(this.versiResults[this.versiHighlightedIndex]);
+                                    } else if (this.versiHighlightedIndex === this.versiResults.length && this.versiSearch && !this.versiExactMatch) {
+                                        this.selectNewVersi();
+                                    }
+                                },
+                                
+                                clearVersi() {
+                                    this.selectedVersi = null;
+                                    this.isNewVersi = false;
+                                    this.versiSearch = '';
+                                    this.versiValue = '';
+                                    this.versiResults = this.getCurrentDbmsVersions();
+                                    this.versiOpen = false;
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+                <!-- Step 6: Integrasi & Monev -->
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm">
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">6</span>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white">Integrasi & Monitoring</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Konektivitas dan pemantauan sistem. (Kosongkan jika tidak ada)</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <x-input-label for="integrasi_sistem_keluar" :value="__('Integrasi Eksternal')" />
+                                <textarea id="integrasi_sistem_keluar" name="integrasi_sistem_keluar" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" placeholder="Contoh: API Dukcapil, SSO Kemendagri, Sistem Keuangan Daerah...">{{ old('integrasi_sistem_keluar') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Sebutkan sistem pihak ketiga yang terhubung (Opsional).</p>
+                                <x-input-error :messages="$errors->get('integrasi_sistem_keluar')" class="mt-2" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="metode_monitoring_evaluasi" :value="__('Metode Monitoring')" />
+                                <div class="bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 p-4 rounded-xl mt-1">
+                                    <textarea id="metode_monitoring_evaluasi" name="metode_monitoring_evaluasi" rows="3" class="block w-full bg-transparent border-0 focus:ring-0 p-0 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-zinc-500" placeholder="Contoh: Google Analytics, Uptime Robot, Feedback Pengguna...">{{ old('metode_monitoring_evaluasi') }}</textarea>
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Jelaskan cara Anda memantau kesehatan aplikasi (Opsional).</p>
+                                <x-input-error :messages="$errors->get('metode_monitoring_evaluasi')" class="mt-2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Action -->
+                <div class="flex items-center justify-end gap-4 pt-4">
+                    <a href="{{ route('web-apps.index') }}" class="px-5 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 font-semibold transition-colors">
+                        Batal
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 rounded-xl font-semibold text-white transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Simpan Data
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleRepositoryStatus() {
+            const wrapper = document.getElementById('repository_status_wrapper');
+            const yesRadio = document.querySelector('input[name="has_repository"][value="ya"]');
+            if (yesRadio && yesRadio.checked) {
+                wrapper.classList.remove('hidden');
+            } else {
+                wrapper.classList.add('hidden');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', toggleRepositoryStatus);
+    </script>
+    
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
+</x-app-layout>

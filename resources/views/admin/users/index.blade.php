@@ -27,11 +27,7 @@
             </svg>
             
             <!-- Pulsing Circles -->
-            <svg class="absolute left-10 bottom-10 w-[200px] h-[200px] text-indigo-400/10" viewBox="0 0 200 200" fill="none">
-                <circle cx="100" cy="100" r="40" stroke="currentColor" stroke-width="0.5" fill="none" style="animation: pulse-ring 4s ease-out infinite;"/>
-                <circle cx="100" cy="100" r="70" stroke="currentColor" stroke-width="0.5" fill="none" style="animation: pulse-ring 4s ease-out infinite; animation-delay: 0.6s;"/>
-                <circle cx="100" cy="100" r="100" stroke="currentColor" stroke-width="0.5" fill="none" style="animation: pulse-ring 4s ease-out infinite; animation-delay: 1.2s;"/>
-            </svg>
+            <i class="fa-solid fa-pen-to-square absolute left-10 bottom-10 w-[200px] h-[200px] text-indigo-400/10 flex items-center justify-center" style="animation: pulse-ring 4s ease-out infinite;"></i>
             
             <!-- Floating Orbs -->
             <div class="absolute top-10 right-1/4 w-3 h-3 bg-blue-400/50 rounded-full blur-sm" style="animation: float 3s ease-in-out infinite;"></div>
@@ -50,9 +46,7 @@
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
                 <div class="flex items-center gap-4">
                     <div class="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg shadow-blue-500/25">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                        </svg>
+                        <i class="fa-solid fa-users w-8 h-8 text-white flex items-center justify-center"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-blue-600 dark:from-white dark:to-blue-400">Manajemen User</h1>
@@ -61,7 +55,7 @@
                 </div>
                 <button type="button" onclick="document.getElementById('addUserModal').classList.remove('hidden')" 
                     class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 text-sm">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                    <i class="fa-solid fa-user-plus w-5 h-5 mr-2 flex items-center justify-center"></i>
                     Tambah User Baru
                 </button>
             </div>
@@ -71,9 +65,7 @@
                 <!-- Total User Stats Pill -->
                 <div class="group relative px-6 py-4 rounded-2xl bg-gradient-to-br from-slate-50 to-white dark:from-black dark:to-black border border-slate-200/50 dark:border-zinc-800 flex items-center gap-4 min-w-[180px] backdrop-blur-sm shadow-sm hover:shadow-md hover:border-blue-200/50 dark:hover:border-blue-700/50 transition-all duration-300">
                     <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
+                        <i class="fa-solid fa-circle-check w-6 h-6 text-white flex items-center justify-center"></i>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#1a237e] to-blue-600 dark:from-blue-400 dark:to-indigo-400">{{ $users->total() }}</span>
@@ -84,9 +76,7 @@
                 <!-- Total OPD Stats Pill -->
                 <div class="group relative px-6 py-4 rounded-2xl bg-gradient-to-br from-slate-50 to-white dark:from-black dark:to-black border border-slate-200/50 dark:border-zinc-800 flex items-center gap-4 min-w-[180px] backdrop-blur-sm shadow-sm hover:shadow-md hover:border-emerald-200/50 dark:hover:border-emerald-700/50 transition-all duration-300">
                     <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
+                        <i class="fa-solid fa-building w-6 h-6 text-white flex items-center justify-center"></i>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400">{{ $opds->count() }}</span>
@@ -114,16 +104,16 @@
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, email, atau OPD..." 
                             class="w-full pl-12 pr-4 py-3 bg-white/80 dark:bg-black/80 backdrop-blur-sm border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-700 dark:text-zinc-200 placeholder-slate-400 dark:placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <i class="fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 flex items-center justify-center"></i>
                         </div>
                     </div>
                 </div>
                 <button type="submit" class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/25 text-sm">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <i class="fa-solid fa-magnifying-glass w-4 h-4 mr-2 flex items-center justify-center"></i>
                     Cari
                 </button>
                 <a id="resetBtn" href="{{ route('admin.users.index') }}" class="inline-flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-300 font-medium rounded-xl transition-colors text-sm border border-slate-200 dark:border-zinc-700 {{ (request('search') || request('opd_id')) ? '' : 'hidden' }}">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <i class="fa-solid fa-xmark w-4 h-4 mr-2 flex items-center justify-center"></i>
                     Reset
                 </a>
             </form>
@@ -153,10 +143,21 @@
     @if(session('success'))
         <div class="mb-6 p-4 bg-green-50 dark:bg-emerald-500/10 border border-green-200 dark:border-emerald-500/25 rounded-xl">
             <div class="flex items-start">
-                <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <i class="fa-solid fa-check w-5 h-5 text-green-500 mr-3 mt-0.5 flex items-center justify-center"></i>
                 <div>
                     <p class="text-sm font-medium text-green-800 dark:text-emerald-300">{{ session('success') }}</p>
-                    <p class="text-xs text-green-600 dark:text-emerald-400 mt-1">Salin password ini dan berikan kepada user. Password hanya ditampilkan sekali.</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Error Message -->
+    @if(session('error'))
+        <div class="mb-6 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/25 rounded-xl">
+            <div class="flex items-start">
+                <i class="fa-solid fa-xmark w-5 h-5 text-red-500 mr-3 mt-0.5 flex items-center justify-center"></i>
+                <div>
+                    <p class="text-sm font-medium text-red-800 dark:text-red-300">{{ session('error') }}</p>
                 </div>
             </div>
         </div>
@@ -172,31 +173,31 @@
                             <tr>
                                 <th scope="col" class="px-4 py-4 text-center w-16">
                                     <span class="flex items-center justify-center gap-1 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                                        <i class="fa-solid fa-bars w-4 h-4 text-slate-400 flex items-center justify-center"></i>
                                         No
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                        <i class="fa-solid fa-user w-4 h-4 text-blue-500 flex items-center justify-center"></i>
                                         User
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                        <i class="fa-solid fa-building w-4 h-4 text-emerald-500 flex items-center justify-center"></i>
                                         OPD
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        <i class="fa-regular fa-calendar w-4 h-4 text-amber-500 flex items-center justify-center"></i>
                                         Bergabung
                                     </span>
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-center">
                                     <span class="flex items-center justify-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                        <i class="fa-solid fa-pen-to-square w-4 h-4 text-indigo-500 flex items-center justify-center"></i>
                                         Aksi
                                     </span>
                                 </th>
@@ -222,7 +223,7 @@
                                             <div class="ml-4">
                                                 <div class="text-sm font-bold text-slate-800 dark:text-zinc-200">{{ $user->name }}</div>
                                                 <div class="text-xs text-slate-500 dark:text-zinc-500 flex items-center gap-1 mt-0.5">
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                                    <i class="fa-regular fa-envelope w-3 h-3 flex items-center justify-center"></i>
                                                     {{ $user->email }}
                                                 </div>
                                             </div>
@@ -237,10 +238,21 @@
                                         {{ $user->created_at->format('d M Y') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        <a href="{{ route('admin.users.show', $user) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/25 transition-colors text-xs font-semibold border border-blue-200 dark:border-blue-500/25">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            Detail
-                                        </a>
+                                        <div class="flex items-center justify-center gap-2">
+                                            <a href="{{ route('admin.users.show', $user) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/25 transition-colors text-xs font-semibold border border-blue-200 dark:border-blue-500/25">
+                                                <i class="fa-solid fa-eye w-4 h-4 mr-1 flex items-center justify-center"></i>
+                                                Detail
+                                            </a>
+                                            <button type="button" 
+                                                data-user-id="{{ $user->id }}"
+                                                data-user-name="{{ $user->name }}"
+                                                data-user-email="{{ $user->email }}"
+                                                onclick="openDeleteModal(this)" 
+                                                class="inline-flex items-center px-3 py-1.5 bg-red-50 dark:bg-red-500/15 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-500/25 transition-colors text-xs font-semibold border border-red-200 dark:border-red-500/25">
+                                                <i class="fa-solid fa-minus w-4 h-4 mr-1 flex items-center justify-center"></i>
+                                                Hapus
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -253,12 +265,12 @@
             @else
                 <div class="text-center py-20">
                     <div class="bg-gray-50 dark:bg-white/5 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 dark:text-zinc-600">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <i class="fa-solid fa-users w-10 h-10 flex items-center justify-center"></i>
                     </div>
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Tidak Ada User</h3>
                     <p class="text-gray-500 dark:text-zinc-500 text-sm max-w-sm mx-auto">Tidak ditemukan user dengan filter yang dipilih.</p>
                     <a href="{{ route('admin.users.index') }}" class="inline-flex items-center mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        <i class="fa-solid fa-rotate w-4 h-4 mr-1 flex items-center justify-center"></i>
                         Reset Filter
                     </a>
                 </div>
@@ -283,7 +295,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
                             <div class="p-2 bg-blue-100 dark:bg-blue-500/15 rounded-xl">
-                                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                                <i class="fa-solid fa-user-plus w-6 h-6 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-gray-900 dark:text-white">Tambah User Baru</h3>
@@ -291,7 +303,7 @@
                             </div>
                         </div>
                         <button type="button" onclick="document.getElementById('addUserModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <i class="fa-solid fa-xmark w-6 h-6 flex items-center justify-center"></i>
                         </button>
                     </div>
                     
@@ -318,26 +330,368 @@
                                 @enderror
                             </div>
                             
-                            <!-- OPD -->
-                            <div>
-                                <label for="modal_opd_id" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">OPD</label>
-                                <select name="opd_id" id="modal_opd_id" 
-                                    class="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm text-sm">
-                                    <option value="">-- Pilih OPD --</option>
-                                    @foreach($opds as $opd)
-                                        <option value="{{ $opd->id }}">{{ $opd->nama_opd }}</option>
-                                    @endforeach
-                                </select>
+                            <!-- OPD Autocomplete -->
+                            <div x-data="opdAutocompleteAdmin()" x-init="init()" class="relative">
+                                <label for="admin_opd_search" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-minus w-4 h-4 text-blue-500 flex items-center justify-center"></i>
+                                        Organisasi Perangkat Daerah (OPD)
+                                    </span>
+                                </label>
+                                <div class="relative">
+                                    <!-- Search Input -->
+                                    <div class="relative">
+                                        <input 
+                                            type="text" 
+                                            id="admin_opd_search" 
+                                            x-model="search"
+                                            @input="onSearch()"
+                                            @focus="open = true"
+                                            @keydown.escape="open = false"
+                                            @keydown.arrow-down.prevent="highlightNext()"
+                                            @keydown.arrow-up.prevent="highlightPrev()"
+                                            @keydown.enter.prevent="selectHighlighted()"
+                                            class="w-full border-gray-300 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm text-sm pr-10"
+                                            :class="{ 'border-red-500': error }"
+                                            placeholder="Ketik untuk mencari OPD..."
+                                            autocomplete="off"
+                                        >
+                                        <!-- Search Icon -->
+                                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                            <i class="fa-solid fa-magnifying-glass w-4 h-4 text-gray-400 flex items-center justify-center" x-show="!loading"></i>
+                                            <i class="fa-solid fa-circle-notch fa-spin w-4 h-4 text-blue-600 animate-spin flex items-center justify-center" x-show="loading"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Selected Badge -->
+                                    <div x-show="selectedOpd" class="mt-2 flex items-center gap-2">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                            <i class="fa-solid fa-circle-check w-3 h-3 flex items-center justify-center"></i>
+                                            <span x-text="selectedOpd"></span>
+                                            <button type="button" @click="clearSelection()" class="ml-1 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                                                <i class="fa-solid fa-xmark w-3 h-3 flex items-center justify-center"></i>
+                                            </button>
+                                        </span>
+                                        <span class="text-xs text-gray-500">OPD terpilih</span>
+                                    </div>
+
+                                    <!-- New OPD Indicator -->
+                                    <div x-show="isNewOpd && search" class="mt-2 flex items-center gap-2">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
+                                            <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
+                                            <span>OPD Baru</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500 dark:text-zinc-400" x-text="'Akan ditambahkan: ' + search"></span>
+                                    </div>
+
+                                    <!-- Hidden Input for Form Submission -->
+                                    <input type="hidden" name="opd" x-model="opdValue">
+
+                                    <!-- Dropdown Results -->
+                                    <div 
+                                        x-show="open && (results.length > 0 || (search && !selectedId))"
+                                        x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0 translate-y-1"
+                                        x-transition:enter-end="opacity-100 translate-y-0"
+                                        x-transition:leave="transition ease-in duration-150"
+                                        x-transition:leave-start="opacity-100 translate-y-0"
+                                        x-transition:leave-end="opacity-0 translate-y-1"
+                                        @click.outside="open = false"
+                                        class="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-800 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 max-h-52 overflow-auto"
+                                    >
+                                        <!-- Existing OPD Results -->
+                                        <template x-for="(opd, index) in results" :key="opd.id">
+                                            <div 
+                                                @click="selectOpd(opd)"
+                                                @mouseenter="highlightedIndex = index"
+                                                :class="{ 
+                                                    'bg-blue-50 dark:bg-blue-900/30': highlightedIndex === index,
+                                                    'border-l-4 border-blue-500': selectedId === opd.id
+                                                }"
+                                                class="px-3 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 border-b border-gray-100 dark:border-zinc-700 last:border-b-0 transition-colors"
+                                            >
+                                                <div class="flex items-center gap-2">
+                                                    <div class="w-7 h-7 rounded-md bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                                                        <i class="fa-solid fa-minus w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <div class="text-sm font-medium text-gray-900 dark:text-zinc-200 truncate" x-text="opd.nama_opd"></div>
+                                                        <div class="text-[10px] text-gray-500 dark:text-zinc-500">OPD Terdaftar</div>
+                                                    </div>
+                                                    <i class="fa-solid fa-pen-to-square w-4 h-4 text-blue-600 flex-shrink-0" x-show="selectedId === opd.id"></i>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <!-- Add New Option -->
+                                        <div 
+                                            x-show="search && !exactMatch"
+                                            @click="selectNewOpd()"
+                                            @mouseenter="highlightedIndex = results.length"
+                                            :class="{ 'bg-emerald-50 dark:bg-emerald-900/30': highlightedIndex === results.length }"
+                                            class="px-3 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 border-t border-gray-200 dark:border-zinc-600 transition-colors"
+                                        >
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-7 h-7 rounded-md bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fa-solid fa-minus w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400 truncate">
+                                                        Tambah: "<span x-text="search"></span>"
+                                                    </div>
+                                                    <div class="text-[10px] text-gray-500 dark:text-zinc-500">OPD baru akan dibuat</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @error('opd')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
-                            
-                            <!-- New OPD -->
-                            <div>
-                                <label for="new_opd" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">Atau Tambahkan OPD Baru</label>
-                                <input type="text" name="new_opd" id="new_opd" 
-                                    class="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm text-sm" 
-                                    placeholder="Ketik nama OPD baru jika tidak ada di daftar">
-                                <p class="text-xs text-gray-500 mt-1">Kosongkan jika memilih dari daftar di atas.</p>
+
+                            <!-- Petunjuk Lengkap -->
+                            <div class="space-y-2">
+                                <!-- Judul -->
+                                <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-zinc-300">
+                                    <i class="fa-solid fa-exclamation w-3.5 h-3.5 text-blue-500 flex items-center justify-center"></i>
+                                    Petunjuk Pengisian OPD
+                                </div>
+                                
+                                <!-- OPD Sudah Ada -->
+                                <div class="bg-blue-50/70 dark:bg-blue-900/10 rounded-md p-2 border border-blue-100 dark:border-blue-900/20">
+                                    <div class="flex items-center gap-1.5 mb-1">
+                                        <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+                                            <span class="text-white font-bold text-[8px]">1</span>
+                                        </div>
+                                        <span class="text-xs font-semibold text-blue-900 dark:text-blue-300">OPD Sudah Terdaftar</span>
+                                    </div>
+                                    <p class="text-[11px] text-blue-800 dark:text-blue-300/80 leading-relaxed ml-5">
+                                        Ketik nama OPD → klik hasil pencarian → muncul 
+                                        <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200 text-[10px] font-medium">
+                                            <i class="fa-solid fa-circle-check w-3 h-3 flex items-center justify-center"></i>
+                                            OPD Terpilih
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- OPD Baru -->
+                                <div class="bg-emerald-50/70 dark:bg-emerald-900/10 rounded-md p-2 border border-emerald-100 dark:border-emerald-900/20">
+                                    <div class="flex items-center gap-1.5 mb-1">
+                                        <div class="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center">
+                                            <span class="text-white font-bold text-[8px]">2</span>
+                                        </div>
+                                        <span class="text-xs font-semibold text-emerald-900 dark:text-emerald-300">OPD Baru (Belum Terdaftar)</span>
+                                    </div>
+                                    <ul class="space-y-1 ml-5 text-[11px] text-emerald-800 dark:text-emerald-300/80">
+                                        <li class="flex items-start gap-1">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Ketik nama lengkap OPD sesuai format resmi<br><em class="text-emerald-600 dark:text-emerald-400 not-italic">Contoh: "Dinas Komunikasi dan Informatika Kota Pekanbaru"</em></span>
+                                        </li>
+                                        <li class="flex items-start gap-1">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Pastikan muncul 
+                                                <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200 text-[10px] font-medium">
+                                                    <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
+                                                    Tambah
+                                                </span>
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-1">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Klik "Tambah" atau tekan <kbd class="px-1 py-0 bg-emerald-200 dark:bg-emerald-800 rounded text-[10px] font-mono">Enter</kbd></span>
+                                        </li>
+                                        <li class="flex items-start gap-1">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Muncul 
+                                                <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200 text-[10px] font-medium">
+                                                    <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
+                                                    OPD Baru
+                                                </span> 
+                                                → OPD otomatis dibuat
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Tips Penting -->
+                                <div class="flex items-start gap-1.5 text-[11px] bg-amber-50 dark:bg-amber-900/10 p-2 rounded-md border border-amber-200 dark:border-amber-900/30">
+                                    <i class="fa-solid fa-triangle-exclamation w-3.5 h-3.5 flex-shrink-0 text-amber-600 mt-0.5"></i>
+                                    <div class="text-amber-900 dark:text-amber-300">
+                                        <span class="font-bold">Tips:</span> 
+                                        <span class="text-amber-800 dark:text-amber-400">Gunakan nama OPD <strong>lengkap dan resmi</strong>. Sistem akan otomatis mengubah menjadi format standar (Contoh: <em>"diskominfo"</em> → <em>"Diskominfo"</em>).</span>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- Alpine.js Component Script for Admin -->
+                            <script>
+                                function opdAutocompleteAdmin() {
+                                    return {
+                                        search: '',
+                                        results: [],
+                                        selectedId: null,
+                                        selectedOpd: null,
+                                        isNewOpd: false,
+                                        opdValue: '',
+                                        loading: false,
+                                        open: false,
+                                        highlightedIndex: -1,
+                                        error: false,
+                                        exactMatch: false,
+                                        searchTimeout: null,
+                                        abortController: null,
+                                        cache: {},
+                                        allOpds: [],
+                                        isPreloaded: false,
+
+                                        async init() {
+                                            this.preloadOpds();
+                                            this.$watch('search', value => {
+                                                if (!value) {
+                                                    this.open = false;
+                                                }
+                                            });
+                                        },
+
+                                        async preloadOpds() {
+                                            try {
+                                                const res = await fetch('{{ route('admin.opd.search') }}?q=');
+                                                const data = await res.json();
+                                                this.allOpds = data;
+                                                this.isPreloaded = true;
+                                            } catch (e) {
+                                                console.log('Preload failed');
+                                            }
+                                        },
+
+                                        onSearch() {
+                                            this.selectedId = null;
+                                            this.isNewOpd = false;
+                                            this.opdValue = this.search;
+                                            this.highlightedIndex = -1;
+                                            
+                                            clearTimeout(this.searchTimeout);
+                                            
+                                            if (this.search.length < 1) {
+                                                this.results = [];
+                                                this.open = false;
+                                                return;
+                                            }
+
+                                            const cacheKey = this.search.toLowerCase();
+                                            if (this.cache[cacheKey]) {
+                                                this.results = this.cache[cacheKey];
+                                                this.checkExactMatch();
+                                                this.open = true;
+                                                return;
+                                            }
+
+                                            this.searchTimeout = setTimeout(() => {
+                                                this.performSearch(cacheKey);
+                                            }, 150);
+                                        },
+
+                                        async performSearch(cacheKey) {
+                                            this.loading = true;
+                                            
+                                            if (this.abortController) {
+                                                this.abortController.abort();
+                                            }
+                                            this.abortController = new AbortController();
+
+                                            try {
+                                                if (this.isPreloaded && this.allOpds.length > 0) {
+                                                    const query = this.search.toLowerCase();
+                                                    this.results = this.allOpds
+                                                        .filter(opd => opd.nama_opd.toLowerCase().includes(query))
+                                                        .slice(0, 10);
+                                                    this.loading = false;
+                                                    this.open = true;
+                                                    this.checkExactMatch();
+                                                    return;
+                                                }
+
+                                                const res = await fetch(
+                                                    `{{ route('admin.opd.search') }}?q=${encodeURIComponent(this.search)}`,
+                                                    { signal: this.abortController.signal }
+                                                );
+                                                
+                                                if (!res.ok) throw new Error('Search failed');
+                                                
+                                                const data = await res.json();
+                                                this.results = data;
+                                                this.cache[cacheKey] = data;
+                                                
+                                                this.open = true;
+                                                this.checkExactMatch();
+                                            } catch (err) {
+                                                if (err.name !== 'AbortError') {
+                                                    console.error('Search error:', err);
+                                                }
+                                            } finally {
+                                                this.loading = false;
+                                            }
+                                        },
+
+                                        checkExactMatch() {
+                                            this.exactMatch = this.results.some(opd => 
+                                                opd.nama_opd.toLowerCase() === this.search.toLowerCase()
+                                            );
+                                        },
+
+                                        selectOpd(opd) {
+                                            this.selectedId = opd.id;
+                                            this.selectedOpd = opd.nama_opd;
+                                            this.search = opd.nama_opd;
+                                            this.opdValue = opd.id;
+                                            this.isNewOpd = false;
+                                            this.open = false;
+                                            this.highlightedIndex = -1;
+                                        },
+
+                                        selectNewOpd() {
+                                            this.selectedId = null;
+                                            this.selectedOpd = null;
+                                            this.isNewOpd = true;
+                                            this.opdValue = this.search;
+                                            this.open = false;
+                                            this.highlightedIndex = -1;
+                                        },
+
+                                        clearSelection() {
+                                            this.selectedId = null;
+                                            this.selectedOpd = null;
+                                            this.isNewOpd = false;
+                                            this.search = '';
+                                            this.opdValue = '';
+                                            this.results = [];
+                                            this.open = false;
+                                        },
+
+                                        highlightNext() {
+                                            const maxIndex = this.results.length + (this.search && !this.exactMatch ? 0 : -1);
+                                            if (this.highlightedIndex < maxIndex) {
+                                                this.highlightedIndex++;
+                                            }
+                                        },
+
+                                        highlightPrev() {
+                                            if (this.highlightedIndex > 0) {
+                                                this.highlightedIndex--;
+                                            }
+                                        },
+
+                                        selectHighlighted() {
+                                            if (this.highlightedIndex >= 0 && this.highlightedIndex < this.results.length) {
+                                                this.selectOpd(this.results[this.highlightedIndex]);
+                                            } else if (this.highlightedIndex === this.results.length && this.search && !this.exactMatch) {
+                                                this.selectNewOpd();
+                                            }
+                                        }
+                                    }
+                                }
+                            </script>
                             
                             <!-- Password Type -->
                             <div>
@@ -374,7 +728,7 @@
                             </button>
                             <button type="submit" 
                                 class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm">
-                                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <i class="fa-solid fa-check w-4 h-4 inline mr-1 flex items-center justify-center"></i>
                                 Simpan User
                             </button>
                         </div>
@@ -389,58 +743,78 @@
     <div id="successModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
             <!-- Background overlay -->
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity"></div>
+            <div class="fixed inset-0 bg-gray-900/80 dark:bg-black/80 backdrop-blur-sm transition-opacity"></div>
 
             <!-- Modal panel -->
-            <div class="inline-block align-bottom bg-white dark:bg-zinc-900 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+            <div class="inline-block align-bottom bg-white dark:bg-zinc-900 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full ring-1 ring-black/5 dark:ring-white/10">
                 <!-- Success Header -->
-                <div class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-6 py-8 text-center">
-                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3 ring-4 ring-white/30">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                <div class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-6 py-8 text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3 ring-4 ring-white/30">
+                            <i class="fa-solid fa-circle-check w-8 h-8 text-white flex items-center justify-center"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">User Berhasil Dibuat!</h3>
+                        <p class="text-white/80 text-sm mt-1">Akun baru telah terdaftar dalam sistem</p>
                     </div>
-                    <h3 class="text-xl font-bold text-white">User Berhasil Dibuat!</h3>
-                    <p class="text-white/80 text-sm mt-1">Akun baru telah terdaftar</p>
                 </div>
                 
                 <!-- User Info -->
                 <div class="px-6 py-6">
-                    <div class="flex items-center gap-3 pb-4 mb-4 border-b border-gray-100 dark:border-zinc-800">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white text-lg font-bold">
+                    <!-- Avatar & Name -->
+                    <div class="flex items-center gap-4 pb-4 mb-5 border-b border-gray-100 dark:border-zinc-800">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-blue-500/25">
                             {{ strtoupper(substr(session('created_user_name'), 0, 1)) }}
                         </div>
                         <div>
-                            <p class="font-bold text-gray-900 dark:text-white">{{ session('created_user_name') }}</p>
-                            <p class="text-sm text-gray-500 dark:text-zinc-400">{{ session('created_user_email') }}</p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ session('created_user_name') }}</p>
+                            <p class="text-sm text-gray-500 dark:text-zinc-400 flex items-center gap-1">
+                                <i class="fa-regular fa-envelope w-3.5 h-3.5 flex items-center justify-center"></i>
+                                {{ session('created_user_email') }}
+                            </p>
                         </div>
                     </div>
                     
-                    <div class="space-y-3 mb-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">OPD</span>
-                            <span class="text-sm font-semibold text-gray-900">{{ session('created_user_opd') }}</span>
+                    <!-- OPD Info -->
+                    <div class="bg-gray-50 dark:bg-zinc-800/50 rounded-xl p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-zinc-500 uppercase tracking-wide font-semibold mb-1">OPD</p>
+                                <p class="text-sm font-bold text-gray-900 dark:text-white">{{ session('created_user_opd') }}</p>
+                            </div>
+                            <div class="p-2 bg-emerald-100 dark:bg-emerald-500/15 rounded-lg">
+                                <i class="fa-solid fa-building w-5 h-5 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                            </div>
                         </div>
                     </div>
                     
                     <!-- Password Box -->
-                    <div class="bg-amber-50 dark:bg-amber-500/10 border-2 border-amber-300 dark:border-amber-500/30 rounded-xl p-4 text-center mb-4">
-                        <p class="text-xs text-amber-700 dark:text-amber-400 font-semibold uppercase tracking-wide mb-2">Password</p>
-                        <p class="text-2xl font-mono font-bold text-amber-900 dark:text-amber-300 tracking-widest">{{ session('generated_password') }}</p>
-                        <p class="text-xs text-amber-600 dark:text-amber-400 mt-2">⚠️ Simpan password ini! Hanya ditampilkan sekali.</p>
+                    <div class="bg-amber-50 dark:bg-amber-500/10 border-2 border-amber-300 dark:border-amber-500/30 rounded-xl p-4 mb-5">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <p class="text-xs text-amber-700 dark:text-amber-400 font-bold uppercase tracking-wide mb-2">Password</p>
+                                <p class="text-2xl font-mono font-bold text-amber-900 dark:text-amber-300 tracking-widest">{{ session('generated_password') }}</p>
+                            </div>
+                            <div class="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-lg">
+                                <i class="fa-solid fa-lock w-5 h-5 text-amber-600 dark:text-amber-400 flex items-center justify-center"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 mt-3 pt-3 border-t border-amber-200 dark:border-amber-500/20">
+                            <i class="fa-solid fa-circle-exclamation w-4 h-4 text-amber-500 flex-shrink-0"></i>
+                            <p class="text-xs text-amber-600 dark:text-amber-400 font-medium">Simpan password ini! Hanya ditampilkan sekali.</p>
+                        </div>
                     </div>
                     
                     <!-- Actions -->
                     <div class="flex gap-3">
                         <a href="{{ route('admin.users.export-pdf', session('created_user_id')) }}" 
-                            class="flex-1 inline-flex items-center justify-center px-4 py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-all shadow-lg">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
+                            class="flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold rounded-xl hover:from-red-600 hover:to-pink-600 transition-all shadow-lg shadow-red-500/25">
+                            <i class="fa-solid fa-file-arrow-down w-5 h-5 mr-2 flex items-center justify-center"></i>
                             Download PDF
                         </a>
                         <button type="button" onclick="document.getElementById('successModal').remove()" 
-                            class="flex-1 inline-flex items-center justify-center px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all">
+                            class="flex-1 inline-flex items-center justify-center px-4 py-3 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-700 transition-all">
                             Tutup
                         </button>
                     </div>
@@ -457,5 +831,88 @@
         });
     </script>
     @endif
+
+    <!-- Delete User Modal -->
+    <div id="deleteUserModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeDeleteModal()"></div>
+
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white dark:bg-zinc-900 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white dark:bg-zinc-900 px-6 pt-6 pb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-red-100 dark:bg-red-500/15 rounded-xl">
+                                <i class="fa-solid fa-triangle-exclamation w-6 h-6 text-red-600 dark:text-red-400 flex items-center justify-center"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Hapus User</h3>
+                                <p class="text-sm text-gray-500 dark:text-zinc-400">Penghapusan bersifat soft delete</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="closeDeleteModal()" class="text-gray-400 hover:text-gray-500">
+                            <i class="fa-solid fa-xmark w-6 h-6 flex items-center justify-center"></i>
+                        </button>
+                    </div>
+                    
+                    <form id="deleteUserForm" method="POST" action="">
+                        @csrf
+                        @method('DELETE')
+                        
+                        <!-- User Info -->
+                        <div class="bg-gray-50 dark:bg-zinc-800/50 rounded-lg p-4 mb-4 border border-gray-200 dark:border-zinc-700">
+                            <p class="text-sm text-gray-600 dark:text-zinc-400 mb-1">User yang akan dihapus:</p>
+                            <p id="deleteUserName" class="text-lg font-bold text-gray-900 dark:text-white"></p>
+                            <p id="deleteUserEmail" class="text-sm text-gray-500 dark:text-zinc-500"></p>
+                        </div>
+
+                        <!-- Reason -->
+                        <div>
+                            <label for="deleted_reason" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
+                                Alasan Penghapusan <span class="text-red-500">*</span>
+                            </label>
+                            <textarea name="deleted_reason" id="deleted_reason" rows="3" required
+                                class="w-full border-gray-300 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 focus:border-red-500 focus:ring-red-500 rounded-lg shadow-sm text-sm"
+                                placeholder="Contoh: User resign, duplikat akun, permintaan user, dll."></textarea>
+                            <p class="text-xs text-gray-500 dark:text-zinc-500 mt-1">Audit log akan mencatat alasan penghapusan ini.</p>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-end gap-3">
+                            <button type="button" onclick="closeDeleteModal()" 
+                                class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors">
+                                Batal
+                            </button>
+                            <button type="submit" 
+                                class="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors shadow-sm">
+                                <i class="fa-solid fa-minus w-4 h-4 inline mr-1 flex items-center justify-center"></i>
+                                Ya, Hapus User
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openDeleteModal(button) {
+            const userId = button.getAttribute('data-user-id');
+            const userName = button.getAttribute('data-user-name');
+            const userEmail = button.getAttribute('data-user-email');
+            
+            // Build action URL
+            const actionUrl = '/admin/users/' + userId;
+            document.getElementById('deleteUserForm').action = actionUrl;
+            document.getElementById('deleteUserName').textContent = userName;
+            document.getElementById('deleteUserEmail').textContent = userEmail;
+            document.getElementById('deleteUserModal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteUserModal').classList.add('hidden');
+            document.getElementById('deleted_reason').value = '';
+        }
+    </script>
 </x-admin-layout>
 

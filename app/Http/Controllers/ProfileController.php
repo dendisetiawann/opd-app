@@ -26,13 +26,36 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $oldValues = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        // Only log if something actually changed
+        if ($user->isDirty()) {
+            $user->save();
+
+            \App\Models\ActivityLog::create([
+                'user_id' => $user->id,
+                'action' => 'profile_updated',
+                'old_value' => json_encode($oldValues),
+                'new_value' => json_encode([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ]),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+        } else {
+            $user->save();
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -69,6 +92,9 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        // Capture old photo path for audit log
+        $oldPhoto = $user->profile_photo;
+
         // Delete old photo if exists
         if ($user->profile_photo && file_exists(public_path('storage/' . $user->profile_photo))) {
             unlink(public_path('storage/' . $user->profile_photo));
@@ -79,6 +105,16 @@ class ProfileController extends Controller
         
         $user->update([
             'profile_photo' => $path,
+        ]);
+
+        // Audit log: profile_photo_updated
+        \App\Models\ActivityLog::create([
+            'user_id' => $user->id,
+            'action' => 'profile_photo_updated',
+            'old_value' => $oldPhoto ? $oldPhoto : null,
+            'new_value' => $path,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
         ]);
 
         return Redirect::route('profile.edit')->with('status', 'photo-updated');

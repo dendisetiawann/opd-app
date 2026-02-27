@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\ActivityLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,12 +51,32 @@ class AuthenticatedSessionController extends Controller
         // Update last login timestamp
         $user = $request->user();
         $user->update(['last_login_at' => now()]);
-        
+
+        // Audit log: login
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'admin_id' => $user->isAdmin() ? $user->id : null,
+            'action' => 'login',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+        // Ambil intended URL dari session dan hapus agar tidak dipakai ulang
+        $intendedUrl = session()->pull('url.intended');
+        $intendedPath = $intendedUrl ? (parse_url($intendedUrl, PHP_URL_PATH) ?? '') : '';
+
         if ($user->isAdmin()) {
-            return redirect()->intended(route('admin.dashboard', absolute: false));
+            // Admin: hanya redirect ke intended URL jika URL-nya route admin
+            if ($intendedUrl && str_starts_with($intendedPath, '/admin/')) {
+                return redirect()->to($intendedUrl);
+            }
+            return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // User biasa: hanya redirect ke intended URL jika bukan route admin
+        if ($intendedUrl && !str_starts_with($intendedPath, '/admin/') && $intendedPath !== '/') {
+            return redirect()->to($intendedUrl);
+        }
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -63,6 +84,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = $request->user();
+
+        // Audit log: logout (before session destroyed)
+        if ($user) {
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'admin_id' => $user->isAdmin() ? $user->id : null,
+                'action' => 'logout',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
@@ -72,3 +106,4 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
     }
 }
+

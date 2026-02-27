@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RegistrationOtp extends Model
 {
+    protected $table = 'otp_pendaftaran';
+
     protected $fillable = [
         'email',
         'otp',

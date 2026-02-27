@@ -6,7 +6,7 @@
     <!-- Back Button -->
     <div class="mb-6">
         <a href="{{ route('admin.monitoring.index') }}" class="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <i class="fa-solid fa-chevron-left w-4 h-4 flex items-center justify-center"></i>
             Kembali ke Overview
         </a>
     </div>

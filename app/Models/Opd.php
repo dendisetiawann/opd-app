@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Opd extends Model
 {
+    protected $table = 'opd';
+
     protected $fillable = ['nama_opd'];
 
     /**

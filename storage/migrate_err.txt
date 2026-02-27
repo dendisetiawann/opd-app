@@ -1,0 +1,26 @@
+
+   INFO  Running migrations.  
+
+  2026_02_24_050124_create_jobs_table  4.30ms FAIL
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'jobs' already exists (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: opd_app, SQL: create table `jobs` (`id` bigint unsigned not null auto_increment primary key, `queue` varchar(255) not null, `payload` longtext not null, `attempts` tinyint unsigned not null, `reserved_at` int unsigned null, `available_at` int unsigned not null, `created_at` int unsigned not null) default character set utf8mb4 collate 'utf8mb4_unicode_ci')
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:838
+    834?             $exceptionType = $this->isUniqueConstraintError($e)
+    835?                 ? UniqueConstraintViolationException::class
+    836?                 : QueryException::class;
+    837? 
+  ? 838?             throw new $exceptionType(
+    839?                 $this->getNameWithReadWriteType(),
+    840?                 $query,
+    841?                 $this->prepareBindings($bindings),
+    842?                 $e,
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:584
+      PDOException::("SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'jobs' already exists")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connection.php:584
+      PDOStatement::execute()
+

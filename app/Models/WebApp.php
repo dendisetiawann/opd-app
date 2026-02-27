@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WebApp extends Model
 {
+    protected $table = 'aplikasi_web';
+
     protected $fillable = [
         'user_id',
         'opd_id',
@@ -14,9 +16,11 @@ class WebApp extends Model
         'nama_web_app',
         'deskripsi_singkat',
         'alamat_tautan',
+        'jenis_aplikasi',
         // Tim & Kontak
         'data_tim_programmer',
         'email_narahubung',
+        'whatsapp_narahubung',
         // Stack Teknologi
         'bahasa_pemrograman',
         'arsitektur_sistem',
@@ -29,8 +33,6 @@ class WebApp extends Model
         'metode_backup_source_code',
         'metode_backup_asset',
         // Database
-        'nama_database',
-        'versi_database',
         'dbms',
         'versi_dbms',
         'lokasi_database',

@@ -10,7 +10,7 @@
                 <div class="flex-1 space-y-2">
                     @foreach($lokasiStats as $item)
                     <div class="flex items-center justify-between text-sm">
-                        <span class="text-gray-600">{{ $item->lokasi_database }}</span>
+                        <span class="text-gray-600">{{ $item->lokasi_database == 'Lainnya' ? 'Lainnya (di luar Server Kominfo)' : $item->lokasi_database }}</span>
                         <span class="font-medium text-gray-900">{{ $item->total }}</span>
                     </div>
                     @endforeach
@@ -71,7 +71,7 @@
     <script>
         const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
         const colors = ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe', '#dbeafe', '#e0e7ff'];
-        new Chart(document.getElementById('lokasiChart'), { type: 'doughnut', data: { labels: {!! json_encode($lokasiStats->pluck('lokasi_database')) !!}, datasets: [{ data: {!! json_encode($lokasiStats->pluck('total')) !!}, backgroundColor: colors, borderWidth: 0 }] }, options: opts });
+        new Chart(document.getElementById('lokasiChart'), { type: 'doughnut', data: { labels: {!! json_encode($lokasiStats->pluck('lokasi_database')->map(fn($v) => $v == 'Lainnya' ? 'Lainnya (di luar Server Kominfo)' : $v)) !!}, datasets: [{ data: {!! json_encode($lokasiStats->pluck('total')) !!}, backgroundColor: colors, borderWidth: 0 }] }, options: opts });
         new Chart(document.getElementById('aksesChart'), { type: 'doughnut', data: { labels: {!! json_encode($aksesStats->pluck('akses_database')) !!}, datasets: [{ data: {!! json_encode($aksesStats->pluck('total')) !!}, backgroundColor: colors, borderWidth: 0 }] }, options: opts });
         new Chart(document.getElementById('dbmsChart'), { type: 'doughnut', data: { labels: {!! json_encode($dbmsStats->pluck('dbms')) !!}, datasets: [{ data: {!! json_encode($dbmsStats->pluck('total')) !!}, backgroundColor: colors, borderWidth: 0 }] }, options: opts });
         new Chart(document.getElementById('versiChart'), { type: 'doughnut', data: { labels: {!! json_encode($versiStats->pluck('versi_dbms')) !!}, datasets: [{ data: {!! json_encode($versiStats->pluck('total')) !!}, backgroundColor: colors, borderWidth: 0 }] }, options: opts });

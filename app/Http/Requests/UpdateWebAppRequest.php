@@ -26,10 +26,12 @@ class UpdateWebAppRequest extends FormRequest
             'nama_web_app' => 'required|string|max:255',
             'deskripsi_singkat' => 'nullable|string',
             'alamat_tautan' => 'required|string|max:255',
+            'jenis_aplikasi' => 'nullable|string|max:100',
             
             // Tim & Kontak
             'data_tim_programmer' => 'nullable|string',
             'email_narahubung' => 'nullable|string|max:255',
+            'whatsapp_narahubung' => 'nullable|string|max:255',
             
             // Stack Teknologi
             'bahasa_pemrograman' => 'required|string',
@@ -46,11 +48,9 @@ class UpdateWebAppRequest extends FormRequest
             'metode_backup_asset' => 'nullable|string',
             
             // Database
-            'nama_database' => 'nullable|string|max:100',
-            'versi_database' => 'nullable|string|max:50',
             'dbms' => 'nullable|string|max:100',
             'versi_dbms' => 'nullable|string|max:50',
-            'lokasi_database' => 'nullable|in:local,server',
+            'lokasi_database' => 'nullable|in:Server Kominfo,Lainnya',
             'akses_database' => 'nullable|in:public,private',
             'metode_backup_database' => 'nullable|string',
             
@@ -74,7 +74,7 @@ class UpdateWebAppRequest extends FormRequest
             'arsitektur_sistem.in' => 'Arsitektur sistem harus monolith atau be-fe.',
             'has_repository.in' => 'Pilihan repository harus ya atau tidak.',
             'git_repository.in' => 'Status repository harus public atau private.',
-            'lokasi_database.in' => 'Lokasi DBMS harus local atau server.',
+            'lokasi_database.in' => 'Lokasi DBMS harus Server Kominfo atau Lainnya.',
             'akses_database.in' => 'Akses database harus public atau private.',
         ];
     }

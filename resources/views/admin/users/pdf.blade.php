@@ -184,7 +184,7 @@
             </tr>
             <tr>
                 <td class="label">Role</td>
-                <td class="value"><span class="badge">{{ ucfirst($user->role->name ?? 'User') }}</span></td>
+                <td class="value"><span class="badge">{{ ucfirst($user->role ?? 'User') }}</span></td>
             </tr>
         </table>
     </div>

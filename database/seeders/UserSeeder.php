@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Role;
 use App\Models\Opd;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $userRole = Role::where('name', 'user')->first();
         $opds = Opd::all();
         
         // Mapping singkatan OPD untuk email
@@ -89,7 +87,7 @@ class UserSeeder extends Seeder
                     'name' => "User {$i} " . ucfirst($code),
                     'email' => "{$code}.user{$i}@pekanbaru.go.id",
                     'password' => Hash::make('password123'),
-                    'role_id' => $userRole->id,
+                    'role' => 'user',
                     'opd_id' => $opd->id,
                     'email_verified_at' => now(),
                 ]);

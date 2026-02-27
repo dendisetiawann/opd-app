@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Registrasi - Sistem Manajemen Data Aplikasi OPD</title>
-    <link rel="icon" href="{{ asset('images/logo-favicon-192.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset(App\Models\SiteSetting::get('global_favicon', 'images/logo-favicon-192.png')) }}" type="image/png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,12 +70,8 @@
         <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative">
             <!-- Theme Toggle -->
             <button id="themeToggle" class="absolute top-6 right-6 theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Dark Mode">
-                <svg id="sunIcon" class="w-6 h-6 text-amber-500 hidden" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                </svg>
-                <svg id="moonIcon" class="w-6 h-6 text-blue-400 hidden" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                </svg>
+                <i class="fa-solid fa-triangle-exclamation w-6 h-6 text-amber-500 hidden flex items-center justify-center"></i>
+                <i class="fa-solid fa-pen-to-square w-6 h-6 text-blue-400 hidden flex items-center justify-center"></i>
             </button>
             <div class="mx-auto w-full max-w-md lg:w-[28rem]">
                 <!-- Header -->
@@ -83,7 +79,7 @@
                     <div class="flex items-center gap-4 mb-6">
                         <!-- Logo Shield -->
                         <div class="relative w-12 h-12 flex items-center justify-center">
-                            <img src="{{ asset('images/logo-pekanbaru.png') }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
+                            <img src="{{ asset(App\Models\SiteSetting::get('global_logo', 'images/logo-pekanbaru.png')) }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
                         </div>
         
                         <!-- Separator Line -->
@@ -92,20 +88,19 @@
                         <!-- Text Content -->
                         <div class="flex flex-col justify-center">
                             <div class="flex items-baseline gap-1.5 leading-none">
-                                <span class="text-2xl font-extrabold text-[#1a237e] dark:text-blue-400 tracking-tight drop-shadow-sm">SIDATA</span>
-                                <span class="text-2xl font-bold text-slate-600 dark:text-slate-200">PKU</span>
+                                <span class="text-2xl font-extrabold text-[#1a237e] dark:text-blue-400 tracking-tight drop-shadow-sm">{{ App\Models\SiteSetting::get('global_app_name', 'SIDATA') }}</span>
                             </div>
                             <span class="text-[0.65rem] font-bold text-slate-500 dark:text-slate-400 tracking-[0.15em] uppercase mt-0.5 leading-tight">
-                                Sistem Informasi Data Terpadu
+                                {{ App\Models\SiteSetting::get('global_app_description', 'Sistem Informasi Data Terpadu') }}
                             </span>
                             <span class="text-[0.6rem] font-serif italic text-slate-400 dark:text-slate-500 mt-0.5">
-                                Pemerintah Kota Pekanbaru
+                                {{ App\Models\SiteSetting::get('global_org_name', 'Pemerintah Kota Pekanbaru') }}
                             </span>
                         </div>
                     </div>
-                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Daftar Akun Baru</h2>
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">{{ App\Models\SiteSetting::get('register_title', 'Daftar Akun Baru') }}</h2>
                     <p class="mt-2 text-sm text-gray-500">
-                        Buat akun untuk mengakses sistem manajemen data aplikasi OPD.
+                        {{ App\Models\SiteSetting::get('register_description', 'Buat akun untuk mengakses sistem manajemen data aplikasi OPD.') }}
                     </p>
                 </div>
 
@@ -116,7 +111,7 @@
                     @if(session('otp_resent'))
                     <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl">
                         <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
                             Kode OTP baru telah dikirim ke email Anda.
                         </div>
                     </div>
@@ -126,7 +121,7 @@
                     <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 shadow-sm">
                         <div class="text-center mb-4">
                             <div class="mx-auto w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-3">
-                                <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                <i class="fa-regular fa-envelope w-7 h-7 text-blue-600 flex items-center justify-center"></i>
                             </div>
                             <h3 class="text-lg font-bold text-gray-900">Verifikasi Email</h3>
                             <p class="text-sm text-gray-600 mt-1">
@@ -164,7 +159,7 @@
                             <!-- Submit Button -->
                             <button type="submit" 
                                 class="flex w-full justify-center items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 hover:from-blue-700 hover:to-indigo-700 transition-all">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <i class="fa-solid fa-check w-5 h-5 flex items-center justify-center"></i>
                                 Verifikasi
                             </button>
                         </form>
@@ -252,7 +247,7 @@
                         <div>
                             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">
                                 <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                    <i class="fa-solid fa-pen-to-square w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                     Nama Lengkap
                                 </span>
                             </label>
@@ -269,7 +264,7 @@
                         <div>
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
                                 <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <i class="fa-regular fa-envelope w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                     Email
                                 </span>
                             </label>
@@ -282,102 +277,376 @@
                             </div>
                         </div>
 
-                        <!-- OPD Selection -->
-                        <div id="opdSelectSection">
-                            <label for="opd_id" class="block text-sm font-medium leading-6 text-gray-900">
-                                <span id="opdLabel" class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        <!-- OPD Autocomplete -->
+                        <div x-data="opdAutocomplete()" x-init="init()" class="relative">
+                            <label for="opd_search" class="block text-sm font-medium leading-6 text-gray-900">
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-building w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                     Organisasi Perangkat Daerah (OPD)
                                 </span>
                             </label>
-                            <div class="mt-2">
-                                <select id="opd_id" name="opd_id" onchange="handleOpdSelect()"
-                                    class="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all disabled:bg-gray-100 disabled:cursor-not-allowed">
-                                    <option value="">-- Pilih OPD --</option>
-                                    @foreach($opds as $opd)
-                                        <option value="{{ $opd->id }}" {{ old('opd_id') == $opd->id ? 'selected' : '' }}>
-                                            {{ $opd->nama_opd }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <x-input-error :messages="$errors->get('opd_id')" class="mt-2" />
+                            <div class="mt-2 relative">
+                                <!-- Search Input -->
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        id="opd_search" 
+                                        x-model="search"
+                                        @input="onSearch()"
+                                        @focus="open = true"
+                                        @keydown.escape="open = false"
+                                        @keydown.arrow-down.prevent="highlightNext()"
+                                        @keydown.arrow-up.prevent="highlightPrev()"
+                                        @keydown.enter.prevent="selectHighlighted()"
+                                        class="block w-full rounded-xl border-0 py-3 px-4 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                        :class="{ 'ring-red-300': error }"
+                                        placeholder="Ketik untuk mencari OPD..."
+                                        autocomplete="off"
+                                    >
+                                    <!-- Search Icon -->
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fa-solid fa-magnifying-glass w-5 h-5 text-gray-400 flex items-center justify-center" x-show="!loading"></i>
+                                        <i class="fa-solid fa-circle-notch fa-spin w-5 h-5 text-blue-600 animate-spin flex items-center justify-center" x-show="loading"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Selected Badge -->
+                                <div x-show="selectedOpd" class="mt-2 flex items-center gap-2">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                        <i class="fa-solid fa-check w-4 h-4 flex items-center justify-center"></i>
+                                        <span x-text="selectedOpd"></span>
+                                        <button type="button" @click="clearSelection()" class="ml-1 text-blue-600 hover:text-blue-800">
+                                            <i class="fa-solid fa-xmark w-4 h-4 flex items-center justify-center"></i>
+                                        </button>
+                                    </span>
+                                    <span class="text-xs text-gray-500">OPD terpilih</span>
+                                </div>
+
+                                <!-- New OPD Indicator -->
+                                <div x-show="isNewOpd && search" class="mt-2 flex items-center gap-2">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+                                        <i class="fa-solid fa-minus w-4 h-4 flex items-center justify-center"></i>
+                                        <span>OPD Baru</span>
+                                    </span>
+                                    <span class="text-xs text-gray-500" x-text="'Akan ditambahkan: ' + search"></span>
+                                </div>
+
+                                <!-- Hidden Input for Form Submission -->
+                                <input type="hidden" name="opd" x-model="opdValue">
+
+                                <!-- Dropdown Results -->
+                                <div 
+                                    x-show="open && (results.length > 0 || (search && !selectedId))"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 translate-y-1"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 translate-y-1"
+                                    @click.outside="open = false"
+                                    class="absolute z-50 mt-1 w-full bg-white dark:bg-[#1a2332] rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 max-h-60 overflow-auto"
+                                >
+                                    <!-- Existing OPD Results -->
+                                    <template x-for="(opd, index) in results" :key="opd.id">
+                                        <div 
+                                            @click="selectOpd(opd)"
+                                            @mouseenter="highlightedIndex = index"
+                                            :class="{ 
+                                                'bg-blue-50 dark:bg-blue-900/30': highlightedIndex === index,
+                                                'border-l-4 border-blue-500': selectedId === opd.id
+                                            }"
+                                            class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 border-b border-gray-100 dark:border-gray-700 last:border-b-0 transition-colors"
+                                        >
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fa-solid fa-minus w-4 h-4 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="opd.nama_opd"></div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">OPD Terdaftar</div>
+                                                </div>
+                                                <i class="fa-solid fa-pen-to-square w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedId === opd.id"></i>
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Add New Option -->
+                                    <div 
+                                        x-show="search && !exactMatch"
+                                        @click="selectNewOpd()"
+                                        @mouseenter="highlightedIndex = results.length"
+                                        :class="{ 'bg-emerald-50 dark:bg-emerald-900/30': highlightedIndex === results.length }"
+                                        class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 border-t border-gray-200 dark:border-gray-600 transition-colors"
+                                    >
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
+                                                <i class="fa-solid fa-minus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                                                    Tambah: "<span x-text="search"></span>"
+                                                </div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">OPD baru akan dibuat</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- Petunjuk OPD -->
+                            <div class="mt-3 space-y-3">
+                                <!-- Judul Petunjuk -->
+                                <div class="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+                                    <i class="fa-solid fa-exclamation w-4 h-4 text-blue-600 flex items-center justify-center"></i>
+                                    <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">Petunjuk Pengisian</span>
+                                </div>
+
+                                <!-- OPD Sudah Ada -->
+                                <div class="bg-blue-50/50 dark:bg-blue-900/10 rounded-lg p-3 border border-blue-100 dark:border-blue-900/20">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+                                            <span class="text-white font-bold text-xs">1</span>
+                                        </div>
+                                        <span class="font-semibold text-sm text-blue-900 dark:text-blue-300">OPD Sudah Terdaftar</span>
+                                    </div>
+                                    <p class="text-xs text-blue-800 dark:text-blue-300/80 leading-relaxed ml-8">
+                                        Ketik nama OPD → klik hasil pencarian → muncul 
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200 font-medium mx-1">
+                                            <i class="fa-solid fa-circle-check w-3 h-3 flex items-center justify-center"></i>
+                                            OPD Terpilih
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- OPD Baru -->
+                                <div class="bg-emerald-50/50 dark:bg-emerald-900/10 rounded-lg p-3 border border-emerald-100 dark:border-emerald-900/20">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
+                                            <span class="text-white font-bold text-xs">2</span>
+                                        </div>
+                                        <span class="font-semibold text-sm text-emerald-900 dark:text-emerald-300">OPD Baru (Belum Terdaftar)</span>
+                                    </div>
+                                    <ul class="space-y-2 ml-8">
+                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Ketik nama lengkap OPD sesuai format resmi<br><em class="text-emerald-600 dark:text-emerald-400 not-italic">Contoh: "Dinas Komunikasi dan Informatika Kota Pekanbaru"</em></span>
+                                        </li>
+                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Pastikan muncul 
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200 font-medium">
+                                                    <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
+                                                    Tambah: "Nama OPD"
+                                                </span>
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Klik "Tambah" atau tekan <kbd class="px-1.5 py-0.5 bg-emerald-200 dark:bg-emerald-800 rounded text-[10px] font-mono">Enter</kbd></span>
+                                        </li>
+                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
+                                            <span class="text-emerald-500 mt-0.5">•</span>
+                                            <span>Muncul 
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200 font-medium">
+                                                    <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
+                                                    OPD Baru
+                                                </span> 
+                                                → OPD otomatis dibuat saat daftar
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Tips Penting -->
+                                <div class="flex items-start gap-2 text-xs bg-amber-50 dark:bg-amber-900/10 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30">
+                                    <i class="fa-solid fa-triangle-exclamation w-4 h-4 flex-shrink-0 text-amber-600 mt-0.5"></i>
+                                    <div class="text-amber-900 dark:text-amber-300">
+                                        <span class="font-bold">Tips:</span> 
+                                        <span class="text-amber-800 dark:text-amber-400">Gunakan nama OPD <strong>lengkap dan resmi</strong>. Sistem akan otomatis mengubah menjadi format standar (Contoh: <em>"diskominfo"</em> → <em>"Diskominfo"</em>).</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <x-input-error :messages="$errors->get('opd')" class="mt-2" />
                         </div>
 
-                        <!-- New OPD Input -->
-                        <div id="newOpdSection">
-                            <label for="new_opd" class="block text-sm font-medium leading-6 text-gray-900">
-                                <span id="newOpdLabel" class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                    Atau Tambahkan OPD Baru
-                                </span>
-                            </label>
-                            <div class="mt-2">
-                                <input id="new_opd" name="new_opd" type="text" oninput="handleNewOpdInput()"
-                                    class="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 transition-all"
-                                    value="{{ old('new_opd') }}"
-                                    placeholder="Contoh: Dinas Kesehatan">
-                                <p id="newOpdHint" class="text-xs text-gray-500 mt-1.5">⚠️ Biarkan kosong jika memilih OPD dari daftar di atas.</p>
-                                <x-input-error :messages="$errors->get('new_opd')" class="mt-2" />
-                            </div>
-                        </div>
-
+                        <!-- Alpine.js Component Script - Optimized -->
                         <script>
-                            function handleNewOpdInput() {
-                                const newOpd = document.getElementById('new_opd');
-                                const opdSelect = document.getElementById('opd_id');
-                                const opdLabel = document.getElementById('opdLabel');
-                                const opdSection = document.getElementById('opdSelectSection');
-                                
-                                if (newOpd.value.trim() !== '') {
-                                    opdSelect.value = '';
-                                    opdSelect.disabled = true;
-                                    opdSection.classList.add('opacity-50');
-                                    opdLabel.innerHTML = `
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                        <span class="text-gray-400">OPD (nonaktif) — Kosongkan form OPD baru untuk memilih dari daftar</span>
-                                    `;
-                                } else {
-                                    opdSelect.disabled = false;
-                                    opdSection.classList.remove('opacity-50');
-                                    opdLabel.innerHTML = `
-                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                        Organisasi Perangkat Daerah (OPD)
-                                    `;
+                            function opdAutocomplete() {
+                                return {
+                                    search: '',
+                                    results: [],
+                                    selectedId: null,
+                                    selectedOpd: null,
+                                    isNewOpd: false,
+                                    opdValue: '',
+                                    loading: false,
+                                    open: false,
+                                    highlightedIndex: -1,
+                                    error: false,
+                                    exactMatch: false,
+                                    searchTimeout: null,
+                                    abortController: null,
+                                    // Client-side cache: { 'query': [results] }
+                                    cache: {},
+                                    // Preloaded all OPD data
+                                    allOpds: [],
+                                    isPreloaded: false,
+
+                                    async init() {
+                                        // Preload semua OPD saat init (background)
+                                        this.preloadOpds();
+                                        
+                                        this.$watch('search', value => {
+                                            if (!value) {
+                                                this.open = false;
+                                            }
+                                        });
+                                    },
+
+                                    // Preload data OPD di background
+                                    async preloadOpds() {
+                                        try {
+                                            const res = await fetch('{{ route('opd.search') }}?q=');
+                                            const data = await res.json();
+                                            this.allOpds = data;
+                                            this.isPreloaded = true;
+                                        } catch (e) {
+                                            console.log('Preload failed, will use search');
+                                        }
+                                    },
+
+                                    onSearch() {
+                                        this.selectedId = null;
+                                        this.isNewOpd = false;
+                                        this.opdValue = this.search;
+                                        this.highlightedIndex = -1;
+                                        
+                                        clearTimeout(this.searchTimeout);
+                                        
+                                        if (this.search.length < 1) {
+                                            this.results = [];
+                                            this.open = false;
+                                            return;
+                                        }
+
+                                        // Check cache first
+                                        const cacheKey = this.search.toLowerCase();
+                                        if (this.cache[cacheKey]) {
+                                            this.results = this.cache[cacheKey];
+                                            this.checkExactMatch();
+                                            this.open = true;
+                                            return;
+                                        }
+
+                                        // Debounce 150ms (lebih cepat dari 300ms)
+                                        this.searchTimeout = setTimeout(() => {
+                                            this.performSearch(cacheKey);
+                                        }, 150);
+                                    },
+
+                                    async performSearch(cacheKey) {
+                                        this.loading = true;
+                                        
+                                        // Cancel previous request
+                                        if (this.abortController) {
+                                            this.abortController.abort();
+                                        }
+                                        this.abortController = new AbortController();
+
+                                        try {
+                                            // Jika data sudah preloaded, filter client-side (INSTANT!)
+                                            if (this.isPreloaded && this.allOpds.length > 0) {
+                                                const query = this.search.toLowerCase();
+                                                this.results = this.allOpds
+                                                    .filter(opd => opd.nama_opd.toLowerCase().includes(query))
+                                                    .slice(0, 10);
+                                                this.loading = false;
+                                                this.open = true;
+                                                this.checkExactMatch();
+                                                return;
+                                            }
+
+                                            // Fallback: Fetch from server
+                                            const res = await fetch(
+                                                `{{ route('opd.search') }}?q=${encodeURIComponent(this.search)}`,
+                                                { signal: this.abortController.signal }
+                                            );
+                                            
+                                            if (!res.ok) throw new Error('Search failed');
+                                            
+                                            const data = await res.json();
+                                            this.results = data;
+                                            
+                                            // Save to cache
+                                            this.cache[cacheKey] = data;
+                                            
+                                            this.open = true;
+                                            this.checkExactMatch();
+                                        } catch (err) {
+                                            if (err.name !== 'AbortError') {
+                                                console.error('Search error:', err);
+                                            }
+                                        } finally {
+                                            this.loading = false;
+                                        }
+                                    },
+
+                                    checkExactMatch() {
+                                        this.exactMatch = this.results.some(opd => 
+                                            opd.nama_opd.toLowerCase() === this.search.toLowerCase()
+                                        );
+                                    },
+
+                                    selectOpd(opd) {
+                                        this.selectedId = opd.id;
+                                        this.selectedOpd = opd.nama_opd;
+                                        this.search = opd.nama_opd;
+                                        this.opdValue = opd.id;
+                                        this.isNewOpd = false;
+                                        this.open = false;
+                                        this.highlightedIndex = -1;
+                                    },
+
+                                    selectNewOpd() {
+                                        this.selectedId = null;
+                                        this.selectedOpd = null;
+                                        this.isNewOpd = true;
+                                        this.opdValue = this.search;
+                                        this.open = false;
+                                        this.highlightedIndex = -1;
+                                    },
+
+                                    clearSelection() {
+                                        this.selectedId = null;
+                                        this.selectedOpd = null;
+                                        this.isNewOpd = false;
+                                        this.search = '';
+                                        this.opdValue = '';
+                                        this.results = [];
+                                        this.open = false;
+                                    },
+
+                                    highlightNext() {
+                                        const maxIndex = this.results.length + (this.search && !this.exactMatch ? 0 : -1);
+                                        if (this.highlightedIndex < maxIndex) {
+                                            this.highlightedIndex++;
+                                        }
+                                    },
+
+                                    highlightPrev() {
+                                        if (this.highlightedIndex > 0) {
+                                            this.highlightedIndex--;
+                                        }
+                                    },
+
+                                    selectHighlighted() {
+                                        if (this.highlightedIndex >= 0 && this.highlightedIndex < this.results.length) {
+                                            this.selectOpd(this.results[this.highlightedIndex]);
+                                        } else if (this.highlightedIndex === this.results.length && this.search && !this.exactMatch) {
+                                            this.selectNewOpd();
+                                        }
+                                    }
                                 }
                             }
-                            
-                            function handleOpdSelect() {
-                                const opdSelect = document.getElementById('opd_id');
-                                const newOpd = document.getElementById('new_opd');
-                                const newOpdSection = document.getElementById('newOpdSection');
-                                const newOpdLabel = document.getElementById('newOpdLabel');
-                                const newOpdHint = document.getElementById('newOpdHint');
-                                
-                                if (opdSelect.value !== '') {
-                                    newOpd.value = '';
-                                    newOpd.disabled = true;
-                                    newOpdSection.classList.add('opacity-50');
-                                    newOpdLabel.innerHTML = `
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                        <span class="text-gray-400">Tambah OPD Baru (nonaktif)</span>
-                                    `;
-                                    newOpdHint.textContent = '✓ OPD sudah dipilih dari daftar.';
-                                } else {
-                                    newOpd.disabled = false;
-                                    newOpdSection.classList.remove('opacity-50');
-                                    newOpdLabel.innerHTML = `
-                                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                        Atau Tambahkan OPD Baru
-                                    `;
-                                    newOpdHint.textContent = '⚠️ Biarkan kosong jika memilih OPD dari daftar di atas.';
-                                }
-                            }
-                            
-                            document.addEventListener('DOMContentLoaded', function() {
-                                handleNewOpdInput();
-                                handleOpdSelect();
-                            });
                         </script>
 
                         <!-- Password -->
@@ -385,7 +654,7 @@
                             <div>
                                 <label for="password" class="block text-sm font-medium leading-6 text-gray-900">
                                     <span class="flex items-center gap-2">
-                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                        <i class="fa-solid fa-pen-to-square w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                         Password
                                     </span>
                                 </label>
@@ -394,10 +663,7 @@
                                         class="block w-full rounded-xl border-0 py-3 px-4 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                         placeholder="Min. 8 karakter">
                                     <button type="button" onclick="togglePasswordReg('password', 'eyeIconPwd')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
-                                        <svg id="eyeIconPwd" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
+                                        <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
                                     </button>
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
@@ -406,7 +672,7 @@
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900">
                                     <span class="flex items-center gap-2">
-                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                        <i class="fa-solid fa-check w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                         Konfirmasi
                                     </span>
                                 </label>
@@ -415,10 +681,7 @@
                                         class="block w-full rounded-xl border-0 py-3 px-4 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                         placeholder="Ulangi password">
                                     <button type="button" onclick="togglePasswordReg('password_confirmation', 'eyeIconConfirm')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
-                                        <svg id="eyeIconConfirm" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
+                                        <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
                                     </button>
                                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                 </div>
@@ -433,7 +696,7 @@
                                 if (input.type === 'password') {
                                     input.type = 'text';
                                     icon.innerHTML = `
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                        <path d="m3 3 18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10a3 3 0 1 0 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 4.6c.4-.1.8-.2 1.3-.2 4.8 0 8.9 3.5 9.9 8.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.7 17.6C16.1 19.5 14.1 20.8 12 21c-4.8 0-8.9-3.5-9.9-8.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 12.7a3 3 0 0 0 2.3 2.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     `;
                                 } else {
                                     input.type = 'password';
@@ -449,7 +712,7 @@
                         <div class="pt-2">
                             <button type="submit" 
                                 class="flex w-full justify-center items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 hover:from-blue-700 hover:to-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                                <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
                                 Daftar Sekarang
                             </button>
                         </div>
@@ -464,7 +727,7 @@
                     </form>
                     
                     <div class="mt-8 text-center text-xs text-gray-400">
-                        &copy; {{ date('Y') }} DISKOMINFO Kota Pekanbaru.
+                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('register_copyright', 'DISKOMINFO Kota Pekanbaru') }}.
                     </div>
                 </div>
                 @endif
@@ -489,33 +752,33 @@
                 <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 shadow-2xl max-w-lg">
                     <!-- Icon -->
                     <div class="mx-auto w-20 h-20 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <i class="fa-solid fa-circle-check w-10 h-10 text-white flex items-center justify-center"></i>
                     </div>
                     
-                    <h3 class="text-2xl font-bold mb-4">Sistem Manajemen Data Aplikasi</h3>
+                    <h3 class="text-2xl font-bold mb-4">{{ App\Models\SiteSetting::get('register_panel_title', 'Sistem Manajemen Data Aplikasi') }}</h3>
                     <p class="text-blue-100 text-sm leading-relaxed mb-6">
-                        Platform terintegrasi untuk pengelolaan aset digital dan inventarisasi aplikasi di lingkungan Pemerintah Kota Pekanbaru.
+                        {{ App\Models\SiteSetting::get('register_panel_description', 'Platform terintegrasi untuk pengelolaan aset digital dan inventarisasi aplikasi di lingkungan Pemerintah Kota Pekanbaru.') }}
                     </p>
                     
                     <!-- Features -->
                     <div class="space-y-3 text-left">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <i class="fa-solid fa-pen-to-square w-4 h-4 text-emerald-400 flex items-center justify-center"></i>
                             </div>
-                            <span class="text-sm text-blue-100">Kelola data aplikasi OPD Anda</span>
+                            <span class="text-sm text-blue-100">{{ App\Models\SiteSetting::get('register_feature_1', 'Kelola data aplikasi OPD Anda') }}</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <i class="fa-solid fa-check w-4 h-4 text-emerald-400 flex items-center justify-center"></i>
                             </div>
-                            <span class="text-sm text-blue-100">Pantau status dan integrasi sistem</span>
+                            <span class="text-sm text-blue-100">{{ App\Models\SiteSetting::get('register_feature_2', 'Pantau status dan integrasi sistem') }}</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <i class="fa-solid fa-check w-4 h-4 text-emerald-400 flex items-center justify-center"></i>
                             </div>
-                            <span class="text-sm text-blue-100">Dokumentasi lengkap & terstruktur</span>
+                            <span class="text-sm text-blue-100">{{ App\Models\SiteSetting::get('register_feature_3', 'Dokumentasi lengkap & terstruktur') }}</span>
                         </div>
                     </div>
                 </div>

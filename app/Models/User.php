@@ -6,13 +6,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
+
+    protected $table = 'pengguna';
 
     /**
      * The attributes that are mass assignable.
@@ -23,12 +26,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
+        'role',
         'opd_id',
         'profile_photo',
         'last_login_at',
         'last_login_ip',
         'last_login_device',
+        'deleted_by',
+        'deleted_reason',
     ];
 
     /**
@@ -56,14 +61,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the role of this user.
-     */
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    /**
      * Get the OPD of this user.
      */
     public function opd(): BelongsTo
@@ -84,7 +81,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->role->name === 'admin';
+        return $this->role === 'admin';
     }
 
     /**
@@ -92,6 +89,6 @@ class User extends Authenticatable
      */
     public function isUser(): bool
     {
-        return $this->role->name === 'user';
+        return $this->role === 'user';
     }
 }

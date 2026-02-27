@@ -93,8 +93,8 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
-            'expire' => 60,
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'token_reset_sandi'),
+            'expire' => 5,
             'throttle' => 60,
         ],
     ],

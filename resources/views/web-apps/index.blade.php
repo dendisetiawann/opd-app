@@ -50,7 +50,7 @@
                 <div class="relative flex flex-col md:flex-row md:items-start md:justify-between gap-4 z-10">
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            <i class="fa-solid fa-desktop w-6 h-6 text-white flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-xl font-bold text-slate-800 dark:text-white">Daftar Aplikasi</h2>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <a href="{{ route('web-apps.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-md shadow-blue-500/30 text-sm self-start hover:scale-[1.02] active:scale-[0.98]">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                        <i class="fa-solid fa-plus w-5 h-5 mr-2 flex items-center justify-center"></i>
                         Tambah Baru
                     </a>
                 </div>
@@ -92,7 +92,7 @@
             <div class="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 mb-6 overflow-hidden">
                 <div class="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-zinc-900 dark:to-zinc-950 border-b border-gray-100 dark:border-zinc-800 px-6 py-4">
                     <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <i class="fa-solid fa-magnifying-glass w-4 h-4 text-slate-500 dark:text-slate-400 flex items-center justify-center"></i>
                         Pencarian
                     </h3>
                 </div>
@@ -116,7 +116,7 @@
                         }
                     }" class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-4 w-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <i class="fa-solid fa-magnifying-glass h-4 w-4 text-blue-500 flex items-center justify-center"></i>
                         </div>
                         <input 
                             type="text" 
@@ -135,11 +135,11 @@
                 @if(session('success'))
                     <div x-data="{ show: true }" x-show="show" class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 rounded-lg flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                            <i class="fa-solid fa-check w-5 h-5 text-green-600 dark:text-green-400 flex items-center justify-center"></i>
                             <span class="text-sm font-medium">{{ session('success') }}</span>
                         </div>
                         <button @click="show = false" class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <i class="fa-solid fa-xmark w-4 h-4 flex items-center justify-center"></i>
                         </button>
                     </div>
                 @endif
@@ -149,37 +149,37 @@
                     <div class="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-zinc-900 dark:to-zinc-950 rounded-t-2xl border border-slate-200 dark:border-zinc-800 border-b-0 px-5 py-4 hidden md:block">
                         <div class="grid grid-cols-12 gap-2 items-center text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                             <div class="col-span-1 text-center flex items-center justify-center gap-1">
-                                <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                                <i class="fa-solid fa-hashtag w-4 h-4 text-slate-400 dark:text-slate-500 flex items-center justify-center"></i>
                                 No
                             </div>
                             @if($filter === 'opd')
                             <div class="col-span-4 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                <i class="fa-solid fa-desktop w-4 h-4 text-blue-500 flex items-center justify-center"></i>
                                 Nama Aplikasi
                             </div>
                             <div class="col-span-3 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <i class="fa-solid fa-user w-4 h-4 text-violet-500 flex items-center justify-center"></i>
                                 Penginput
                             </div>
                             <div class="col-span-2 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <i class="fa-solid fa-calendar-days w-4 h-4 text-amber-500 flex items-center justify-center"></i>
                                 Tanggal
                             </div>
                             <div class="col-span-2 text-center flex items-center justify-center gap-1">
-                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <i class="fa-solid fa-gear w-4 h-4 text-indigo-500 flex items-center justify-center"></i>
                                 Aksi
                             </div>
                             @else
                             <div class="col-span-5 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                <i class="fa-solid fa-desktop w-4 h-4 text-blue-500 flex items-center justify-center"></i>
                                 Nama Aplikasi
                             </div>
                             <div class="col-span-4 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <i class="fa-solid fa-calendar-days w-4 h-4 text-amber-500 flex items-center justify-center"></i>
                                 Tanggal Pendataan
                             </div>
                             <div class="col-span-2 text-center flex items-center justify-center gap-1">
-                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <i class="fa-solid fa-gear w-4 h-4 text-indigo-500 flex items-center justify-center"></i>
                                 Aksi
                             </div>
                             @endif
@@ -209,7 +209,7 @@
                                             </a>
                                             @if($app->alamat_tautan)
                                             <a href="{{ str_starts_with($app->alamat_tautan, 'http') ? $app->alamat_tautan : 'https://' . $app->alamat_tautan }}" target="_blank" class="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors mt-1">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                                <i class="fa-solid fa-arrow-up-right-from-square w-3 h-3 flex items-center justify-center"></i>
                                                 Kunjungi
                                             </a>
                                             @endif
@@ -225,7 +225,7 @@
                                         <div class="col-span-1 md:col-span-2">
                                             <span class="md:hidden text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tanggal</span>
                                             <div class="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400 font-medium">
-                                                <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                <i class="fa-regular fa-calendar-days w-4 h-4 text-slate-400 dark:text-slate-500 flex items-center justify-center"></i>
                                                 {{ $app->created_at->format('d M Y') }}
                                             </div>
                                         </div>
@@ -238,7 +238,7 @@
                                             </a>
                                             @if($app->alamat_tautan)
                                             <a href="{{ str_starts_with($app->alamat_tautan, 'http') ? $app->alamat_tautan : 'https://' . $app->alamat_tautan }}" target="_blank" class="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors mt-1">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                                <i class="fa-solid fa-arrow-up-right-from-square w-3 h-3 flex items-center justify-center"></i>
                                                 Kunjungi
                                             </a>
                                             @endif
@@ -248,7 +248,7 @@
                                         <div class="col-span-1 md:col-span-4">
                                             <span class="md:hidden text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tanggal Pendataan</span>
                                             <div class="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400 font-medium">
-                                                <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                <i class="fa-regular fa-calendar-days w-4 h-4 text-slate-400 dark:text-slate-500 flex items-center justify-center"></i>
                                                 {{ $app->created_at->format('d M Y') }}
                                             </div>
                                         </div>
@@ -258,16 +258,16 @@
                                         <div class="col-span-1 md:col-span-2 flex items-center justify-start md:justify-center gap-1.5">
                                             <span class="md:hidden text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-2">Aksi</span>
                                             <a href="{{ route('web-apps.show', $app) }}" class="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:scale-110 transition-all shadow-sm" title="Lihat">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                <i class="fa-solid fa-eye w-4 h-4 flex items-center justify-center"></i>
                                             </a>
                                             @if($filter === 'mine')
                                             <a href="{{ route('web-apps.edit', $app) }}" class="p-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/40 hover:scale-110 transition-all shadow-sm" title="Edit">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                                <i class="fa-solid fa-pen-to-square w-4 h-4 flex items-center justify-center"></i>
                                             </a>
-                                            <form action="{{ route('web-apps.destroy', $app) }}" method="POST" onsubmit="return confirm('Hapus aplikasi ini?')" class="inline-block">
+                                            <form id="delete-form-{{ $app->id }}" action="{{ route('web-apps.destroy', $app) }}" method="POST" class="inline-block">
                                                 @csrf @method('DELETE')
-                                                <button type="submit" class="p-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 hover:scale-110 transition-all shadow-sm" title="Hapus">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                <button type="button" onclick="showDeleteConfirm({{ $app->id }}, '{{ addslashes($app->nama_web_app) }}')" class="p-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 hover:scale-110 transition-all shadow-sm" title="Hapus">
+                                                    <i class="fa-solid fa-trash-can w-4 h-4 flex items-center justify-center"></i>
                                                 </button>
                                             </form>
                                             @endif
@@ -298,7 +298,7 @@
                     <!-- Empty State -->
                     <div class="bg-white dark:bg-black rounded-xl border border-gray-200 dark:border-zinc-800 p-12 text-center">
                         <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                            <i class="fa-solid fa-folder-open w-6 h-6 text-gray-400 dark:text-gray-500 flex items-center justify-center"></i>
                         </div>
                         <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-1">Tidak ada data</h3>
                         @if($filter === 'opd')
@@ -306,7 +306,7 @@
                         @else
                         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Belum ada aplikasi yang terdaftar.</p>
                         <a href="{{ route('web-apps.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                            <i class="fa-solid fa-plus w-4 h-4 flex items-center justify-center"></i>
                             Tambah Aplikasi
                         </a>
                         @endif
@@ -316,4 +316,46 @@
 
         </div>
     </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/80 dark:bg-black/80 backdrop-blur-sm" onclick="closeDeleteConfirm()"></div>
+        <div class="relative bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-sm w-full p-6 transform transition-all ring-1 ring-black/5 dark:ring-white/10">
+            <div class="text-center">
+                <div class="mx-auto w-14 h-14 bg-red-100 dark:bg-red-500/15 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-triangle-exclamation w-8 h-8 text-red-500 dark:text-red-400 flex items-center justify-center"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Hapus Aplikasi?</h3>
+                <p class="text-sm text-gray-600 dark:text-zinc-400 mb-6">Apakah Anda yakin ingin menghapus <strong id="deleteAppName" class="text-gray-900 dark:text-white"></strong>? Data yang dihapus tidak dapat dikembalikan.</p>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeDeleteConfirm()" class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-zinc-700 rounded-xl text-sm font-medium text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
+                        Batal
+                    </button>
+                    <button type="button" onclick="confirmDelete()" class="flex-1 px-4 py-2.5 bg-red-500 hover:bg-red-600 rounded-xl text-sm font-semibold text-white transition-colors shadow-lg shadow-red-500/25">
+                        Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let deleteAppId = null;
+
+        function showDeleteConfirm(id, name) {
+            deleteAppId = id;
+            document.getElementById('deleteAppName').textContent = name;
+            document.getElementById('deleteConfirmModal').classList.remove('hidden');
+        }
+
+        function closeDeleteConfirm() {
+            document.getElementById('deleteConfirmModal').classList.add('hidden');
+            deleteAppId = null;
+        }
+
+        function confirmDelete() {
+            if (deleteAppId) {
+                document.getElementById('delete-form-' + deleteAppId).submit();
+            }
+        }
+    </script>
 </x-app-layout>

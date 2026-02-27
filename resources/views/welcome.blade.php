@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Sistem Manajemen Data Aplikasi OPD Kota Pekanbaru">
         <title>Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru</title>
-        <link rel="icon" href="{{ asset('images/logo-favicon-192.png') }}" type="image/png">
+        <link rel="icon" href="{{ asset(App\Models\SiteSetting::get('global_favicon', 'images/logo-favicon-192.png')) }}" type="image/png">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -138,7 +139,7 @@
                 animation: pulse-glow 4s ease-in-out infinite;
             }
         </style>
-        <header id="mainHeader" class="fixed top-0 left-0 right-0 z-50">
+        <header id="mainHeader" class="fixed top-3 left-0 right-0 z-50">
             <div id="headerInner" class="mx-auto header-default">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center" id="headerContent" style="height: 80px;">
@@ -146,7 +147,7 @@
                         <a href="/" class="flex items-center gap-4 group">
                             <!-- Logo Shield -->
                             <div class="relative w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                                <img src="{{ asset('images/logo-pekanbaru.png') }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
+                                <img src="{{ asset(App\Models\SiteSetting::get('global_logo', 'images/logo-pekanbaru.png')) }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
                             </div>
             
                             <!-- Separator Line -->
@@ -155,14 +156,13 @@
                             <!-- Text Content -->
                             <div class="flex flex-col justify-center">
                                 <div class="flex items-baseline gap-1.5 leading-none">
-                                    <span class="text-2xl font-extrabold text-[#1a237e] dark:text-blue-400 tracking-tight drop-shadow-sm">SIDATA</span>
-                                    <span class="text-2xl font-bold text-slate-600 dark:text-slate-200">PKU</span>
+                                    <span class="text-2xl font-extrabold text-[#1a237e] dark:text-blue-400 tracking-tight drop-shadow-sm">{{ App\Models\SiteSetting::get('global_app_name', 'SIDATA') }}</span>
                                 </div>
                                 <span class="text-[0.65rem] font-bold text-slate-500 dark:text-slate-400 tracking-[0.15em] uppercase mt-0.5 leading-tight">
-                                    Sistem Informasi Data Terpadu
+                                    {{ App\Models\SiteSetting::get('global_app_description', 'Sistem Informasi Data Terpadu') }}
                                 </span>
                                 <span class="text-[0.6rem] font-serif italic text-slate-400 dark:text-slate-500 mt-0.5">
-                                    Pemerintah Kota Pekanbaru
+                                    {{ App\Models\SiteSetting::get('global_org_name', 'Pemerintah Kota Pekanbaru') }}
                                 </span>
                             </div>
                         </a>
@@ -172,13 +172,9 @@
                             <!-- Dark Mode Toggle -->
                             <button id="themeToggle" class="theme-toggle p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Dark Mode">
                                 <!-- Sun Icon (shown in light mode - indicates current state) -->
-                                <svg id="sunIcon" class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                                </svg>
+                                <i id="sunIcon" class="fa-solid fa-sun w-5 h-5 text-amber-500 flex items-center justify-center"></i>
                                 <!-- Moon Icon (shown in dark mode - indicates current state) -->
-                                <svg id="moonIcon" class="w-5 h-5 text-blue-400 hidden" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                                </svg>
+                                <i id="moonIcon" class="fa-solid fa-moon w-5 h-5 text-blue-400 hidden flex items-center justify-center"></i>
                             </button>
                             
                             @if (Route::has('login'))
@@ -284,7 +280,7 @@
         </script>
 
         <!-- Main Content -->
-        <main>
+        <main class="pt-20">
             <!-- Hero Section -->
             <section class="relative bg-slate-50 overflow-hidden">
                 <!-- Wave Pattern (Right Side) -->
@@ -324,35 +320,35 @@
                         <div class="max-w-3xl">
                             <!-- Headline -->
                             <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-8">
-                                Sistem Manajemen <br/>
-                                <span class="text-blue-600">Data Aplikasi</span> <br/>
-                                Pemerintahan.
+                                {{ App\Models\SiteSetting::get('hero_title_1', 'Sistem Manajemen') }} <br/>
+                                <span class="text-blue-600">{{ App\Models\SiteSetting::get('hero_title_2', 'Data Aplikasi') }}</span> <br/>
+                                {{ App\Models\SiteSetting::get('hero_title_3', 'Pemerintahan.') }}
                             </h1>
                             
                             <!-- Description -->
                             <p class="text-lg text-gray-600 leading-relaxed mb-10 max-w-2xl">
-                                Platform terpadu untuk inventarisasi, pengelolaan, dan standardisasi data aplikasi di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mewujudkan tata kelola SPBE yang terintegrasi dan akuntabel.
+                                {{ App\Models\SiteSetting::get('hero_description', 'Platform terpadu untuk inventarisasi, pengelolaan, dan standardisasi data aplikasi di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mewujudkan tata kelola SPBE yang terintegrasi dan akuntabel.') }}
                             </p>
                             
                             <!-- Feature Icons -->
                             <div class="flex flex-wrap items-center gap-8 text-base font-semibold text-gray-700">
                                 <div class="flex items-center gap-2">
                                     <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                        <i class="fa-solid fa-link w-6 h-6 flex items-center justify-center"></i>
                                     </div>
-                                    Terintegrasi
+                                    {{ App\Models\SiteSetting::get('hero_feature_1', 'Terintegrasi') }}
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <i class="fa-solid fa-clock w-6 h-6 flex items-center justify-center"></i>
                                     </div>
-                                    Real-time
+                                    {{ App\Models\SiteSetting::get('hero_feature_2', 'Real-time') }}
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                        <i class="fa-solid fa-shield-halved w-6 h-6 flex items-center justify-center"></i>
                                     </div>
-                                    Aman
+                                    {{ App\Models\SiteSetting::get('hero_feature_3', 'Aman') }}
                                 </div>
                             </div>
                         </div>
@@ -420,9 +416,9 @@
             <section class="py-20 bg-slate-50 border-t border-slate-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Informasi Sistem</h2>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ App\Models\SiteSetting::get('info_section_title', 'Informasi Sistem') }}</h2>
                         <p class="text-gray-600">
-                            Sistem ini berfungsi sebagai pusat kendali data (Control Center) untuk monitoring perkembangan digitalisasi pemerintahan di lingkungan Kota Pekanbaru.
+                            {{ App\Models\SiteSetting::get('info_section_description', 'Sistem ini berfungsi sebagai pusat kendali data (Control Center) untuk monitoring perkembangan digitalisasi pemerintahan di lingkungan Kota Pekanbaru.') }}
                         </p>
                     </div>
 
@@ -430,33 +426,33 @@
                         <!-- Card 1 -->
                         <div class="p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                             <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-                                <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                <i class="fa-solid fa-boxes-stacked w-6 h-6 text-blue-700 flex items-center justify-center"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">Inventarisasi Aset Digital</h3>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ App\Models\SiteSetting::get('card_1_title', 'Inventarisasi Aset Digital') }}</h3>
                             <p class="text-gray-600 leading-relaxed">
-                                Pendataan lengkap seluruh aplikasi, meliputi aspek teknis, stack teknologi, basis data, hingga status keamanan informasi.
+                                {{ App\Models\SiteSetting::get('card_1_description', 'Pendataan lengkap seluruh aplikasi, meliputi aspek teknis, stack teknologi, basis data, hingga status keamanan informasi.') }}
                             </p>
                         </div>
 
                         <!-- Card 2 -->
                         <div class="p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                             <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-6">
-                                <svg class="w-6 h-6 text-cyan-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                <i class="fa-solid fa-clipboard-check w-6 h-6 text-cyan-700 flex items-center justify-center"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">Standarisasi & Kepatuhan</h3>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ App\Models\SiteSetting::get('card_2_title', 'Standarisasi & Kepatuhan') }}</h3>
                             <p class="text-gray-600 leading-relaxed">
-                                Memastikan pengembangan aplikasi sesuai dengan standar arsitektur SPBE dan interoperabilitas data pemerintah daerah.
+                                {{ App\Models\SiteSetting::get('card_2_description', 'Memastikan pengembangan aplikasi sesuai dengan standar arsitektur SPBE dan interoperabilitas data pemerintah daerah.') }}
                             </p>
                         </div>
 
                         <!-- Card 3 -->
                         <div class="p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                             <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
-                                <svg class="w-6 h-6 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                                <i class="fa-solid fa-chart-pie w-6 h-6 text-indigo-700 flex items-center justify-center"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">Monitoring Eksekutif</h3>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ App\Models\SiteSetting::get('card_3_title', 'Monitoring Eksekutif') }}</h3>
                             <p class="text-gray-600 leading-relaxed">
-                                Dashboard eksekutif untuk pimpinan daerah memantau kinerja dan efektivitas implementasi teknologi di setiap perangkat daerah.
+                                {{ App\Models\SiteSetting::get('card_3_description', 'Dashboard eksekutif untuk pimpinan daerah memantau kinerja dan efektivitas implementasi teknologi di setiap perangkat daerah.') }}
                             </p>
                         </div>
                     </div>
@@ -470,12 +466,11 @@
                 <div class="grid md:grid-cols-4 gap-8">
                     <div class="col-span-1 md:col-span-2">
                         <div class="mb-6">
-                            <h3 class="font-bold text-xl text-white tracking-tight">DISKOMINFO</h3>
-                            <p class="text-sm text-blue-500 font-semibold tracking-wide mt-1">KOTA PEKANBARU</p>
+                            <h3 class="font-bold text-xl text-white tracking-tight">{{ App\Models\SiteSetting::get('footer_org_name', 'DISKOMINFO') }}</h3>
+                            <p class="text-sm text-blue-500 font-semibold tracking-wide mt-1">{{ App\Models\SiteSetting::get('footer_org_sub', 'KOTA PEKANBARU') }}</p>
                         </div>
                         <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
-                            Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Pekanbaru.
-                            Bencah Lesung, Kec. Tenayan Raya, Kota Pekanbaru, Riau.
+                            {{ App\Models\SiteSetting::get('footer_address', 'Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Pekanbaru. Bencah Lesung, Kec. Tenayan Raya, Kota Pekanbaru, Riau.') }}
                         </p>
                     </div>
                     
@@ -483,12 +478,12 @@
                         <h4 class="font-semibold mb-4 text-gray-200">Kontak Kami</h4>
                         <ul class="space-y-3 text-sm text-gray-400">
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 mr-2 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                (0761) 123456
+                                <i class="fa-solid fa-phone w-5 h-5 mr-2 text-blue-500 shrink-0 flex items-center justify-center"></i>
+                                {{ App\Models\SiteSetting::get('footer_phone', '(0761) 123456') }}
                             </li>
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 mr-2 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                diskominfo@pekanbaru.go.id
+                                <i class="fa-solid fa-envelope w-5 h-5 mr-2 text-blue-500 shrink-0 flex items-center justify-center"></i>
+                                {{ App\Models\SiteSetting::get('footer_email', 'diskominfo@pekanbaru.go.id') }}
                             </li>
                         </ul>
                     </div>
@@ -496,19 +491,19 @@
                     <div>
                         <h4 class="font-semibold mb-4 text-gray-200">Pranala Luar</h4>
                         <ul class="space-y-3 text-sm text-gray-400">
-                            <li><a href="#" class="hover:text-blue-400 transition">Portal Pekanbaru</a></li>
-                            <li><a href="#" class="hover:text-blue-400 transition">PPID Kota Pekanbaru</a></li>
-                            <li><a href="#" class="hover:text-blue-400 transition">Layanan Pengaduan</a></li>
+                            <li><a href="{{ App\Models\SiteSetting::get('footer_link_1_url', '#') }}" class="hover:text-blue-400 transition">{{ App\Models\SiteSetting::get('footer_link_1_text', 'Portal Pekanbaru') }}</a></li>
+                            <li><a href="{{ App\Models\SiteSetting::get('footer_link_2_url', '#') }}" class="hover:text-blue-400 transition">{{ App\Models\SiteSetting::get('footer_link_2_text', 'PPID Kota Pekanbaru') }}</a></li>
+                            <li><a href="{{ App\Models\SiteSetting::get('footer_link_3_url', '#') }}" class="hover:text-blue-400 transition">{{ App\Models\SiteSetting::get('footer_link_3_text', 'Layanan Pengaduan') }}</a></li>
                         </ul>
                     </div>
                 </div>
                 
                 <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p class="text-sm text-gray-500 text-center md:text-left">
-                        &copy; {{ date('Y') }} Pemerintah Kota Pekanbaru. All rights reserved.
+                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('footer_copyright', 'Pemerintah Kota Pekanbaru. All rights reserved.') }}
                     </p>
                     <div class="text-xs text-gray-600">
-                        Versi 1.0.0
+                        {{ App\Models\SiteSetting::get('footer_version', 'Versi 1.0.0') }}
                     </div>
                 </div>
             </div>

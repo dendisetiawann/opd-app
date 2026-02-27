@@ -11,9 +11,7 @@
             <div class="mb-10 text-center animate-fade-in-up">
                 <span class="inline-block p-3 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm border border-blue-50 dark:border-zinc-800 mb-4">
                     <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-200">
-                        <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
+                        <i class="fa-solid fa-user w-7 h-7 flex items-center justify-center"></i>
                     </div>
                 </span>
                 <h2 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight leading-tight">
@@ -48,10 +46,7 @@
                                 
                                 <!-- Upload Button Overlay -->
                                 <label for="photo-upload" class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-circle-check w-6 h-6 text-white flex items-center justify-center"></i>
                                 </label>
                             </div>
                             
@@ -114,7 +109,7 @@
                         
                         <div class="relative z-10">
                             <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-1 flex items-center gap-2">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                <i class="fa-solid fa-user w-6 h-6 text-blue-600 flex items-center justify-center"></i>
                                 Informasi Profil
                             </h3>
                             <p class="text-sm text-slate-500 dark:text-zinc-400 mb-8">Perbarui nama tampilan dan alamat email akun Anda.</p>
@@ -129,7 +124,7 @@
                         
                         <div class="relative z-10">
                             <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-1 flex items-center gap-2">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                <i class="fa-solid fa-lock w-6 h-6 text-blue-600 flex items-center justify-center"></i>
                                 Perbarui Password
                             </h3>
                             <p class="text-sm text-slate-500 dark:text-zinc-400 mb-8">Pastikan akun Anda aman dengan password yang kuat (minimal 8 karakter).</p>

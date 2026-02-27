@@ -6,11 +6,12 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-        <link rel="icon" href="{{ asset('images/logo-favicon-192.png') }}" type="image/png">
+        <link rel="icon" href="{{ asset(App\Models\SiteSetting::get('global_favicon', 'images/logo-favicon-192.png')) }}" type="image/png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -272,14 +273,13 @@
                 
                 <!-- Logo -->
                 <div class="flex items-center h-20 bg-slate-950 dark:bg-black border-b border-slate-800 dark:border-zinc-900 px-4 overflow-hidden">
-                    <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo-pekanbaru.png') }}" alt="Logo Pekanbaru" class="h-10 w-10 object-contain drop-shadow-sm flex-shrink-0">
+                    <div class="flex items-center gap-3.5">
+                        <img src="{{ asset(App\Models\SiteSetting::get('global_logo', 'images/logo-pekanbaru.png')) }}" alt="Logo" class="h-11 w-11 object-contain drop-shadow-lg flex-shrink-0">
                         <div class="flex flex-col transition-all duration-300 overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">
-                            <div class="flex items-baseline gap-1 leading-none">
-                                <span class="text-blue-400 text-lg font-extrabold tracking-tight uppercase whitespace-nowrap">SIDATA</span>
-                                <span class="text-slate-300 text-lg font-bold tracking-tight uppercase whitespace-nowrap">PKU</span>
-                            </div>
-                            <span class="text-slate-500 text-[9px] uppercase tracking-wide font-medium whitespace-nowrap mt-0.5">Pemerintah Kota Pekanbaru</span>
+                            <span class="text-lg font-black tracking-wide uppercase whitespace-nowrap leading-tight bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">{{ App\Models\SiteSetting::get('global_app_name', 'SIDATA') }}</span>
+                            <div class="w-12 h-px bg-gradient-to-r from-blue-500/60 to-transparent mt-1 mb-1"></div>
+                            <span class="text-slate-400 text-[8.5px] uppercase tracking-[0.12em] font-semibold whitespace-nowrap leading-tight">{{ App\Models\SiteSetting::get('global_app_description', 'Sistem Informasi Data Terpadu') }}</span>
+                            <span class="text-slate-500/80 text-[8px] uppercase tracking-[0.1em] font-medium whitespace-nowrap mt-0.5 leading-tight">{{ App\Models\SiteSetting::get('global_org_name', 'Pemerintah Kota Pekanbaru') }}</span>
                         </div>
                     </div>
                 </div>
@@ -292,9 +292,7 @@
                            class="group flex items-center px-4 py-3 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-800 to-slate-700 dark:to-zinc-800 text-white' : 'text-slate-300 hover:bg-slate-800 dark:hover:bg-zinc-900 hover:text-white' }}"
                            :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                            x-tooltip.raw="Dashboard">
-                            <svg class="h-5 w-5 flex-shrink-0 {{ request()->routeIs('dashboard') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                            </svg>
+                            <i class="fa-solid fa-chart-pie text-lg flex-shrink-0 {{ request()->routeIs('dashboard') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3 w-5 text-center'"></i>
                             <span class="transition-all duration-300 whitespace-nowrap overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">Dashboard</span>
                         </a>
 
@@ -303,9 +301,7 @@
                            class="group flex items-center px-4 py-3 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('web-apps.*') ? 'bg-gradient-to-r from-blue-800 to-slate-700 dark:to-zinc-800 text-white' : 'text-slate-300 hover:bg-slate-800 dark:hover:bg-zinc-900 hover:text-white' }}"
                            :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                            x-tooltip.raw="Daftar Aplikasi">
-                            <svg class="h-5 w-5 flex-shrink-0 {{ request()->routeIs('web-apps.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
+                            <i class="fa-solid fa-layer-group text-lg flex-shrink-0 {{ request()->routeIs('web-apps.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3 w-5 text-center'"></i>
                             <span class="transition-all duration-300 whitespace-nowrap overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">Daftar Aplikasi</span>
                         </a>
 
@@ -314,13 +310,9 @@
                             <button @click="open = !open" 
                                     class="w-full group flex items-center px-4 py-3 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('monitoring.*') ? 'bg-gradient-to-r from-cyan-800 to-slate-700 dark:to-zinc-800 text-white' : 'text-slate-300 hover:bg-slate-800 dark:hover:bg-zinc-900 hover:text-white' }}"
                                     :class="sidebarCollapsed ? 'justify-center px-2' : ''">
-                                <svg class="h-5 w-5 flex-shrink-0 {{ request()->routeIs('monitoring.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                </svg>
+                                <i class="fa-solid fa-chart-line text-lg flex-shrink-0 {{ request()->routeIs('monitoring.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3 w-5 text-center'"></i>
                                 <span class="flex-1 text-left transition-all duration-300 whitespace-nowrap overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">Monitoring</span>
-                                <svg x-show="!sidebarCollapsed" class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
+                                <i x-show="!sidebarCollapsed" class="fa-solid fa-chevron-down text-sm transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
                             </button>
                             
                             <!-- Sub-menu -->
@@ -341,9 +333,7 @@
                            class="group flex items-center px-4 py-3 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('profile.edit') ? 'bg-gradient-to-r from-blue-800 to-slate-700 dark:to-zinc-800 text-white' : 'text-slate-300 hover:bg-slate-800 dark:hover:bg-zinc-900 hover:text-white' }}"
                            :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                            x-tooltip.raw="Profil Saya">
-                            <svg class="h-5 w-5 flex-shrink-0 {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
+                            <i class="fa-solid fa-user-pen text-lg flex-shrink-0 {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" :class="sidebarCollapsed ? '' : 'mr-3 w-5 text-center'"></i>
                             <span class="transition-all duration-300 whitespace-nowrap overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">Profil Saya</span>
                         </a>
                     </nav>
@@ -354,9 +344,7 @@
                     <button @click="toggleCollapse()" 
                             class="w-full flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 dark:hover:bg-zinc-900 transition-all duration-200"
                             :title="sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'">
-                        <svg class="w-5 h-5 transition-transform duration-300" :class="sidebarCollapsed ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-                        </svg>
+                        <i class="fa-solid fa-angles-left text-lg transition-transform duration-300" :class="sidebarCollapsed ? 'rotate-180' : ''"></i>
                     </button>
                 </div>
 
@@ -364,8 +352,8 @@
                 <div class="border-t border-slate-800 dark:border-zinc-900 bg-slate-950 dark:bg-black transition-all duration-300" :class="sidebarCollapsed ? 'p-1.5' : 'p-3'">
                     <!-- Dark Mode Toggle (Sidebar) -->
                     <button id="theme-toggle" type="button" class="w-full flex items-center py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 dark:hover:bg-zinc-900 border border-transparent hover:border-slate-700 dark:hover:border-zinc-800 transition-all duration-200 mb-2" :class="sidebarCollapsed ? 'justify-center px-2' : 'gap-2 px-4'">
-                        <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                        <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                        <i id="theme-toggle-dark-icon" class="hidden fa-solid fa-moon text-base"></i>
+                        <i id="theme-toggle-light-icon" class="hidden fa-solid fa-sun text-base text-amber-400"></i>
                         <span id="theme-toggle-text" class="text-sm font-medium transition-all duration-300 whitespace-nowrap overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">Mode Gelap</span>
                     </button>
 
@@ -377,9 +365,7 @@
                                 <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="rounded-xl object-cover ring-2 ring-blue-500/30 shadow-lg" :class="sidebarCollapsed ? 'h-8 w-8' : 'h-11 w-11'">
                             @else
                                 <div class="rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 ring-2 ring-blue-500/30 shadow-lg flex items-center justify-center" :class="sidebarCollapsed ? 'h-8 w-8' : 'h-11 w-11'">
-                                    <svg class="text-white" :class="sidebarCollapsed ? 'w-4 h-4' : 'w-6 h-6'" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                    </svg>
+                                    <i class="fa-solid fa-user text-white" :class="sidebarCollapsed ? 'text-xs' : 'text-lg'"></i>
                                 </div>
                             @endif
                         </div>
@@ -394,9 +380,7 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="w-full flex items-center py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-red-500/20 border border-transparent hover:border-red-500/30 transition-all duration-200" :class="sidebarCollapsed ? 'justify-center px-2' : 'justify-center gap-2 px-4'">
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
+                            <i class="fa-solid fa-right-from-bracket text-base" :class="sidebarCollapsed ? '' : 'mr-2'"></i>
                             <span class="text-sm font-medium transition-all duration-300 whitespace-nowrap overflow-hidden" :class="sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'">Keluar</span>
                         </button>
                     </form>
@@ -411,9 +395,7 @@
                     <div class="flex items-center px-4 py-3 h-14">
                         <!-- Mobile Hamburger -->
                         <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 rounded-md p-1">
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
+                            <i class="fa-solid fa-bars text-xl"></i>
                         </button>
                         <span class="ml-3 text-sm font-medium text-gray-600">Menu</span>
                     </div>
@@ -431,15 +413,16 @@
             <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"></div>
         </div>
 
+        <!-- Health Check Floating Widget -->
+        <x-health-check-widget />
+
         <!-- Session Timeout Modal -->
         <div id="sessionTimeoutModal" class="fixed inset-0 z-[100] hidden">
             <div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
             <div class="fixed inset-0 flex items-center justify-center p-4">
                 <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-md w-full p-8 relative border border-transparent dark:border-zinc-800">
                     <div class="mx-auto w-16 h-16 bg-amber-100 dark:bg-amber-500/15 rounded-full flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                        <i class="fa-solid fa-clock text-3xl text-amber-600"></i>
                     </div>
                     <h3 id="sessionModalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">Sesi Akan Berakhir</h3>
                     <p id="sessionModalMessage" class="text-gray-600 dark:text-zinc-400 text-center mb-6">Sesi Anda akan berakhir dalam <span id="countdownTimer" class="font-bold text-amber-600">30</span> detik.</p>

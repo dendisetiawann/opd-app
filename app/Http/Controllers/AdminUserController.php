@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -11,13 +10,35 @@ use Illuminate\Support\Str;
 class AdminUserController extends Controller
 {
     /**
+     * Search OPD for autocomplete (AJAX) - Optimized.
+     */
+    public function searchOpd(Request $request)
+    {
+        $query = $request->get('q', '');
+        
+        $cacheKey = 'admin_opd_search_' . md5($query);
+        
+        $opds = cache()->remember($cacheKey, 60, function () use ($query) {
+            $q = \App\Models\Opd::select(['id', 'nama_opd']);
+            
+            if (!empty($query)) {
+                $q->where('nama_opd', 'like', "%{$query}%");
+            }
+            
+            return $q->orderBy('nama_opd')
+                ->limit(50)
+                ->get();
+        });
+        
+        return response()->json($opds);
+    }
+
+    /**
      * Display a listing of users.
      */
     public function index(Request $request)
     {
-        $query = User::with(['role', 'opd'])->whereHas('role', function($q) {
-            $q->where('name', 'user');
-        });
+        $query = User::with(['opd'])->where('role', 'user');
 
         // Search filter (name, email, or OPD name)
         if ($request->filled('search')) {
@@ -49,24 +70,17 @@ class AdminUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'opd_id' => 'required_without:new_opd|nullable|exists:opds,id',
-            'new_opd' => 'required_without:opd_id|nullable|string|max:255',
+            'email' => 'required|email|unique:pengguna,email',
+            'opd' => 'required|string|max:255',
             'password_type' => 'required|in:random,custom',
             'custom_password' => 'required_if:password_type,custom|nullable|min:8',
         ], [
             'email.unique' => 'Email sudah terdaftar di sistem.',
+            'opd.required' => 'Pilih atau tambahkan OPD.',
         ]);
 
-        // Handle OPD: create new or use existing
-        if ($request->filled('new_opd')) {
-            $opd = \App\Models\Opd::create([
-                'nama_opd' => $request->new_opd,
-            ]);
-            $opdId = $opd->id;
-        } else {
-            $opdId = $request->opd_id;
-        }
+        // Handle OPD: normalize and check for duplicates
+        $opdId = $this->getOrCreateOpd($request->opd);
 
         // Generate password
         if ($request->password_type === 'custom') {
@@ -75,21 +89,32 @@ class AdminUserController extends Controller
             $password = Str::random(8);
         }
 
-        // Get user role
-        $userRole = Role::where('name', 'user')->first();
-
         // Create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'opd_id' => $opdId,
-            'role_id' => $userRole->id,
+            'role' => 'user',
             'password' => Hash::make($password),
             'email_verified_at' => now(),
         ]);
 
         // Store password in session for PDF export
         session(['user_password_' . $user->id => $password]);
+
+        // Audit log: user_created
+        \App\Models\ActivityLog::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->id(),
+            'action' => 'user_created',
+            'new_value' => json_encode([
+                'name' => $user->name,
+                'email' => $user->email,
+                'opd' => $user->opd->nama_opd ?? 'N/A',
+            ]),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
 
         // Return to same page with success modal data
         return back()->with([
@@ -107,7 +132,7 @@ class AdminUserController extends Controller
      */
     public function created(User $user)
     {
-        $user->load(['role', 'opd']);
+        $user->load(['opd']);
         return view('admin.users.created', compact('user'));
     }
 
@@ -116,7 +141,7 @@ class AdminUserController extends Controller
      */
     public function exportPdf(User $user)
     {
-        $user->load(['role', 'opd']);
+        $user->load(['opd']);
         
         // Get password from session if available
         $password = session('user_password_' . $user->id);
@@ -134,7 +159,7 @@ class AdminUserController extends Controller
      */
     public function show(User $user)
     {
-        $user->load(['role', 'opd']);
+        $user->load(['opd']);
         // Hitung total aplikasi berdasarkan OPD user (jika user punya OPD)
         $totalApps = $user->opd ? $user->opd->webApps()->count() : 0;
         
@@ -164,6 +189,18 @@ class AdminUserController extends Controller
             'password' => Hash::make($newPassword),
         ]);
 
+        // Audit log: password_reset
+        \App\Models\ActivityLog::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->id(),
+            'action' => 'password_reset',
+            'new_value' => json_encode([
+                'type' => $request->password_type,
+            ]),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
         $message = $request->password_type === 'custom' 
             ? "Password untuk {$user->name} berhasil diubah."
             : "Password untuk {$user->name} berhasil direset menjadi: {$newPassword}";
@@ -177,7 +214,7 @@ class AdminUserController extends Controller
     public function updateEmail(Request $request, User $user)
     {
         $request->validate([
-            'new_email' => 'required|email|unique:users,email,' . $user->id,
+            'new_email' => 'required|email|unique:pengguna,email,' . $user->id,
         ], [
             'new_email.required' => 'Email baru wajib diisi.',
             'new_email.email' => 'Format email tidak valid.',
@@ -204,5 +241,108 @@ class AdminUserController extends Controller
         ]);
 
         return back()->with('success', "Email untuk {$user->name} berhasil diubah dari {$oldEmail} menjadi {$newEmail}.");
+    }
+
+    /**
+     * Soft delete user with audit trail.
+     */
+    public function destroy(Request $request, User $user)
+    {
+        // Prevent deleting admin users
+        if ($user->isAdmin()) {
+            return back()->with('error', 'Tidak dapat menghapus akun admin.');
+        }
+
+        // Prevent self-deletion
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
+        }
+
+        $request->validate([
+            'deleted_reason' => 'required|string|max:500',
+        ], [
+            'deleted_reason.required' => 'Alasan penghapusan wajib diisi.',
+        ]);
+
+        $deletedBy = auth()->id();
+        $reason = $request->deleted_reason;
+
+        // Create audit log before soft delete
+        \App\Models\ActivityLog::create([
+            'user_id' => $user->id,
+            'admin_id' => $deletedBy,
+            'action' => 'user_deleted',
+            'old_value' => json_encode([
+                'name' => $user->name,
+                'email' => $user->email,
+                'opd' => $user->opd?->nama_opd,
+                'status' => 'active',
+            ]),
+            'new_value' => json_encode([
+                'status' => 'deleted',
+                'reason' => $reason,
+                'deleted_at' => now()->toDateTimeString(),
+            ]),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        // Perform soft delete with metadata
+        $user->deleted_by = $deletedBy;
+        $user->deleted_reason = $reason;
+        $user->save();
+        $user->delete(); // This sets deleted_at
+
+        return back()->with('success', "User {$user->name} berhasil dihapus.");
+    }
+
+    /**
+     * Get existing OPD or create new one with normalization.
+     */
+    private function getOrCreateOpd(string $opdInput): int
+    {
+        // Normalize: trim, remove extra spaces, convert to Title Case
+        $normalizedName = $this->normalizeOpdName($opdInput);
+        
+        // Check if input is numeric (existing OPD ID from autocomplete)
+        if (is_numeric($opdInput)) {
+            $existingOpd = \App\Models\Opd::find($opdInput);
+            if ($existingOpd) {
+                return $existingOpd->id;
+            }
+        }
+        
+        // Check for duplicate with case-insensitive comparison
+        $existingOpd = \App\Models\Opd::whereRaw('LOWER(TRIM(nama_opd)) = ?', [strtolower(trim($opdInput))])->first();
+        
+        if ($existingOpd) {
+            return $existingOpd->id;
+        }
+        
+        // Create new OPD with normalized name
+        $newOpd = \App\Models\Opd::create(['nama_opd' => $normalizedName]);
+        
+        // Clear OPD search cache
+        cache()->forget('admin_opd_search_' . md5(''));
+        cache()->forget('opd_search_' . md5(''));
+        
+        return $newOpd->id;
+    }
+
+    /**
+     * Normalize OPD name to Title Case.
+     */
+    private function normalizeOpdName(string $name): string
+    {
+        // Trim whitespace
+        $name = trim($name);
+        
+        // Remove extra spaces (multiple spaces become single space)
+        $name = preg_replace('/\s+/', ' ', $name);
+        
+        // Convert to lowercase first, then Title Case
+        $name = ucwords(strtolower($name));
+        
+        return $name;
     }
 }
