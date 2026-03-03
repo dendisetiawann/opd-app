@@ -60,7 +60,7 @@
 - Ekspor hasil ke Excel per batch dan per OPD
 
 ### 👤 Manajemen Profil (Semua Pengguna)
-- Edit nama
+- Edit nama,ubah email
 - Upload, ubah, hapus foto profil (jpeg/png/jpg/gif/webp, max 2MB)
 - Ubah password
 - Semua perubahan tercatat di audit log
