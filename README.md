@@ -60,9 +60,9 @@
 - Ekspor hasil ke Excel per batch dan per OPD
 
 ### 👤 Manajemen Profil (Semua Pengguna)
-- Edit nama, email (dengan verifikasi ulang jika berubah)
+- Edit nama,ubah email
 - Upload, ubah, hapus foto profil (jpeg/png/jpg/gif/webp, max 2MB)
-- Ubah password, hapus akun mandiri
+- Ubah password
 - Semua perubahan tercatat di audit log
 
 ---
