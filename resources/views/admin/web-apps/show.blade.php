@@ -61,7 +61,7 @@
                         <div class="relative flex-shrink-0">
                             <div class="absolute inset-0 bg-sky-400 rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <div class="relative w-12 h-12 bg-gradient-to-br from-sky-400 via-sky-500 to-blue-500 rounded-xl flex items-center justify-center shadow-md ring-2 ring-sky-50 group-hover:scale-105 transition-transform">
-                                <i class="fa-solid fa-circle-check w-6 h-6 text-white flex items-center justify-center"></i>
+                                <i class="fa-solid fa-globe w-6 h-6 text-white flex items-center justify-center"></i>
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -74,7 +74,7 @@
                     <div class="flex items-center gap-4 group">
                         <div class="relative flex-shrink-0">
                             <div class="absolute inset-0 bg-cyan-400 rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                            <div class="relative w-12 h-12 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md ring-2 ring-cyan-50 group-hover:scale-105 transition-transform">
+                            <div class="relative w-12 h-12 bg-gradient-to-br from-cyan-400 via-sky-500 to-sky-600 rounded-xl flex items-center justify-center shadow-md ring-2 ring-cyan-50 group-hover:scale-105 transition-transform">
                                 <i class="fa-solid fa-building w-6 h-6 text-white flex items-center justify-center"></i>
                             </div>
                         </div>
@@ -166,10 +166,10 @@
                                 </div>
                                 <div>
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Alamat Tautan</h3>
-                                    <div class="flex items-center text-sm font-medium text-gray-900">
+                                    <div class="flex items-center text-sm font-medium text-gray-900 min-w-0">
                                         @if($webApp->alamat_tautan)
-                                            <i class="fa-solid fa-circle-check w-4 h-4 mr-2 text-gray-400 flex items-center justify-center"></i>
-                                            <a href="{{ str_starts_with($webApp->alamat_tautan, 'http') ? $webApp->alamat_tautan : 'http://' . $webApp->alamat_tautan }}" target="_blank" class="text-blue-600 hover:underline">{{ $webApp->alamat_tautan }}</a>
+                                            <i class="fa-solid fa-link w-4 h-4 mr-2 text-gray-400 flex-shrink-0 flex items-center justify-center"></i>
+                                            <a href="{{ str_starts_with($webApp->alamat_tautan, 'http') ? $webApp->alamat_tautan : 'http://' . $webApp->alamat_tautan }}" target="_blank" class="text-blue-600 hover:underline break-all">{{ $webApp->alamat_tautan }}</a>
                                         @else
                                             <span class="text-gray-400 italic">Tidak tersedia</span>
                                         @endif
@@ -199,7 +199,7 @@
                 <section class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800">
                     <div class="px-6 py-5 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/15 flex items-center justify-center">
-                             <i class="fa-solid fa-pen-to-square w-5 h-5 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"></i>
+                             <i class="fa-solid fa-code w-5 h-5 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Stack Teknologi</h2>
@@ -268,7 +268,7 @@
                 <section class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800">
                     <div class="px-6 py-5 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
                          <div class="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-500/15 flex items-center justify-center">
-                             <i class="fa-solid fa-triangle-exclamation w-5 h-5 text-orange-600 dark:text-orange-400 flex items-center justify-center"></i>
+                             <i class="fa-solid fa-shield-halved w-5 h-5 text-orange-600 dark:text-orange-400 flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Integrasi & Keamanan</h2>
@@ -372,7 +372,7 @@
                             <span class="block text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase mb-2">Data Tim Pengembang</span>
                             <div class="flex items-start gap-3">
                                 <div class="bg-blue-100 dark:bg-blue-500/15 p-2 rounded-lg text-blue-600 dark:text-blue-400">
-                                    <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
+                                    <i class="fa-solid fa-users-gear w-5 h-5 flex items-center justify-center"></i>
                                 </div>
                                 <div class="text-sm font-medium text-gray-900 dark:text-zinc-200 pt-1 whitespace-pre-line">
                                     {{ $webApp->data_tim_programmer ?? 'Internal Diskominfo' }}
@@ -474,7 +474,7 @@
                 <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800 overflow-hidden">
                     <div class="p-5 bg-gray-50 dark:bg-black/30 border-b border-gray-100 dark:border-zinc-800">
                         <h3 class="font-bold text-gray-900 dark:text-white flex items-center">
-                             <i class="fa-solid fa-circle-check w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400 flex items-center justify-center"></i>
+                             <i class="fa-solid fa-server w-5 h-5 mr-2 text-gray-500 dark:text-zinc-400 flex items-center justify-center"></i>
                             Database & Server
                         </h3>
                     </div>

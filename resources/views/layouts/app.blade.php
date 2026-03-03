@@ -416,29 +416,6 @@
         <!-- Health Check Floating Widget -->
         <x-health-check-widget />
 
-        <!-- Session Timeout Modal -->
-        <div id="sessionTimeoutModal" class="fixed inset-0 z-[100] hidden">
-            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
-            <div class="fixed inset-0 flex items-center justify-center p-4">
-                <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-md w-full p-8 relative border border-transparent dark:border-zinc-800">
-                    <div class="mx-auto w-16 h-16 bg-amber-100 dark:bg-amber-500/15 rounded-full flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-clock text-3xl text-amber-600"></i>
-                    </div>
-                    <h3 id="sessionModalTitle" class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">Sesi Akan Berakhir</h3>
-                    <p id="sessionModalMessage" class="text-gray-600 dark:text-zinc-400 text-center mb-6">Sesi Anda akan berakhir dalam <span id="countdownTimer" class="font-bold text-amber-600">30</span> detik.</p>
-                    <div id="sessionModalButtons" class="flex gap-3">
-                        <button onclick="extendSession()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all">Perpanjang Sesi</button>
-                        <button onclick="logoutNow()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-all">Logout</button>
-                    </div>
-                    <div id="sessionExpiredButton" class="hidden">
-                        <button onclick="window.location.href='{{ route('login') }}'" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all">Login Kembali</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <form id="logout-form" method="POST" action="{{ route('logout') }}" class="hidden">@csrf</form>
-
         <script>
             // Dark Mode Toggle Logic
             const themeToggleBtn = document.getElementById('theme-toggle');
@@ -473,47 +450,6 @@
                     updateThemeUI();
                 });
             }
-
-            const SESSION_TIMEOUT = 5 * 60 * 1000;
-            const WARNING_TIME = 30 * 1000;
-            let inactivityTimer, warningTimer, countdownInterval, countdown = 30;
-            
-            function resetTimers() {
-                clearTimeout(inactivityTimer);
-                clearTimeout(warningTimer);
-                clearInterval(countdownInterval);
-                document.getElementById('sessionTimeoutModal').classList.add('hidden');
-                warningTimer = setTimeout(showWarning, SESSION_TIMEOUT - WARNING_TIME);
-                inactivityTimer = setTimeout(sessionExpired, SESSION_TIMEOUT);
-            }
-            
-            function showWarning() {
-                countdown = 30;
-                document.getElementById('countdownTimer').textContent = countdown;
-                document.getElementById('sessionModalButtons').classList.remove('hidden');
-                document.getElementById('sessionExpiredButton').classList.add('hidden');
-                document.getElementById('sessionTimeoutModal').classList.remove('hidden');
-                countdownInterval = setInterval(() => {
-                    countdown--;
-                    document.getElementById('countdownTimer').textContent = countdown;
-                    if (countdown <= 0) clearInterval(countdownInterval);
-                }, 1000);
-            }
-            
-            function sessionExpired() {
-                clearInterval(countdownInterval);
-                document.getElementById('sessionModalTitle').textContent = 'Sesi Berakhir';
-                document.getElementById('sessionModalMessage').textContent = 'Sesi Anda telah berakhir. Harap login kembali.';
-                document.getElementById('sessionModalButtons').classList.add('hidden');
-                document.getElementById('sessionExpiredButton').classList.remove('hidden');
-                fetch('{{ route('logout') }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'Accept': 'application/json' }});
-            }
-            
-            function extendSession() { fetch('{{ url('/') }}', { method: 'GET', credentials: 'same-origin' }); resetTimers(); }
-            function logoutNow() { document.getElementById('logout-form').submit(); }
-            
-            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(e => document.addEventListener(e, resetTimers, { passive: true }));
-            resetTimers();
         </script>
     </body>
 </html>

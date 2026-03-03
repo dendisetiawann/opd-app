@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -59,8 +60,8 @@
         <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative">
             <!-- Theme Toggle -->
             <button id="themeToggle" class="absolute top-6 right-6 theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Dark Mode">
-                <i class="fa-solid fa-triangle-exclamation w-6 h-6 text-amber-500 hidden flex items-center justify-center"></i>
-                <i class="fa-solid fa-pen-to-square w-6 h-6 text-blue-400 hidden flex items-center justify-center"></i>
+                <i id="sunIcon" class="fa-solid fa-sun w-6 h-6 text-amber-500 flex items-center justify-center"></i>
+                <i id="moonIcon" class="fa-solid fa-moon w-6 h-6 text-blue-400 hidden flex items-center justify-center"></i>
             </button>
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <!-- Header -->
@@ -108,9 +109,12 @@
                                     Email
                                 </span>
                             </label>
-                            <div class="mt-2">
+                            <div class="mt-2 relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <i class="fa-regular fa-envelope text-gray-400 text-sm"></i>
+                                </div>
                                 <input id="email" name="email" type="email" autocomplete="email" required 
-                                    class="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                    class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                     value="{{ old('email') }}"
                                     placeholder="contoh@email.com">
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -126,11 +130,14 @@
                                 </span>
                             </label>
                             <div class="mt-2 relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <i class="fa-solid fa-lock text-gray-400 text-sm"></i>
+                                </div>
                                 <input id="password" name="password" type="password" autocomplete="current-password" required 
-                                    class="block w-full rounded-xl border-0 py-3 px-4 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                    class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                     placeholder="Masukkan password Anda">
                                 <button type="button" onclick="togglePassword('password', 'eyeIcon')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
-                                    <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
+                                    <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
                                 </button>
                                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                             </div>

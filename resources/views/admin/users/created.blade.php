@@ -6,7 +6,7 @@
         <!-- Success Card -->
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <!-- Header with celebration -->
-            <div class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-8 py-10 text-center relative overflow-hidden">
+            <div class="bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-500 px-8 py-10 text-center relative overflow-hidden">
                 <!-- Decorative circles -->
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -69,8 +69,8 @@
                                 <p class="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">OPD</p>
                                 <p class="text-sm font-semibold text-gray-900">{{ $user->opd->nama_opd ?? 'N/A' }}</p>
                             </div>
-                            <div class="p-2 bg-emerald-100 rounded-lg">
-                                <i class="fa-solid fa-building w-5 h-5 text-emerald-600 flex items-center justify-center"></i>
+                            <div class="p-2 bg-cyan-100 rounded-lg">
+                                <i class="fa-solid fa-building w-5 h-5 text-cyan-600 flex items-center justify-center"></i>
                             </div>
                         </div>
                     </div>

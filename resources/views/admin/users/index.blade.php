@@ -74,12 +74,12 @@
                 </div>
                 
                 <!-- Total OPD Stats Pill -->
-                <div class="group relative px-6 py-4 rounded-2xl bg-gradient-to-br from-slate-50 to-white dark:from-black dark:to-black border border-slate-200/50 dark:border-zinc-800 flex items-center gap-4 min-w-[180px] backdrop-blur-sm shadow-sm hover:shadow-md hover:border-emerald-200/50 dark:hover:border-emerald-700/50 transition-all duration-300">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                <div class="group relative px-6 py-4 rounded-2xl bg-gradient-to-br from-slate-50 to-white dark:from-black dark:to-black border border-slate-200/50 dark:border-zinc-800 flex items-center gap-4 min-w-[180px] backdrop-blur-sm shadow-sm hover:shadow-md hover:border-cyan-200/50 dark:hover:border-cyan-700/50 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center shadow-lg shadow-cyan-500/25">
                         <i class="fa-solid fa-building w-6 h-6 text-white flex items-center justify-center"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400">{{ $opds->count() }}</span>
+                        <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-sky-600 dark:from-cyan-400 dark:to-sky-400">{{ $opds->count() }}</span>
                         <span class="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-wider">Total OPD</span>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <i class="fa-solid fa-building w-4 h-4 text-emerald-500 flex items-center justify-center"></i>
+                                        <i class="fa-solid fa-building w-4 h-4 text-cyan-500 flex items-center justify-center"></i>
                                         OPD
                                     </span>
                                 </th>
@@ -230,7 +230,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-500/12 dark:to-teal-500/8 text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-500/25">
+                                        <span class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-gradient-to-r from-cyan-50 to-sky-50 dark:from-cyan-500/12 dark:to-sky-500/8 text-cyan-700 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-500/25">
                                             {{ $user->opd->nama_opd ?? 'N/A' }}
                                         </span>
                                     </td>
@@ -748,7 +748,7 @@
             <!-- Modal panel -->
             <div class="inline-block align-bottom bg-white dark:bg-zinc-900 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full ring-1 ring-black/5 dark:ring-white/10">
                 <!-- Success Header -->
-                <div class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-6 py-8 text-center relative overflow-hidden">
+                <div class="bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-500 px-6 py-8 text-center relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                     <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                     <div class="relative z-10">
@@ -783,8 +783,8 @@
                                 <p class="text-xs text-gray-500 dark:text-zinc-500 uppercase tracking-wide font-semibold mb-1">OPD</p>
                                 <p class="text-sm font-bold text-gray-900 dark:text-white">{{ session('created_user_opd') }}</p>
                             </div>
-                            <div class="p-2 bg-emerald-100 dark:bg-emerald-500/15 rounded-lg">
-                                <i class="fa-solid fa-building w-5 h-5 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                            <div class="p-2 bg-cyan-100 dark:bg-cyan-500/15 rounded-lg">
+                                <i class="fa-solid fa-building w-5 h-5 text-cyan-600 dark:text-cyan-400 flex items-center justify-center"></i>
                             </div>
                         </div>
                     </div>

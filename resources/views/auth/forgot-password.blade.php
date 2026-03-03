@@ -11,6 +11,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -64,8 +65,8 @@
             <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24 relative">
                 <!-- Theme Toggle (moved to panel) -->
                 <button id="themeToggle" class="absolute top-6 right-6 z-50 theme-toggle p-2 rounded-full bg-white/50 dark:bg-slate-800/50 backdrop-blur shadow-sm hover:bg-white dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 transition-all" title="Toggle Dark Mode">
-                    <i class="fa-solid fa-triangle-exclamation w-6 h-6 text-amber-500 hidden flex items-center justify-center"></i>
-                    <i class="fa-solid fa-pen-to-square w-6 h-6 text-blue-400 hidden flex items-center justify-center"></i>
+                    <i id="sunIcon" class="fa-solid fa-sun w-6 h-6 text-amber-500 flex items-center justify-center"></i>
+                    <i id="moonIcon" class="fa-solid fa-moon w-6 h-6 text-blue-400 hidden flex items-center justify-center"></i>
                 </button>
                 <div class="mx-auto w-full max-w-md">
                     <!-- Logo & Header -->
@@ -122,9 +123,12 @@
                                         Alamat Email
                                     </span>
                                 </label>
-                                <div class="mt-2">
+                                <div class="mt-2 relative">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                        <i class="fa-regular fa-envelope text-gray-400 text-sm"></i>
+                                    </div>
                                     <input id="email" name="email" type="email" autocomplete="email" required autofocus
-                                        class="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                        class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                         value="{{ old('email') }}"
                                         placeholder="contoh@email.com">
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />

@@ -57,7 +57,7 @@
             <!-- Left Text -->
             <div class="flex-1 space-y-3">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-md shadow-slate-200 dark:shadow-blue-500/30">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
                     Admin Control Center
                 </div>
                 
@@ -136,9 +136,9 @@
             <div class="flex items-center gap-5 pt-6 md:pt-0 md:px-8 group">
                 <div class="relative flex-shrink-0">
                     <!-- Glow Effect -->
-                    <div class="absolute inset-0 bg-cyan-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-sky-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
                     <!-- Icon Container -->
-                    <div class="relative w-16 h-16 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-cyan-50 dark:ring-teal-500/20 group-hover:scale-105 transition-transform">
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-cyan-400 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-cyan-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Building Office 2 -->
                         <i class="fa-solid fa-building-columns text-white text-3xl"></i>
                     </div>
@@ -146,7 +146,7 @@
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Total OPD</p>
                     <h3 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight">{{ $totalOpds }}</h3>
-                    <p class="text-xs text-teal-600 dark:text-teal-400 mt-2 flex items-center font-medium">
+                    <p class="text-xs text-sky-600 dark:text-sky-400 mt-2 flex items-center font-medium">
                         <i class="fa-solid fa-check-circle w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
                         Terdaftar di sistem
                     </p>
@@ -210,7 +210,7 @@
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <i class="fa-solid fa-building-user w-4 h-4 text-emerald-500 flex items-center justify-center"></i>
+                                        <i class="fa-solid fa-building-user w-4 h-4 text-cyan-500 flex items-center justify-center"></i>
                                         OPD
                                     </span>
                                 </th>
@@ -254,7 +254,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-green-50 dark:bg-emerald-500/15 text-green-700 dark:text-emerald-400 border border-green-100 dark:border-emerald-500/25">
+                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border border-cyan-100 dark:border-cyan-500/25">
                                             {{ $app->opd->nama_opd }}
                                         </span>
                                     </td>

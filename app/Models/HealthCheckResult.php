@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class HealthCheckResult extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
-        'batch_id', 'web_app_id', 'nama_web_app', 'nama_opd',
-        'url', 'http_code', 'status', 'response_time_ms'
+        'batch_id', 'web_app_id', 'nama_web_app', 'opd_nama',
+        'alamat_tautan', 'http_code', 'status', 'response_time_ms'
     ];
 
     public function batch()

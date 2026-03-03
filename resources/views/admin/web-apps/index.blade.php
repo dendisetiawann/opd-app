@@ -74,7 +74,7 @@
                             @endforeach
                         </select>
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-building h-4 w-4 text-emerald-500 flex items-center justify-center"></i>
+                            <i class="fa-solid fa-building h-4 w-4 text-cyan-500 flex items-center justify-center"></i>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-left">
                                     <span class="flex items-center gap-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                                        <i class="fa-solid fa-building w-4 h-4 text-emerald-500 flex items-center justify-center"></i>
+                                        <i class="fa-solid fa-building w-4 h-4 text-cyan-500 flex items-center justify-center"></i>
                                         OPD
                                     </span>
                                 </th>
@@ -203,7 +203,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-green-50 dark:bg-emerald-500/15 text-green-700 dark:text-emerald-400 border border-green-100 dark:border-emerald-500/25">
+                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border border-cyan-100 dark:border-cyan-500/25">
                                             {{ $app->opd->nama_opd }}
                                         </span>
                                     </td>

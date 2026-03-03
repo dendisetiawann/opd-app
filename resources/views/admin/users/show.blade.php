@@ -101,7 +101,7 @@
                         <div class="flex items-center gap-5 group/item">
                             <div class="relative flex-shrink-0">
                                 <div class="absolute inset-0 bg-cyan-400 rounded-2xl blur-xl opacity-0 group-hover/item:opacity-30 transition-opacity"></div>
-                                <div class="relative w-14 h-14 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-cyan-50 group-hover/item:scale-105 transition-transform">
+                                <div class="relative w-14 h-14 bg-gradient-to-br from-cyan-400 via-sky-500 to-sky-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-cyan-50 group-hover/item:scale-105 transition-transform">
                                     <i class="fa-solid fa-building w-7 h-7 text-white flex items-center justify-center"></i>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30">
                     <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        <i class="fa-solid fa-building w-5 h-5 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                        <i class="fa-solid fa-building w-5 h-5 text-cyan-600 dark:text-cyan-400 flex items-center justify-center"></i>
                         Informasi OPD
                     </h3>
                 </div>

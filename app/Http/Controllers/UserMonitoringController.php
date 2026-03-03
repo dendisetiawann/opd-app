@@ -616,14 +616,14 @@ class UserMonitoringController extends Controller
             ->map(function ($r) {
                 return [
                     'nama_web_app' => $r->nama_web_app,
-                    'opd_nama' => $r->nama_opd,
-                    'alamat_tautan' => $r->url,
+                    'opd_nama' => $r->opd_nama,
+                    'alamat_tautan' => $r->alamat_tautan,
                     'http_code' => $r->http_code,
                     'http_label' => HealthCheckResult::httpCodeLabel($r->http_code),
                     'http_desc' => HealthCheckResult::httpCodeDescription($r->http_code),
                     'status' => $r->status,
                     'response_time_ms' => $r->response_time_ms,
-                    'checked_at' => $r->created_at?->format('H:i:s'),
+                    'checked_at' => $r->checked_at,
                 ];
             });
 
@@ -641,7 +641,7 @@ class UserMonitoringController extends Controller
         }
 
         $results = HealthCheckResult::where('batch_id', $batchId)
-            ->orderBy('nama_opd')
+            ->orderBy('opd_nama')
             ->orderBy('nama_web_app')
             ->get();
 
@@ -682,13 +682,13 @@ class UserMonitoringController extends Controller
         foreach ($results as $i => $r) {
             $sheet->setCellValue('A' . $row, $i + 1);
             $sheet->setCellValue('B' . $row, $r->nama_web_app);
-            $sheet->setCellValue('C' . $row, $r->nama_opd);
-            $sheet->setCellValue('D' . $row, $r->url);
+            $sheet->setCellValue('C' . $row, $r->opd_nama);
+            $sheet->setCellValue('D' . $row, $r->alamat_tautan);
             $sheet->setCellValue('E' . $row, $r->http_code ?: 0);
             $sheet->setCellValue('F' . $row, HealthCheckResult::httpCodeDescription($r->http_code));
             $sheet->setCellValue('G' . $row, ucfirst($r->status));
             $sheet->setCellValue('H' . $row, $r->response_time_ms);
-            $sheet->setCellValue('I' . $row, $r->created_at?->format('d/m/Y H:i:s') ?? '-');
+            $sheet->setCellValue('I' . $row, $r->checked_at ?? '-');
 
             $rowColor = match($r->status) {
                 'online' => 'DCFCE7',
