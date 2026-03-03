@@ -221,8 +221,8 @@
                     <!-- Filter -->
                     <select id="filterStatus" onchange="applyFilters()" class="pl-3 pr-8 py-2 text-xs font-medium border border-gray-200 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         <option value="all">Semua Status</option>
-                        <option value="has_data">✅ Sudah Ada Data</option>
-                        <option value="no_data">⚠️ Belum Ada Data</option>
+                        <option value="has_data">● Sudah Ada Data</option>
+                        <option value="no_data">○ Belum Ada Data</option>
                     </select>
                     
                     <!-- Sort -->
@@ -309,7 +309,7 @@
                                 </a>
                                 <button onclick="showOpdDetail({{ $opd->id }}, '{{ $opd->nama_opd }}')" 
                                     class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg transition-all ring-1 ring-indigo-200 dark:ring-indigo-800 hover:ring-indigo-600">
-                                    <i class="fa-solid fa-circle-check w-3.5 h-3.5 flex items-center justify-center"></i>
+                                    <i class="fa-solid fa-eye w-3.5 h-3.5 flex items-center justify-center"></i>
                                     Detail
                                 </button>
                             </div>

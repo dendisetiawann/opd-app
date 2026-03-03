@@ -114,11 +114,11 @@
                                     <i class="fa-regular fa-envelope text-gray-400 text-sm"></i>
                                 </div>
                                 <input id="email" name="email" type="email" autocomplete="email" required 
-                                    class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                    class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset {{ $errors->has('email') ? 'ring-red-500' : 'ring-gray-300' }} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                     value="{{ old('email') }}"
                                     placeholder="contoh@email.com">
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
                         <!-- Password -->
@@ -134,13 +134,13 @@
                                     <i class="fa-solid fa-lock text-gray-400 text-sm"></i>
                                 </div>
                                 <input id="password" name="password" type="password" autocomplete="current-password" required 
-                                    class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                    class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset {{ $errors->has('password') ? 'ring-red-500' : 'ring-gray-300' }} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                     placeholder="Masukkan password Anda">
                                 <button type="button" onclick="togglePassword('password', 'eyeIcon')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
                                     <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
                                 </button>
-                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
                             </div>
+                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
                         </div>
 
                         <script>

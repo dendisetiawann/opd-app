@@ -202,10 +202,8 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border border-cyan-100 dark:border-cyan-500/25">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400 font-medium">
                                             {{ $app->opd->nama_opd }}
-                                        </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400">
                                         @if($app->user)
@@ -224,7 +222,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('admin.web-apps.show', $app) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/25 transition-colors text-xs font-semibold">
-                                            <i class="fa-solid fa-circle-check w-4 h-4 mr-1 flex items-center justify-center"></i>
+                                            <i class="fa-solid fa-eye w-4 h-4 mr-1 flex items-center justify-center"></i>
                                             Detail
                                         </a>
                                     </td>

@@ -229,10 +229,8 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg bg-gradient-to-r from-cyan-50 to-sky-50 dark:from-cyan-500/12 dark:to-sky-500/8 text-cyan-700 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-500/25">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400 font-medium">
                                             {{ $user->opd->nama_opd ?? 'N/A' }}
-                                        </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-zinc-400">
                                         {{ $user->created_at->format('d M Y') }}
@@ -249,7 +247,7 @@
                                                 data-user-email="{{ $user->email }}"
                                                 onclick="openDeleteModal(this)" 
                                                 class="inline-flex items-center px-3 py-1.5 bg-red-50 dark:bg-red-500/15 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-500/25 transition-colors text-xs font-semibold border border-red-200 dark:border-red-500/25">
-                                                <i class="fa-solid fa-minus w-4 h-4 mr-1 flex items-center justify-center"></i>
+                                                <i class="fa-solid fa-trash-can w-4 h-4 mr-1 flex items-center justify-center"></i>
                                                 Hapus
                                             </button>
                                         </div>

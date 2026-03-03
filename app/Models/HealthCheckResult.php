@@ -10,7 +10,7 @@ class HealthCheckResult extends Model
 
     protected $fillable = [
         'batch_id', 'web_app_id', 'nama_web_app', 'opd_nama',
-        'alamat_tautan', 'http_code', 'status', 'response_time_ms'
+        'alamat_tautan', 'http_code', 'status', 'response_time_ms', 'checked_at'
     ];
 
     public function batch()

@@ -267,8 +267,8 @@
                 <!-- Integration & Security -->
                 <section class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-200 dark:border-zinc-800">
                     <div class="px-6 py-5 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
-                         <div class="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-500/15 flex items-center justify-center">
-                             <i class="fa-solid fa-shield-halved w-5 h-5 text-orange-600 dark:text-orange-400 flex items-center justify-center"></i>
+                         <div class="w-10 h-10 rounded-full bg-sky-50 dark:bg-sky-900/20 flex items-center justify-center">
+                             <i class="fa-solid fa-shield-halved w-5 h-5 text-sky-600 dark:text-sky-300 flex items-center justify-center"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Integrasi & Keamanan</h2>
@@ -280,13 +280,13 @@
                             
                             <!-- 1. Integrasi Sistem Eksternal -->
                             <div class="relative group">
-                                <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-300 rounded-l-full"></div>
+                                <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-sky-500 to-sky-300 dark:from-sky-600 dark:to-sky-800 rounded-l-full"></div>
                                 <div class="pl-2">
                                     <div class="flex items-center mb-3">
-                                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-bold text-sm mr-3 shadow-sm border border-blue-200">1</div>
+                                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-300 font-bold text-sm mr-3 shadow-sm border border-sky-200 dark:border-sky-800">1</div>
                                         <h4 class="text-base font-bold text-gray-900 dark:text-zinc-200">Integrasi Sistem Eksternal</h4>
                                     </div>
-                                    <div class="bg-blue-50/50 dark:bg-blue-500/8 rounded-xl p-5 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-blue-100 dark:border-blue-500/20 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow">
+                                    <div class="bg-sky-50/50 dark:bg-zinc-800/50 rounded-xl p-5 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-sky-100 dark:border-zinc-700/50 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow">
                                         {{ $webApp->integrasi_sistem_keluar ?? 'Tidak ada integrasi dengan sistem luar.' }}
                                     </div>
                                 </div>
@@ -294,13 +294,13 @@
                             
                             <!-- 2. Metode Monitoring & Evaluasi -->
                             <div class="relative group">
-                                <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-purple-300 rounded-l-full"></div>
+                                <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-sky-500 to-sky-300 dark:from-sky-600 dark:to-sky-800 rounded-l-full"></div>
                                 <div class="pl-2">
                                     <div class="flex items-center mb-3">
-                                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-600 font-bold text-sm mr-3 shadow-sm border border-purple-200">2</div>
+                                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-300 font-bold text-sm mr-3 shadow-sm border border-sky-200 dark:border-sky-800">2</div>
                                         <h4 class="text-base font-bold text-gray-900 dark:text-zinc-200">Metode Monitoring & Evaluasi</h4>
                                     </div>
-                                    <div class="bg-purple-50/50 dark:bg-purple-500/8 rounded-xl p-5 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-purple-100 dark:border-purple-500/20 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow">
+                                    <div class="bg-sky-50/50 dark:bg-zinc-800/50 rounded-xl p-5 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-sky-100 dark:border-zinc-700/50 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow">
                                         {{ $webApp->metode_monitoring_evaluasi ?? 'Tidak ada data.' }}
                                     </div>
                                 </div>
@@ -310,13 +310,13 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <!-- 3. Backup Source Code -->
                                 <div class="relative group">
-                                     <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 to-emerald-300 rounded-l-full"></div>
+                                     <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-sky-500 to-sky-300 dark:from-sky-600 dark:to-sky-800 rounded-l-full"></div>
                                      <div class="pl-2 h-full flex flex-col">
                                         <div class="flex items-center mb-3">
-                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 font-bold text-sm mr-3 shadow-sm border border-emerald-200">3</div>
+                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-300 font-bold text-sm mr-3 shadow-sm border border-sky-200 dark:border-sky-800">3</div>
                                             <h4 class="text-base font-bold text-gray-900 dark:text-zinc-200">Backup Source Code</h4>
                                         </div>
-                                        <div class="bg-emerald-50/50 dark:bg-emerald-500/8 rounded-xl p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-emerald-100 dark:border-emerald-500/20 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow flex-grow">
+                                        <div class="bg-sky-50/50 dark:bg-zinc-800/50 rounded-xl p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-sky-100 dark:border-zinc-700/50 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow flex-grow">
                                             {{ $webApp->metode_backup_source_code ?? 'Tidak ada data.' }}
                                         </div>
                                      </div>
@@ -324,13 +324,13 @@
                                 
                                 <!-- 4. Backup Database -->
                                 <div class="relative group">
-                                    <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-teal-500 to-teal-300 rounded-l-full"></div>
+                                    <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-sky-500 to-sky-300 dark:from-sky-600 dark:to-sky-800 rounded-l-full"></div>
                                     <div class="pl-2 h-full flex flex-col">
                                         <div class="flex items-center mb-3">
-                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-teal-100 text-teal-600 font-bold text-sm mr-3 shadow-sm border border-teal-200">4</div>
+                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-300 font-bold text-sm mr-3 shadow-sm border border-sky-200 dark:border-sky-800">4</div>
                                             <h4 class="text-base font-bold text-gray-900 dark:text-zinc-200">Backup Database</h4>
                                         </div>
-                                        <div class="bg-teal-50/50 dark:bg-teal-500/8 rounded-xl p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-teal-100 dark:border-teal-500/20 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow flex-grow">
+                                        <div class="bg-sky-50/50 dark:bg-zinc-800/50 rounded-xl p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-sky-100 dark:border-zinc-700/50 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow flex-grow">
                                             {{ $webApp->metode_backup_database ?? 'Tidak ada data.' }}
                                         </div>
                                     </div>
@@ -338,13 +338,13 @@
                                 
                                 <!-- 5. Backup Assets (File/Gambar) -->
                                 <div class="relative group">
-                                    <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-500 to-amber-300 rounded-l-full"></div>
+                                    <div class="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-sky-500 to-sky-300 dark:from-sky-600 dark:to-sky-800 rounded-l-full"></div>
                                     <div class="pl-2 h-full flex flex-col">
                                         <div class="flex items-center mb-3">
-                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-amber-100 text-amber-600 font-bold text-sm mr-3 shadow-sm border border-amber-200">5</div>
+                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-300 font-bold text-sm mr-3 shadow-sm border border-sky-200 dark:border-sky-800">5</div>
                                             <h4 class="text-base font-bold text-gray-900 dark:text-zinc-200">Backup Assets</h4>
                                         </div>
-                                        <div class="bg-amber-50/50 dark:bg-amber-500/8 rounded-xl p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-amber-100 dark:border-amber-500/20 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow flex-grow">
+                                        <div class="bg-sky-50/50 dark:bg-zinc-800/50 rounded-xl p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed border border-sky-100 dark:border-zinc-700/50 whitespace-pre-line shadow-sm hover:shadow-md transition-shadow flex-grow">
                                             {{ $webApp->metode_backup_asset ?? 'Tidak ada data.' }}
                                         </div>
                                     </div>

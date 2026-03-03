@@ -117,9 +117,9 @@
                     <!-- Glow Effect -->
                     <div class="absolute inset-0 bg-sky-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
                     <!-- Icon Container -->
-                    <div class="relative w-16 h-16 bg-gradient-to-br from-sky-400 via-sky-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-sky-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-sky-600 via-sky-700 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-sky-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Cube Stack (Apps) -->
-                        <i class="fa-solid fa-cubes text-white text-3xl"></i>
+                        <i class="fa-solid fa-layer-group text-white text-2xl"></i>
                     </div>
                 </div>
                 <div class="flex-1 min-w-0">
@@ -138,16 +138,16 @@
                     <!-- Glow Effect -->
                     <div class="absolute inset-0 bg-sky-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
                     <!-- Icon Container -->
-                    <div class="relative w-16 h-16 bg-gradient-to-br from-cyan-400 via-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-cyan-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-sky-600 via-sky-700 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-sky-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Building Office 2 -->
-                        <i class="fa-solid fa-building-columns text-white text-3xl"></i>
+                        <i class="fa-solid fa-building text-white text-2xl"></i>
                     </div>
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Total OPD</p>
                     <h3 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight">{{ $totalOpds }}</h3>
                     <p class="text-xs text-sky-600 dark:text-sky-400 mt-2 flex items-center font-medium">
-                        <i class="fa-solid fa-check-circle w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
+                        <span class="w-2 h-2 bg-sky-500 rounded-full mr-2 animate-pulse"></span>
                         Terdaftar di sistem
                     </p>
                 </div>
@@ -157,18 +157,18 @@
             <div class="flex items-center gap-5 pt-6 md:pt-0 md:pl-8 md:pr-0 group">
                 <div class="relative flex-shrink-0">
                     <!-- Glow Effect -->
-                    <div class="absolute inset-0 bg-blue-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-sky-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
                     <!-- Icon Container -->
-                    <div class="relative w-16 h-16 bg-gradient-to-br from-blue-400 via-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-blue-50 dark:ring-indigo-500/20 group-hover:scale-105 transition-transform">
+                    <div class="relative w-16 h-16 bg-gradient-to-br from-sky-600 via-sky-700 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-sky-50 dark:ring-sky-500/20 group-hover:scale-105 transition-transform">
                         <!-- Icon: Document Chart Bar -->
-                        <i class="fa-solid fa-file-invoice text-white text-3xl"></i>
+                        <i class="fa-solid fa-chart-line text-white text-2xl"></i>
                     </div>
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Input Bulan Ini</p>
                     <h3 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight">{{ $appsThisMonth ?? 0 }}</h3>
-                    <p class="text-xs text-indigo-600 dark:text-indigo-400 mt-2 flex items-center font-medium">
-                        <i class="fa-solid fa-calendar-check w-3.5 h-3.5 mr-1.5 flex items-center justify-center"></i>
+                    <p class="text-xs text-sky-600 dark:text-sky-400 mt-2 flex items-center font-medium">
+                        <span class="w-2 h-2 bg-sky-500 rounded-full mr-2 animate-pulse"></span>
                         {{ \Carbon\Carbon::now()->locale('id')->isoFormat('MMMM Y') }}
                     </p>
                 </div>
@@ -253,10 +253,8 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border border-cyan-100 dark:border-cyan-500/25">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 font-medium">
                                             {{ $app->opd->nama_opd }}
-                                        </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400">
                                         {{ $app->user->name }}

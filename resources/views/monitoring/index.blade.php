@@ -335,7 +335,10 @@
                         <div class="flex-1 space-y-2 min-w-0">
                             @foreach($hasRepoStats as $item)
                             <div class="flex items-center justify-between text-sm hover:bg-emerald-50/70 dark:hover:bg-emerald-900/15 px-2.5 py-2 rounded-lg transition-all cursor-pointer" onclick="showApps('has_repository', '{{ $item->has_repository }}')">
-                                <span class="text-gray-700 dark:text-gray-300 font-medium">{{ $item->has_repository == 'ya' ? '✅ Punya' : '❌ Tidak' }}</span>
+                                <span class="inline-flex items-center gap-1.5 font-medium {{ $item->has_repository == 'ya' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400' }}">
+                                    <i class="fa-solid {{ $item->has_repository == 'ya' ? 'fa-circle-check' : 'fa-circle-xmark' }} w-3.5 h-3.5 flex items-center justify-center"></i>
+                                    {{ $item->has_repository == 'ya' ? 'Punya' : 'Tidak Punya' }}
+                                </span>
                                 <span class="text-xs font-bold px-2 py-0.5 rounded-full {{ $item->has_repository == 'ya' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400' }}">{{ $item->total }} aplikasi</span>
                             </div>
                             @endforeach
@@ -862,7 +865,10 @@
                             <div class="flex-1 space-y-2 min-w-0">
                                 @foreach($allHasRepoStats as $item)
                                 <div class="flex items-center justify-between text-sm hover:bg-emerald-50/70 dark:hover:bg-emerald-900/15 px-2.5 py-2 rounded-lg transition-all cursor-pointer" onclick="showApps('has_repository', '{{ $item->has_repository }}', 'all')">
-                                    <span class="text-gray-700 dark:text-gray-300 font-medium">{{ $item->has_repository == 'ya' ? '✅ Punya' : '❌ Tidak' }}</span>
+                                    <span class="inline-flex items-center gap-1.5 font-medium {{ $item->has_repository == 'ya' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400' }}">
+                                        <i class="fa-solid {{ $item->has_repository == 'ya' ? 'fa-circle-check' : 'fa-circle-xmark' }} w-3.5 h-3.5 flex items-center justify-center"></i>
+                                        {{ $item->has_repository == 'ya' ? 'Punya' : 'Tidak Punya' }}
+                                    </span>
                                     <span class="text-xs font-bold px-2 py-0.5 rounded-full {{ $item->has_repository == 'ya' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400' }}">{{ $item->total }} aplikasi</span>
                                 </div>
                                 @endforeach

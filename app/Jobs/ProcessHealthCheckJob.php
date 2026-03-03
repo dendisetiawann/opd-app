@@ -110,6 +110,7 @@ class ProcessHealthCheckJob implements ShouldQueue
                 'http_code'        => $result['http_code'],
                 'status'           => $result['status'],
                 'response_time_ms' => $result['response_time'],
+                'checked_at'       => now(),
             ]);
         }
 
