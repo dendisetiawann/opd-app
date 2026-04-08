@@ -2,7 +2,7 @@
 
 **Sistem Informasi Data Terpadu** untuk inventarisasi, pengelolaan, monitoring, dan standardisasi data aplikasi web di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mendukung tata kelola SPBE yang terintegrasi dan akuntabel.
 
-> 🌐 Demo: `43.128.85.195`
+> 🌐 Demo: `https://dendisetiawan44.my.id/'
 
 ---
 
