@@ -118,6 +118,12 @@
                     <span id="bulkResultInfo"></span>
                     @endif
                 </p>
+                @if($latestBatch && $latestBatch->status === 'completed' && $bulkResults->count() > 0)
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/15 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check mr-1"></i>{{ $bulkResults->where('status', 'online')->count() + $bulkResults->where('status', 'slow')->count() }} Aktif</span>
+                    <span class="text-[10px] font-bold text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-500/15 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-xmark mr-1"></i>{{ $bulkResults->whereNotIn('status', ['online', 'slow'])->count() }} Tidak Aktif</span>
+                </div>
+                @endif
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm" id="bulkResultsTable">
@@ -138,7 +144,7 @@
                             <td class="px-4 py-3 text-slate-400 text-xs">{{ $i + 1 }}</td>
                             <td class="px-4 py-3">
                                 <p class="font-semibold text-slate-800 dark:text-zinc-200 text-xs">{{ $r->nama_web_app }}</p>
-                                <a href="{{ $r->url }}" target="_blank" class="text-[10px] text-blue-500 hover:underline break-all">{{ $r->url }}</a>
+                                <a href="{{ $r->alamat_tautan }}" target="_blank" class="text-[10px] text-blue-500 hover:underline break-all">{{ $r->alamat_tautan }}</a>
                             </td>
                             <td class="px-4 py-3">
                                 @php $codeColor = $r->http_code >= 200 && $r->http_code < 300 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : ($r->http_code >= 300 && $r->http_code < 400 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : ($r->http_code >= 400 ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-600 dark:bg-zinc-800 dark:text-zinc-400')); @endphp
