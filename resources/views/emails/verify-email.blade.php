@@ -13,10 +13,6 @@
                     <!-- Header -->
                     <tr>
                         <td style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1e40af 100%); padding: 36px 40px; text-align: center;">
-                            <!-- Icon -->
-                            <div style="margin-bottom: 12px;">
-                                <span style="display: inline-block; width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 16px; line-height: 56px; font-size: 28px;">🏛️</span>
-                            </div>
                             <h1 style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 700; letter-spacing: 0.5px;">Dinas Komunikasi, Informatika,</h1>
                             <h1 style="margin: 2px 0 0; color: #ffffff; font-size: 16px; font-weight: 700; letter-spacing: 0.5px;">Statistik dan Persandian</h1>
                             <p style="margin: 8px 0 0; color: #93c5fd; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500;">Kota Pekanbaru</p>
@@ -31,11 +27,6 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 40px;">
-                            <!-- Email Icon -->
-                            <div style="text-align: center; margin-bottom: 24px;">
-                                <span style="display: inline-block; width: 64px; height: 64px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 50%; line-height: 64px; font-size: 32px;">✉️</span>
-                            </div>
-
                             <h2 style="margin: 0 0 16px; color: #1e293b; font-size: 20px; font-weight: 700; text-align: center;">Verifikasi Alamat Email</h2>
                             
                             <p style="margin: 0 0 28px; color: #6b7280; font-size: 14px; line-height: 1.7; text-align: center;">

@@ -13,10 +13,6 @@
                     <!-- Header -->
                     <tr>
                         <td style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1e40af 100%); padding: 36px 40px; text-align: center;">
-                            <!-- Icon -->
-                            <div style="margin-bottom: 12px;">
-                                <span style="display: inline-block; width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 16px; line-height: 56px; font-size: 28px;">🏛️</span>
-                            </div>
                             <h1 style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 700; letter-spacing: 0.5px;">Dinas Komunikasi, Informatika,</h1>
                             <h1 style="margin: 2px 0 0; color: #ffffff; font-size: 16px; font-weight: 700; letter-spacing: 0.5px;">Statistik dan Persandian</h1>
                             <p style="margin: 8px 0 0; color: #93c5fd; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500;">Kota Pekanbaru</p>
