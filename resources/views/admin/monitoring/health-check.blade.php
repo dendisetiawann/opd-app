@@ -1,6 +1,34 @@
 <x-admin-layout>
     <x-slot name="header">Cek Status Website</x-slot>
 
+    <!-- TomSelect CSS for Searchable Dropdown -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <style>
+        /* Custom TomSelect Styling to match the premium admin theme */
+        .ts-control { 
+            border-radius: 0.5rem !important; 
+            padding: 0.75rem 1rem !important; 
+            border-color: #e5e7eb !important; 
+            font-size: 0.875rem !important;
+            background-color: #f9fafb !important;
+        }
+        .dark .ts-control { 
+            background-color: #000 !important; 
+            border-color: #27272a !important; 
+            color: #e4e4e7 !important; 
+        }
+        .dark .ts-control input { color: #e4e4e7 !important; }
+        .dark .ts-dropdown { 
+            background-color: #18181b !important; 
+            border-color: #3f3f46 !important; 
+            color: #e4e4e7 !important; 
+            border-radius: 0.5rem !important;
+        }
+        .dark .ts-dropdown .option { color: #a1a1aa !important; }
+        .dark .ts-dropdown .option.active { background-color: #27272a !important; color: #fff !important; }
+        .ts-wrapper.single .ts-control:after { border-color: #9ca3af transparent transparent transparent !important; }
+    </style>
+
     <!-- Header Section - Matching Dashboard Theme -->
     <div class="relative bg-white dark:bg-zinc-900 rounded-2xl p-6 mb-6 overflow-hidden shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800">
         <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-emerald-50/30 dark:from-zinc-900 dark:to-emerald-900/10"></div>
@@ -108,14 +136,14 @@
         <!-- Tab Buttons -->
         <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 p-1.5 mb-6">
             <div class="grid grid-cols-2 gap-1.5">
-                <button @click="activeTab = 'semua'" 
+                <button @click="window.location.href = '{{ route('admin.monitoring.health-check', ['tab' => 'semua']) }}'" 
                     :class="activeTab === 'semua' ? 'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/30' : 'text-slate-500 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-slate-700 dark:hover:text-zinc-200'"
                     class="flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl text-sm font-bold transition-all duration-200">
                     <i class="fa-solid fa-globe" :class="activeTab === 'semua' ? 'text-white' : 'text-indigo-400'"></i>
                     <span>Cek Semua Website</span>
                     <span :class="activeTab === 'semua' ? 'bg-white/20 text-white' : 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'" class="text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $totalCount }}</span>
                 </button>
-                <button @click="activeTab = 'opd'" 
+                <button @click="window.location.href = '{{ route('admin.monitoring.health-check', ['tab' => 'opd']) }}'" 
                     :class="activeTab === 'opd' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-200 dark:shadow-blue-900/30' : 'text-slate-500 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-slate-700 dark:hover:text-zinc-200'"
                     class="flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl text-sm font-bold transition-all duration-200">
                     <i class="fa-solid fa-building" :class="activeTab === 'opd' ? 'text-white' : 'text-blue-400'"></i>
@@ -172,7 +200,7 @@
             <div class="px-6 py-3 border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/20 flex items-center justify-between">
                 <p class="text-xs font-semibold text-slate-500 dark:text-zinc-400">
                     @if($latestBatch && $latestBatch->status === 'completed')
-                    Terakhir dicek: {{ $latestBatch->created_at?->format('d M Y H:i') }} — <span id="bulkResultCount">{{ $bulkResults->count() }}</span> website
+                    Terakhir dicek: <span class="local-time" data-timestamp="{{ $latestBatch->created_at?->timestamp }}">{{ $latestBatch->created_at?->format('d M Y H:i') }}</span> — <span id="bulkResultCount">{{ $bulkResults->count() }}</span> website
                     @else
                     <span id="bulkResultInfo"></span>
                     @endif
@@ -275,8 +303,8 @@
 
     <!-- ========== TAB: CEK PER OPD ========== -->
     <div x-show="activeTab === 'opd'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
-    <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-hidden mb-6">
-        <div class="border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30 px-6 py-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-xl border border-gray-100 dark:border-zinc-800 overflow-visible mb-6">
+        <div class="border-b border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-black/30 px-6 py-4 rounded-t-xl">
             <h3 class="text-sm font-bold text-slate-800 dark:text-zinc-200 flex items-center gap-2">
                 <i class="fa-solid fa-circle-check w-4 h-4 text-slate-500 flex items-center justify-center"></i>
                 Cek Per OPD
@@ -287,8 +315,8 @@
                 <input type="hidden" name="tab" value="opd">
                 <div class="flex-1">
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Organisasi Perangkat Daerah</label>
-                    <select name="opd_id" onchange="this.form.submit()" class="w-full border border-gray-200 dark:border-zinc-700 rounded-lg px-4 py-3 text-sm bg-gray-50 dark:bg-black dark:text-zinc-200 focus:bg-white dark:focus:bg-zinc-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                        <option value="">-- Pilih OPD --</option>
+                    <select name="opd_id" id="opdSelect" class="w-full">
+                        <option value="">-- Ketik atau Pilih OPD --</option>
                         @foreach($opds as $opd)
                             <option value="{{ $opd->id }}" {{ $selectedOpd == $opd->id ? 'selected' : '' }}>
                                 {{ $opd->nama_opd }}
@@ -613,6 +641,29 @@
     </script>
     @endif
 
+    <!-- TomSelect JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('opdSelect')) {
+                new TomSelect('#opdSelect', {
+                    create: false,
+                    sortField: {
+                        field: 'text',
+                        direction: 'asc'
+                    },
+                    placeholder: '-- Ketik untuk mencari OPD --',
+                    onChange: function(value) {
+                        if(value) {
+                            // Submitting the form automatically when an OPD is selected
+                            this.input.closest('form').submit();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
     {{-- ========== BULK CHECK JAVASCRIPT ========== --}}
     <script>
         let bulkPollingInterval = null;
@@ -794,6 +845,20 @@
         }
     </script>
 
+    <!-- Local Time Formatter -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.local-time').forEach(el => {
+                const ts = el.getAttribute('data-timestamp');
+                if (ts) {
+                    const date = new Date(ts * 1000);
+                    const options = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+                    let formatted = date.toLocaleDateString('id-ID', options).replace(/\./g, ':');
+                    el.textContent = formatted + ' WIB';
+                }
+            });
+        });
+    </script>
     {{-- ========== PAGINATION JAVASCRIPT ========== --}}
     <script>
         class TablePager {
