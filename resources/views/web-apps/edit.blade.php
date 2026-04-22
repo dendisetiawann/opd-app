@@ -167,7 +167,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="md:col-span-2" x-data="languageSelectorEdit()" x-init="init()">
+                            <div class="md:col-span-2" x-data="languageSelectorEdit()">
                                 <x-input-label for="bahasa_pemrograman" :value="__('Bahasa Pemrograman beserta versinya *')" />
                                 <style>
                                     @keyframes langBadgeEnter {
@@ -481,13 +481,7 @@
                                             },
 
                                             updateLangValue() {
-                                                let parts = this.addedLangs.map(l => l.name + ' ' + l.version);
-                                                if (this.selectedLang && this.selectedVersiLang) {
-                                                    parts.push(this.selectedLang + ' ' + this.selectedVersiLang);
-                                                } else if (this.selectedLang) {
-                                                    parts.push(this.selectedLang);
-                                                }
-                                                this.langValue = parts.join(', ');
+                                                this.langValue = this.addedLangs.map(l => l.name + ' ' + l.version).join(', ');
                                             },
 
                                             addCurrentLang() {
@@ -616,7 +610,7 @@
                             </div>
                             
                             <!-- Framework Autocomplete -->
-                            <div class="md:col-span-3" x-data="frameworkSelectorEdit()" x-init="init()">
+                            <div class="md:col-span-3" x-data="frameworkSelectorEdit()">
                                 <style>
                                     @keyframes fwBadgeEnter {
                                         0% { opacity: 0; transform: scale(0.5) translateY(8px); }
@@ -1128,13 +1122,7 @@
                                             },
                                             
                                             updateFrameworkValue() {
-                                                let parts = this.addedFrameworks.map(f => f.name + ' ' + f.version);
-                                                if (this.selectedFw && this.selectedVersiFw) {
-                                                    parts.push(this.selectedFw + ' ' + this.selectedVersiFw);
-                                                } else if (this.selectedFw) {
-                                                    parts.push(this.selectedFw);
-                                                }
-                                                this.frameworkValue = parts.join(', ');
+                                                this.frameworkValue = this.addedFrameworks.map(f => f.name + ' ' + f.version).join(', ');
                                             },
                                             
                                             addCurrentFramework() {
@@ -1413,7 +1401,7 @@
                                 </script>
                             </div>
                             
-                            <div class="md:col-span-2" x-data="librarySelectorEdit()" x-init="init()">
+                            <div class="md:col-span-2" x-data="librarySelectorEdit()">
                                 <x-input-label for="daftar_library_package">
                                     Library / Package yang terinstall pada sistem
                                     <span class="ml-1 text-xs font-normal text-slate-400 dark:text-slate-500 italic">(boleh dikosongkan)</span>
@@ -1957,7 +1945,7 @@
                 </div>
 
                 <!-- Step 5: Database -->
-                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm" x-data="dbmsSelectorEdit()" x-init="init()">
+                <div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-zinc-800 backdrop-blur-sm" x-data="dbmsSelectorEdit()">
                     <div class="relative">
                         <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-zinc-800 pb-4">
                             <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-sm shadow-md">5</span>
