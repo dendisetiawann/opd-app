@@ -73,7 +73,7 @@ class WebAppController extends Controller
         $data['opd_id'] = Auth::user()->opd_id;
 
         // Set empty string for nullable fields that database doesn't allow NULL
-        $nullableFields = ['git_repository', 'penyedia_repository', 'integrasi_sistem_keluar', 'metode_monitoring_evaluasi', 'daftar_library_package'];
+        $nullableFields = ['git_repository', 'penyedia_repository', 'integrasi_sistem_keluar', 'metode_monitoring_evaluasi'];
         foreach ($nullableFields as $field) {
             if (!isset($data[$field]) || $data[$field] === null) {
                 $data[$field] = '';
@@ -141,7 +141,7 @@ class WebAppController extends Controller
         $data = $request->validated();
         
         // Set empty string for nullable fields that database doesn't allow NULL
-        $nullableFields = ['git_repository', 'penyedia_repository', 'integrasi_sistem_keluar', 'metode_monitoring_evaluasi', 'daftar_library_package'];
+        $nullableFields = ['git_repository', 'penyedia_repository', 'integrasi_sistem_keluar', 'metode_monitoring_evaluasi'];
         foreach ($nullableFields as $field) {
             if (!isset($data[$field]) || $data[$field] === null) {
                 $data[$field] = '';

@@ -146,7 +146,7 @@ return new class extends Migration
             $table->text('bahasa_pemrograman');
             $table->enum('arsitektur_sistem', ['monolith', 'be-fe'])->default('monolith');
             $table->string('framework');
-            $table->text('daftar_library_package');
+            $table->text('daftar_library_package')->nullable();
 
             // Repository & Backup (WAJIB)
             $table->enum('has_repository', ['ya', 'tidak']);
