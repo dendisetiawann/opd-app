@@ -279,7 +279,7 @@
             if (bulkPollingInterval) clearInterval(bulkPollingInterval);
             bulkPollingInterval = setInterval(async () => {
                 try {
-                    const res = await fetch(`{{ url('/monitoring/health-check/bulk-progress') }}/${batchId}`);
+                    const res = await fetch(`{{ url(route('monitoring.health-check.bulk-progress', ['batchId' => '__BATCH__'], false)) }}`.replace('__BATCH__', batchId));
                     const data = await res.json();
                     
                     if (data.error) {

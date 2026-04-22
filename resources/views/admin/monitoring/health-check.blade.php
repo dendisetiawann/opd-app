@@ -740,7 +740,7 @@
             
             bulkPollingInterval = setInterval(async () => {
                 try {
-                    const res = await fetch(`{{ url('/admin/monitoring/health-check/bulk-progress') }}/${batchId}`);
+                    const res = await fetch(`{{ url(route('admin.monitoring.health-check.bulk-progress', ['batchId' => '__BATCH__'], false)) }}`.replace('__BATCH__', batchId));
                     
                     if (!res.ok) {
                         const errData = await res.json().catch(() => ({}));
@@ -801,7 +801,7 @@
 
         async function loadBulkResults(batchId) {
             try {
-                const res = await fetch(`{{ url('/admin/monitoring/health-check/bulk-results') }}/${batchId}`);
+                const res = await fetch(`{{ url(route('admin.monitoring.health-check.bulk-results', ['batchId' => '__BATCH__'], false)) }}`.replace('__BATCH__', batchId));
                 const data = await res.json();
 
                 const tbody = document.getElementById('bulkResultsBody');

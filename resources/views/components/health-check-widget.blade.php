@@ -1,4 +1,4 @@
-{{-- Floating Health Check Widget - Persists across page navigation --}}
+{{-- Floating Health Check Widget v2 - Robust & Smooth --}}
 <div id="hcWidget" class="fixed bottom-5 right-5 z-[90] transition-all duration-300 ease-in-out" style="display:none;">
 
     {{-- Minimized State --}}
@@ -104,291 +104,295 @@
 
 <script>
 window.HCWidget = (function() {
-    const LS_BATCH   = 'hcBatchId';
-    const LS_ROLE    = 'hcRole';
-    const LS_STATE   = 'hcWidgetState'; // 'min' | 'max'
-    const LS_STATUS  = 'hcBatchStatus';
-    const LS_TOTAL   = 'hcBatchTotal';
+    const LS_KEY = 'hcWidgetData'; // Single key for all state
+    const POLL_FAST = 2000;  // 2s when actively checking
+    const POLL_SLOW = 5000;  // 5s fallback
+    const STALE_MS  = 30 * 60 * 1000; // 30 min = stale, auto-cleanup
 
-    let pollingInterval = null;
+    let pollingTimer = null;
+    let pollCount = 0;
     let isVisible = false;
 
-    function getEls() {
-        return {
-            widget:       document.getElementById('hcWidget'),
-            widgetMin:    document.getElementById('hcWidgetMin'),
-            widgetMax:    document.getElementById('hcWidgetMax'),
-            minIcon:      document.getElementById('hcMinIcon'),
-            minDot:       document.getElementById('hcMinDot'),
-            minText:      document.getElementById('hcMinText'),
-            minPct:       document.getElementById('hcMinPct'),
-            headerIcon:   document.getElementById('hcHeaderIcon'),
-            headerDot:    document.getElementById('hcHeaderDot'),
-            headerSub:    document.getElementById('hcHeaderSub'),
-            statusText:   document.getElementById('hcStatusText'),
-            pctText:      document.getElementById('hcPctText'),
-            progressBar:  document.getElementById('hcProgressBar'),
-            detailText:   document.getElementById('hcDetailText'),
-            countText:    document.getElementById('hcCountText'),
-            bodyProgress: document.getElementById('hcBodyProgress'),
-            bodyDone:     document.getElementById('hcBodyDone'),
-            bodyFailed:   document.getElementById('hcBodyFailed'),
-            doneSummary:  document.getElementById('hcDoneSummary'),
-            failedMsg:    document.getElementById('hcFailedMsg'),
-            footer:       document.getElementById('hcFooter'),
-            viewLink:     document.getElementById('hcViewLink'),
-        };
+    // ──── LocalStorage helpers ────
+    function saveState(obj) {
+        const current = loadState();
+        const merged = { ...current, ...obj, updatedAt: Date.now() };
+        try { localStorage.setItem(LS_KEY, JSON.stringify(merged)); } catch(e) {}
     }
 
-    function getProgressUrl(batchId) {
-        const role = localStorage.getItem(LS_ROLE) || 'admin';
-        if (role === 'admin') {
-            return `/admin/monitoring/health-check/bulk-progress/${batchId}`;
-        }
-        return `/monitoring/health-check/bulk-progress/${batchId}`;
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(LS_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch(e) { return null; }
     }
 
-    function getResultsPageUrl() {
-        const role = localStorage.getItem(LS_ROLE) || 'admin';
-        if (role === 'admin') return '/admin/monitoring/health-check';
-        return '/monitoring/health-check';
+    function clearState() {
+        try { localStorage.removeItem(LS_KEY); } catch(e) {}
     }
+
+    function isStale(state) {
+        if (!state || !state.updatedAt) return true;
+        return (Date.now() - state.updatedAt) > STALE_MS;
+    }
+
+    // ──── URL builders ────
+    function getProgressUrl(batchId, role) {
+        const prefix = (role === 'admin') ? '/admin/monitoring/status-website' : '/monitoring/status-website';
+        return `${prefix}/bulk-progress/${batchId}`;
+    }
+
+    function getResultsPageUrl(role) {
+        return (role === 'admin') ? '/admin/monitoring/status-website' : '/monitoring/status-website';
+    }
+
+    // ──── DOM helpers ────
+    function el(id) { return document.getElementById(id); }
 
     function show() {
-        const el = getEls();
-        if (!el.widget) return;
-        el.widget.style.display = '';
+        const w = el('hcWidget');
+        if (!w) return;
+        w.style.display = '';
         isVisible = true;
-
-        const state = localStorage.getItem(LS_STATE) || 'max';
-        if (state === 'min') {
-            el.widgetMin.style.display = '';
-            el.widgetMax.style.display = 'none';
+        const state = loadState();
+        if (state && state.viewState === 'min') {
+            el('hcWidgetMin').style.display = '';
+            el('hcWidgetMax').style.display = 'none';
         } else {
-            el.widgetMin.style.display = 'none';
-            el.widgetMax.style.display = '';
+            el('hcWidgetMin').style.display = 'none';
+            el('hcWidgetMax').style.display = '';
         }
     }
 
     function hide() {
-        const el = getEls();
-        if (!el.widget) return;
-        el.widget.style.display = 'none';
+        const w = el('hcWidget');
+        if (w) w.style.display = 'none';
         isVisible = false;
     }
 
     function minimize() {
-        const el = getEls();
-        if (!el.widget) return;
-        localStorage.setItem(LS_STATE, 'min');
-        el.widgetMax.style.display = 'none';
-        el.widgetMin.style.display = '';
+        saveState({ viewState: 'min' });
+        el('hcWidgetMax').style.display = 'none';
+        el('hcWidgetMin').style.display = '';
     }
 
     function maximize() {
-        const el = getEls();
-        if (!el.widget) return;
-        localStorage.setItem(LS_STATE, 'max');
-        el.widgetMin.style.display = 'none';
-        el.widgetMax.style.display = '';
+        saveState({ viewState: 'max' });
+        el('hcWidgetMin').style.display = 'none';
+        el('hcWidgetMax').style.display = '';
     }
 
     function close() {
         stopPolling();
-        localStorage.removeItem(LS_BATCH);
-        localStorage.removeItem(LS_ROLE);
-        localStorage.removeItem(LS_STATE);
-        localStorage.removeItem(LS_STATUS);
-        localStorage.removeItem(LS_TOTAL);
+        clearState();
         hide();
     }
 
-    function updateProgress(data) {
-        const el = getEls();
-        if (!el.widget) return;
+    // ──── UI updates ────
+    function resetUI() {
+        el('hcBodyProgress').style.display = '';
+        el('hcBodyDone').style.display = 'none';
+        el('hcBodyFailed').style.display = 'none';
+        el('hcFooter').style.display = 'none';
 
+        el('hcProgressBar').style.width = '0%';
+        el('hcPctText').textContent = '0%';
+        el('hcCountText').textContent = '0 / 0';
+        el('hcStatusText').textContent = 'Memulai pengecekan...';
+        el('hcHeaderSub').textContent = 'Mengecek website...';
+        el('hcHeaderIcon').className = 'fa-solid fa-satellite-dish text-white text-sm';
+        el('hcHeaderDot').style.display = '';
+
+        el('hcMinIcon').className = 'fa-solid fa-spinner fa-spin text-sm';
+        el('hcMinDot').style.display = 'none';
+        el('hcMinText').textContent = 'Health Check';
+        el('hcMinPct').textContent = '0%';
+    }
+
+    function updateProgress(data) {
         const pct = data.percent || 0;
         const completed = data.completed || 0;
         const total = data.total || 0;
 
-        // Progress bar
-        el.progressBar.style.width = pct + '%';
-        el.pctText.textContent = pct + '%';
-        el.minPct.textContent = pct + '%';
-        el.countText.textContent = `${completed} / ${total}`;
+        el('hcProgressBar').style.width = pct + '%';
+        el('hcPctText').textContent = pct + '%';
+        el('hcMinPct').textContent = pct + '%';
+        el('hcCountText').textContent = `${completed} / ${total}`;
 
-        // Status text
         let statusText = `Mengecek ${completed} dari ${total} website...`;
         if (data.status === 'pending') {
             statusText = 'Menunggu queue...';
         } else if (total === 0) {
             statusText = 'Menghitung total website...';
         }
-        el.statusText.textContent = statusText;
-        el.headerSub.textContent = statusText;
-        el.minText.textContent = `Health Check ${pct}%`;
+        el('hcStatusText').textContent = statusText;
+        el('hcHeaderSub').textContent = statusText;
+        el('hcMinText').textContent = `Health Check ${pct}%`;
     }
 
-    function showCompleted(data, fromStorage) {
-        const el = getEls();
-        if (!el.widget) return;
+    function showCompleted(total, fireEvent) {
+        stopPolling();
+        saveState({ status: 'completed', total: total });
 
-        localStorage.setItem(LS_STATUS, 'completed');
+        el('hcBodyProgress').style.display = 'none';
+        el('hcBodyDone').style.display = '';
+        el('hcBodyFailed').style.display = 'none';
 
-        // Save total for restoring later
-        const total = data.total || data.completed || 0;
-        localStorage.setItem(LS_TOTAL, total);
+        el('hcDoneSummary').textContent = `${total} website telah dicek`;
+        el('hcHeaderSub').textContent = 'Pengecekan selesai!';
+        el('hcHeaderIcon').className = 'fa-solid fa-circle-check text-white text-sm';
+        el('hcHeaderDot').style.display = 'none';
 
-        // Switch body
-        el.bodyProgress.style.display = 'none';
-        el.bodyDone.style.display = '';
-        el.bodyFailed.style.display = 'none';
+        el('hcMinIcon').className = 'fa-solid fa-circle-check text-sm';
+        el('hcMinDot').style.display = '';
+        el('hcMinText').textContent = 'Selesai!';
+        el('hcMinPct').textContent = '✓';
 
-        // Update summary
-        el.doneSummary.textContent = `${total} website telah dicek`;
+        const state = loadState();
+        el('hcFooter').style.display = '';
+        el('hcViewLink').href = getResultsPageUrl(state?.role || 'admin');
 
-        // Update header
-        el.headerSub.textContent = 'Pengecekan selesai!';
-        el.headerIcon.className = 'fa-solid fa-circle-check text-white text-sm';
-        el.headerDot.style.display = 'none';
-
-        // Update minimized
-        el.minIcon.className = 'fa-solid fa-circle-check text-sm';
-        el.minDot.style.display = '';
-        el.minText.textContent = 'Selesai!';
-        el.minPct.textContent = '✓';
-
-        // Show footer
-        el.footer.style.display = '';
-        el.viewLink.href = getResultsPageUrl();
-
-        // Only notify on fresh completion (not when restoring from localStorage)
-        // This prevents infinite reload loops on the health check page
-        if (!fromStorage) {
+        if (fireEvent) {
             window.dispatchEvent(new CustomEvent('healthcheck:completed'));
         }
     }
 
-    function showFailed(msg, fromStorage) {
-        const el = getEls();
-        if (!el.widget) return;
+    function showFailed(msg) {
+        stopPolling();
+        saveState({ status: 'failed' });
 
-        localStorage.setItem(LS_STATUS, 'failed');
+        el('hcBodyProgress').style.display = 'none';
+        el('hcBodyDone').style.display = 'none';
+        el('hcBodyFailed').style.display = '';
+        el('hcFailedMsg').textContent = msg || 'Terjadi kesalahan';
 
-        el.bodyProgress.style.display = 'none';
-        el.bodyDone.style.display = 'none';
-        el.bodyFailed.style.display = '';
-        el.failedMsg.textContent = msg || 'Terjadi kesalahan';
+        el('hcHeaderSub').textContent = 'Gagal';
+        el('hcHeaderIcon').className = 'fa-solid fa-circle-xmark text-white text-sm';
+        el('hcHeaderDot').style.display = 'none';
 
-        el.headerSub.textContent = 'Gagal';
-        el.headerIcon.className = 'fa-solid fa-circle-xmark text-white text-sm';
-        el.headerDot.style.display = 'none';
+        el('hcMinIcon').className = 'fa-solid fa-circle-xmark text-sm';
+        el('hcMinText').textContent = 'Gagal';
+        el('hcMinPct').textContent = '✗';
 
-        el.minIcon.className = 'fa-solid fa-circle-xmark text-sm';
-        el.minText.textContent = 'Gagal';
-        el.minPct.textContent = '✗';
-
-        el.footer.style.display = '';
-        el.viewLink.href = getResultsPageUrl();
+        const state = loadState();
+        el('hcFooter').style.display = '';
+        el('hcViewLink').href = getResultsPageUrl(state?.role || 'admin');
     }
 
-    function startPolling(batchId) {
+    // ──── Polling ────
+    function stopPolling() {
+        if (pollingTimer) {
+            clearTimeout(pollingTimer);
+            pollingTimer = null;
+        }
+        pollCount = 0;
+    }
+
+    async function poll() {
+        const state = loadState();
+        if (!state || !state.batchId) { stopPolling(); hide(); return; }
+        if (state.status === 'completed' || state.status === 'failed') return;
+
+        pollCount++;
+        const url = getProgressUrl(state.batchId, state.role);
+
+        try {
+            const res = await fetch(url);
+
+            if (!res.ok) {
+                // On 404/500 retry a few times then fail
+                if (pollCount > 5) {
+                    showFailed('Server tidak merespons');
+                    return;
+                }
+                scheduleNext(POLL_SLOW);
+                return;
+            }
+
+            const data = await res.json();
+
+            if (data.error) {
+                showFailed(data.error);
+                return;
+            }
+
+            updateProgress(data);
+
+            if (data.status === 'completed') {
+                showCompleted(data.total || data.completed || 0, true);
+                return;
+            }
+
+            if (data.status === 'failed') {
+                showFailed('Pengecekan gagal');
+                return;
+            }
+
+            // Still running — schedule next poll
+            // Use fast polling for first 30 polls (~1 min), then slow
+            scheduleNext(pollCount < 30 ? POLL_FAST : POLL_SLOW);
+
+        } catch (e) {
+            console.error('HC Widget poll error:', e);
+            // Retry on network errors
+            if (pollCount > 10) {
+                showFailed('Koneksi terputus');
+                return;
+            }
+            scheduleNext(POLL_SLOW);
+        }
+    }
+
+    function scheduleNext(delay) {
+        pollingTimer = setTimeout(poll, delay);
+    }
+
+    function startPolling(batchId, role) {
         stopPolling();
 
-        const status = localStorage.getItem(LS_STATUS);
-        if (status === 'completed') {
-            show();
-            showCompleted({ total: parseInt(localStorage.getItem(LS_TOTAL)) || 0 }, true);
-            return;
-        }
-        if (status === 'failed') {
-            show();
-            showFailed(null, true);
-            return;
+        const state = loadState();
+
+        // If state says already completed/failed, show that directly
+        if (state && state.batchId === batchId) {
+            if (state.status === 'completed') {
+                show();
+                showCompleted(state.total || 0, false);
+                return;
+            }
+            if (state.status === 'failed') {
+                show();
+                showFailed(null);
+                return;
+            }
         }
 
         resetUI();
         show();
 
-        pollingInterval = setInterval(async () => {
-            try {
-                const res = await fetch(getProgressUrl(batchId));
-                if (!res.ok) {
-                    const errData = await res.json().catch(() => ({}));
-                    if (errData.status === 'failed' || res.status >= 500) {
-                        stopPolling();
-                        showFailed(errData.error || 'Server error');
-                    }
-                    return;
-                }
-
-                const data = await res.json();
-
-                if (data.error) {
-                    stopPolling();
-                    showFailed(data.error);
-                    return;
-                }
-
-                updateProgress(data);
-
-                if (data.status === 'completed') {
-                    stopPolling();
-                    showCompleted(data);
-                } else if (data.status === 'failed') {
-                    stopPolling();
-                    showFailed('Pengecekan gagal');
-                }
-            } catch (e) {
-                console.error('HC Widget polling error:', e);
-            }
-        }, 5000);
+        // First poll immediately
+        poll();
     }
 
-    function stopPolling() {
-        if (pollingInterval) {
-            clearInterval(pollingInterval);
-            pollingInterval = null;
-        }
-    }
-
-    function resetUI() {
-        const el = getEls();
-        if (!el.widget) return;
-
-        el.bodyProgress.style.display = '';
-        el.bodyDone.style.display = 'none';
-        el.bodyFailed.style.display = 'none';
-        el.footer.style.display = 'none';
-
-        el.progressBar.style.width = '0%';
-        el.pctText.textContent = '0%';
-        el.countText.textContent = '0 / 0';
-        el.statusText.textContent = 'Memulai pengecekan...';
-        el.headerSub.textContent = 'Mengecek website...';
-        el.headerIcon.className = 'fa-solid fa-satellite-dish text-white text-sm';
-        el.headerDot.style.display = '';
-
-        el.minIcon.className = 'fa-solid fa-spinner fa-spin text-sm';
-        el.minDot.style.display = 'none';
-        el.minText.textContent = 'Health Check';
-        el.minPct.textContent = '0%';
-    }
-
+    // ──── Public API ────
     function start(batchId, role) {
-        localStorage.setItem(LS_BATCH, batchId);
-        localStorage.setItem(LS_ROLE, role);
-        localStorage.removeItem(LS_STATUS);
-        localStorage.setItem(LS_STATE, 'max');
-        startPolling(batchId);
+        clearState();
+        saveState({ batchId, role, status: 'running', viewState: 'max' });
+        startPolling(batchId, role);
     }
 
-    // Auto-init on page load
+    // ──── Auto-init on page load ────
     document.addEventListener('DOMContentLoaded', () => {
-        const batchId = localStorage.getItem(LS_BATCH);
-        if (batchId) {
-            startPolling(batchId);
+        const state = loadState();
+        if (!state || !state.batchId) return;
+
+        // Cleanup stale data (older than 30 min)
+        if (isStale(state)) {
+            clearState();
+            return;
         }
+
+        // Restore widget from saved state
+        startPolling(state.batchId, state.role);
     });
 
     // Listen for start events from health check pages
