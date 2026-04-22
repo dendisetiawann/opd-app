@@ -100,6 +100,9 @@ Route::get('/admin/site-editor/preview/{page}', [AdminSiteEditorController::clas
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/email/verify', [ProfileController::class, 'verifyEmailUpdate'])->name('profile.email.verify');
+    Route::post('/profile/email/resend', [ProfileController::class, 'resendEmailOtp'])->name('profile.email.resend');
+    Route::delete('/profile/email/cancel', [ProfileController::class, 'cancelEmailUpdate'])->name('profile.email.cancel');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
     Route::delete('/profile/photo', [ProfileController::class, 'removePhoto'])->name('profile.photo.remove');

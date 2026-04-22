@@ -141,7 +141,7 @@
                         </div>
                         
                         <div class="mt-8 text-center text-xs text-gray-400">
-                            &copy; {{ date('Y') }} DISKOMINFO Kota Pekanbaru.
+                            &copy; {{ date('Y') }} Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.
                         </div>
                     </div>
                 </div>

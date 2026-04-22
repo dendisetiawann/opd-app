@@ -68,7 +68,7 @@
 <body class="h-full">
     <div class="flex min-h-full">
         <!-- Left Side: Registration Form -->
-        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative">
+        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative overflow-y-auto">
             <!-- Theme Toggle -->
             <button id="themeToggle" class="absolute top-6 right-6 theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Dark Mode">
                 <i id="sunIcon" class="fa-solid fa-sun w-6 h-6 text-amber-500 flex items-center justify-center"></i>
@@ -260,8 +260,8 @@
                                     class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                     value="{{ old('name') }}"
                                     placeholder="Masukkan nama lengkap Anda">
-                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
                         <!-- Email -->
@@ -280,19 +280,20 @@
                                     class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                     value="{{ old('email') }}"
                                     placeholder="contoh@email.com">
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
                         <!-- OPD Autocomplete -->
-                        <div x-data="opdAutocomplete()" x-init="init()" class="relative">
+                        <div x-data="opdAutocomplete()" class="relative">
                             <label for="opd_search" class="block text-sm font-medium leading-6 text-gray-900">
                                 <span class="flex items-center gap-2">
-                                    <i class="fa-solid fa-building w-4 h-4 text-blue-600 flex items-center justify-center"></i>
+                                    <i class="fa-solid fa-building-columns w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                     Organisasi Perangkat Daerah (OPD)
                                 </span>
                             </label>
-                            <div class="mt-2 relative">
+                            <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 leading-tight">Tips: Gunakan nama OPD lengkap dan resmi, contoh <em>Dinas Komunikasi dan Informatika Kota Pekanbaru</em></p>
+                            <div class="mt-1.5 relative">
                                 <!-- Search Input -->
                                 <div class="relative">
                                     <input 
@@ -300,42 +301,56 @@
                                         id="opd_search" 
                                         x-model="search"
                                         @input="onSearch()"
-                                        @focus="open = true"
+                                        @focus="open = true; error = false; errorMessage = ''"
                                         @keydown.escape="open = false"
                                         @keydown.arrow-down.prevent="highlightNext()"
                                         @keydown.arrow-up.prevent="highlightPrev()"
                                         @keydown.enter.prevent="selectHighlighted()"
-                                        class="block w-full rounded-xl border-0 py-3 px-4 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
-                                        :class="{ 'ring-red-300': error }"
+                                        class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                        :class="{ 'ring-red-500 focus:ring-red-500 bg-red-50 text-red-900': error }"
                                         placeholder="Ketik untuk mencari OPD..."
                                         autocomplete="off"
                                     >
-                                    <!-- Search Icon -->
-                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                        <i class="fa-solid fa-magnifying-glass w-5 h-5 text-gray-400 flex items-center justify-center" x-show="!loading"></i>
-                                        <i class="fa-solid fa-circle-notch fa-spin w-5 h-5 text-blue-600 animate-spin flex items-center justify-center" x-show="loading"></i>
+                                    <!-- Left Icon -->
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <i class="fa-solid fa-building-columns text-gray-400 text-sm" :class="{ 'text-red-500': error }"></i>
                                     </div>
+                                    <!-- Right Icon -->
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fa-solid fa-chevron-down w-4 h-4 text-gray-400 flex items-center justify-center transition-transform" :class="{ 'rotate-180': open, 'text-red-500': error }" x-show="!loading"></i>
+                                        <i class="fa-solid fa-circle-notch fa-spin w-4 h-4 text-blue-600 flex items-center justify-center" x-show="loading"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Fallback Error Message -->
+                                <div x-show="error && errorMessage" x-transition class="mt-2 flex items-start gap-1.5 text-[11px] font-medium text-red-500 animate-shake">
+                                    <i class="fa-solid fa-circle-exclamation text-[10px] flex-shrink-0 mt-0.5"></i>
+                                    <span class="leading-tight" x-text="errorMessage"></span>
                                 </div>
 
                                 <!-- Selected Badge -->
                                 <div x-show="selectedOpd" class="mt-2 flex items-center gap-2">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                                        <i class="fa-solid fa-check w-4 h-4 flex items-center justify-center"></i>
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                                        <i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i>
                                         <span x-text="selectedOpd"></span>
-                                        <button type="button" @click="clearSelection()" class="ml-1 text-blue-600 hover:text-blue-800">
-                                            <i class="fa-solid fa-xmark w-4 h-4 flex items-center justify-center"></i>
+                                        <button type="button" @click="clearSelection()" class="ml-1 w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 flex items-center justify-center transition-colors">
+                                            <i class="fa-solid fa-xmark text-red-500 dark:text-red-400 text-[10px]"></i>
                                         </button>
                                     </span>
-                                    <span class="text-xs text-gray-500">OPD terpilih</span>
                                 </div>
 
                                 <!-- New OPD Indicator -->
-                                <div x-show="isNewOpd && search" class="mt-2 flex items-center gap-2">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
-                                        <i class="fa-solid fa-minus w-4 h-4 flex items-center justify-center"></i>
-                                        <span>OPD Baru</span>
-                                    </span>
-                                    <span class="text-xs text-gray-500" x-text="'Akan ditambahkan: ' + search"></span>
+                                <div x-show="isNewOpd && search" class="mt-2">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                                            <i class="fa-solid fa-plus text-emerald-500 text-xs"></i>
+                                            <span x-text="search"></span>
+                                            <button type="button" @click="clearSelection()" class="ml-1 w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 flex items-center justify-center transition-colors">
+                                                <i class="fa-solid fa-xmark text-red-500 dark:text-red-400 text-[10px]"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-1 ml-1">akan ditambahkan ke sistem</p>
                                 </div>
 
                                 <!-- Hidden Input for Form Submission -->
@@ -350,7 +365,7 @@
                                     x-transition:leave="transition ease-in duration-150"
                                     x-transition:leave-start="opacity-100 translate-y-0"
                                     x-transition:leave-end="opacity-0 translate-y-1"
-                                    @click.outside="open = false"
+                                    @click.outside="handleOutsideClick()"
                                     class="absolute z-50 mt-1 w-full bg-white dark:bg-[#1a2332] rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 max-h-60 overflow-auto"
                                 >
                                     <!-- Existing OPD Results -->
@@ -366,13 +381,13 @@
                                         >
                                             <div class="flex items-center gap-3">
                                                 <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                                                    <i class="fa-solid fa-minus w-4 h-4 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-building-columns w-4 h-4 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs"></i>
                                                 </div>
                                                 <div class="flex-1">
                                                     <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="opd.nama_opd"></div>
                                                     <div class="text-xs text-gray-500 dark:text-gray-400">OPD Terdaftar</div>
                                                 </div>
-                                                <i class="fa-solid fa-pen-to-square w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedId === opd.id"></i>
+                                                <i class="fa-solid fa-circle-check w-4 h-4 text-blue-600 flex items-center justify-center" x-show="selectedId === opd.id"></i>
                                             </div>
                                         </div>
                                     </template>
@@ -387,7 +402,7 @@
                                     >
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                                                <i class="fa-solid fa-minus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                                <i class="fa-solid fa-plus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs"></i>
                                             </div>
                                             <div class="flex-1">
                                                 <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
@@ -399,76 +414,65 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Petunjuk OPD -->
-                            <div class="mt-3 space-y-3">
-                                <!-- Judul Petunjuk -->
-                                <div class="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-700">
-                                    <i class="fa-solid fa-exclamation w-4 h-4 text-blue-600 flex items-center justify-center"></i>
-                                    <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">Petunjuk Pengisian</span>
-                                </div>
-
-                                <!-- OPD Sudah Ada -->
-                                <div class="bg-blue-50/50 dark:bg-blue-900/10 rounded-lg p-3 border border-blue-100 dark:border-blue-900/20">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                                            <span class="text-white font-bold text-xs">1</span>
+                            <!-- Petunjuk OPD (Collapsible) -->
+                            <div x-data="{ showGuide: false }" class="mt-2">
+                                <button type="button" @click="showGuide = !showGuide" class="flex items-center gap-1.5 text-[11px] text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium">
+                                    <i class="fa-solid fa-circle-question text-[10px]"></i>
+                                    <span x-text="showGuide ? 'Sembunyikan petunjuk' : 'Lihat petunjuk pengisian'"></span>
+                                    <i class="fa-solid fa-chevron-down text-[8px] transition-transform duration-200" :class="{ 'rotate-180': showGuide }"></i>
+                                </button>
+                                <div x-show="showGuide" x-collapse x-cloak class="mt-2 space-y-2">
+                                    <!-- OPD Sudah Ada -->
+                                    <div class="bg-blue-50/50 dark:bg-blue-900/10 rounded-lg p-3 border border-blue-100 dark:border-blue-900/20">
+                                        <div class="flex items-center gap-2 mb-1.5">
+                                            <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                                                <span class="text-white font-bold text-[10px]">1</span>
+                                            </div>
+                                            <span class="font-semibold text-xs text-blue-900 dark:text-blue-300">OPD Sudah Terdaftar</span>
                                         </div>
-                                        <span class="font-semibold text-sm text-blue-900 dark:text-blue-300">OPD Sudah Terdaftar</span>
-                                    </div>
-                                    <p class="text-xs text-blue-800 dark:text-blue-300/80 leading-relaxed ml-8">
-                                        Ketik nama OPD → klik hasil pencarian → muncul 
-                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200 font-medium mx-1">
-                                            <i class="fa-solid fa-circle-check w-3 h-3 flex items-center justify-center"></i>
-                                            OPD Terpilih
-                                        </span>
-                                    </p>
-                                </div>
-
-                                <!-- OPD Baru -->
-                                <div class="bg-emerald-50/50 dark:bg-emerald-900/10 rounded-lg p-3 border border-emerald-100 dark:border-emerald-900/20">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
-                                            <span class="text-white font-bold text-xs">2</span>
-                                        </div>
-                                        <span class="font-semibold text-sm text-emerald-900 dark:text-emerald-300">OPD Baru (Belum Terdaftar)</span>
-                                    </div>
-                                    <ul class="space-y-2 ml-8">
-                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
-                                            <span class="text-emerald-500 mt-0.5">•</span>
-                                            <span>Ketik nama lengkap OPD sesuai format resmi<br><em class="text-emerald-600 dark:text-emerald-400 not-italic">Contoh: "Dinas Komunikasi dan Informatika Kota Pekanbaru"</em></span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
-                                            <span class="text-emerald-500 mt-0.5">•</span>
-                                            <span>Pastikan muncul 
-                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200 font-medium">
-                                                    <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
-                                                    Tambah: "Nama OPD"
+                                        <p class="text-[11px] text-blue-800 dark:text-blue-300/80 leading-relaxed ml-7 mb-2">
+                                            Ketik nama OPD → klik hasil pencarian → muncul badge:
+                                        </p>
+                                        <!-- Visual Example -->
+                                        <div class="ml-7 flex items-center gap-2">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                <i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i>
+                                                Dinas Komunikasi dan Informatika
+                                                <span class="w-4 h-4 rounded-full bg-red-100 flex items-center justify-center">
+                                                    <i class="fa-solid fa-xmark text-red-500 text-[8px]"></i>
                                                 </span>
                                             </span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
-                                            <span class="text-emerald-500 mt-0.5">•</span>
-                                            <span>Klik "Tambah" atau tekan <kbd class="px-1.5 py-0.5 bg-emerald-200 dark:bg-emerald-800 rounded text-[10px] font-mono">Enter</kbd></span>
-                                        </li>
-                                        <li class="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-300/80">
-                                            <span class="text-emerald-500 mt-0.5">•</span>
-                                            <span>Muncul 
-                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-200 font-medium">
-                                                    <i class="fa-solid fa-minus w-3 h-3 flex items-center justify-center"></i>
-                                                    OPD Baru
-                                                </span> 
-                                                → OPD otomatis dibuat saat daftar
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                        </div>
+                                        <p class="text-[10px] text-blue-600/70 dark:text-blue-400/60 ml-7 mt-1.5 italic">
+                                            <i class="fa-solid fa-circle-info text-[8px] mr-0.5"></i> Klik <span class="inline-flex w-3 h-3 rounded-full bg-red-100 items-center justify-center align-middle mx-0.5"><i class="fa-solid fa-xmark text-red-500 text-[6px]"></i></span> untuk menghapus pilihan
+                                        </p>
+                                    </div>
 
-                                <!-- Tips Penting -->
-                                <div class="flex items-start gap-2 text-xs bg-amber-50 dark:bg-amber-900/10 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30">
-                                    <i class="fa-solid fa-triangle-exclamation w-4 h-4 flex-shrink-0 text-amber-600 mt-0.5"></i>
-                                    <div class="text-amber-900 dark:text-amber-300">
-                                        <span class="font-bold">Tips:</span> 
-                                        <span class="text-amber-800 dark:text-amber-400">Gunakan nama OPD <strong>lengkap dan resmi</strong>. Sistem akan otomatis mengubah menjadi format standar (Contoh: <em>"diskominfo"</em> → <em>"Diskominfo"</em>).</span>
+                                    <!-- OPD Baru -->
+                                    <div class="bg-emerald-50/50 dark:bg-emerald-900/10 rounded-lg p-3 border border-emerald-100 dark:border-emerald-900/20">
+                                        <div class="flex items-center gap-2 mb-1.5">
+                                            <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                                                <span class="text-white font-bold text-[10px]">2</span>
+                                            </div>
+                                            <span class="font-semibold text-xs text-emerald-900 dark:text-emerald-300">OPD Baru (Belum Terdaftar)</span>
+                                        </div>
+                                        <p class="text-[11px] text-emerald-800 dark:text-emerald-300/80 leading-relaxed ml-7 mb-2">
+                                            Ketik nama OPD lengkap → klik <strong>"Tambah"</strong> → muncul badge:
+                                        </p>
+                                        <!-- Visual Example -->
+                                        <div class="ml-7 flex items-center gap-2 flex-wrap">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                <i class="fa-solid fa-plus text-emerald-500 text-[9px]"></i>
+                                                Dinas Komunikasi dan Informatika
+                                                <span class="w-4 h-4 rounded-full bg-red-100 flex items-center justify-center">
+                                                    <i class="fa-solid fa-xmark text-red-500 text-[8px]"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <p class="text-[10px] text-gray-400 dark:text-gray-500 ml-7 mt-1">akan ditambahkan ke sistem</p>
+                                        <p class="text-[10px] text-emerald-600/70 dark:text-emerald-400/60 ml-7 mt-1.5 italic">
+                                            <i class="fa-solid fa-circle-info text-[8px] mr-0.5"></i> OPD baru otomatis dibuat saat mendaftar. Klik <span class="inline-flex w-3 h-3 rounded-full bg-red-100 items-center justify-center align-middle mx-0.5"><i class="fa-solid fa-xmark text-red-500 text-[6px]"></i></span> untuk menghapus
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -611,6 +615,8 @@
                                         this.isNewOpd = false;
                                         this.open = false;
                                         this.highlightedIndex = -1;
+                                        this.error = false;
+                                        this.errorMessage = '';
                                     },
 
                                     selectNewOpd() {
@@ -620,6 +626,8 @@
                                         this.opdValue = this.search;
                                         this.open = false;
                                         this.highlightedIndex = -1;
+                                        this.error = false;
+                                        this.errorMessage = '';
                                     },
 
                                     clearSelection() {
@@ -630,6 +638,8 @@
                                         this.opdValue = '';
                                         this.results = [];
                                         this.open = false;
+                                        this.error = false;
+                                        this.errorMessage = '';
                                     },
 
                                     highlightNext() {
@@ -650,6 +660,18 @@
                                             this.selectOpd(this.results[this.highlightedIndex]);
                                         } else if (this.highlightedIndex === this.results.length && this.search && !this.exactMatch) {
                                             this.selectNewOpd();
+                                        } else if (this.search && !this.selectedId && !this.isNewOpd) {
+                                            // Jika tekan Enter tapi tidak ada yang di-highlight, otomatis tambahkan sebagai OPD baru
+                                            this.selectNewOpd();
+                                        }
+                                    },
+                                    
+                                    handleOutsideClick() {
+                                        this.open = false;
+                                        // Jika user mengetik sesuatu tapi klik di luar tanpa memilih/menekan enter
+                                        if (this.search.length > 0 && !this.selectedId && !this.isNewOpd) {
+                                            this.error = true;
+                                            this.errorMessage = 'Klik daftar di bawah atau tekan Enter untuk menambahkan OPD';
                                         }
                                     }
                                 }
@@ -657,47 +679,54 @@
                         </script>
 
                         <!-- Password -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label for="password" class="block text-sm font-medium leading-6 text-gray-900">
-                                    <span class="flex items-center gap-2">
-                                        <i class="fa-solid fa-lock w-4 h-4 text-blue-600 flex items-center justify-center"></i>
-                                        Password
-                                    </span>
-                                </label>
-                                <div class="mt-2 relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                        <i class="fa-solid fa-lock text-gray-400 text-sm"></i>
+                        <div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">
+                                        <span class="flex items-center gap-2">
+                                            <i class="fa-solid fa-lock w-4 h-4 text-blue-600 flex items-center justify-center"></i>
+                                            Password
+                                        </span>
+                                    </label>
+                                    <div class="mt-2 relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                            <i class="fa-solid fa-lock text-gray-400 text-sm"></i>
+                                        </div>
+                                        <input id="password" name="password" type="password" required autocomplete="new-password"
+                                            class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                            placeholder="Min. 8 karakter, Aa + @#$">
+                                        <button type="button" onclick="togglePasswordReg('password', 'eyeIconPwd')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
+                                            <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
+                                        </button>
                                     </div>
-                                    <input id="password" name="password" type="password" required autocomplete="new-password"
-                                        class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
-                                        placeholder="Min. 8 karakter">
-                                    <button type="button" onclick="togglePasswordReg('password', 'eyeIconPwd')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
-                                        <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
-                                    </button>
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
-                            </div>
 
-                            <div>
-                                <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900">
-                                    <span class="flex items-center gap-2">
-                                        <i class="fa-solid fa-shield-halved w-4 h-4 text-blue-600 flex items-center justify-center"></i>
-                                        Konfirmasi
-                                    </span>
-                                </label>
-                                <div class="mt-2 relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                        <i class="fa-solid fa-shield-halved text-gray-400 text-sm"></i>
+                                <div>
+                                    <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900">
+                                        <span class="flex items-center gap-2">
+                                            <i class="fa-solid fa-shield-halved w-4 h-4 text-blue-600 flex items-center justify-center"></i>
+                                            Konfirmasi
+                                        </span>
+                                    </label>
+                                    <div class="mt-2 relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                            <i class="fa-solid fa-shield-halved text-gray-400 text-sm"></i>
+                                        </div>
+                                        <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
+                                            class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
+                                            placeholder="Ulangi password">
+                                        <button type="button" onclick="togglePasswordReg('password_confirmation', 'eyeIconConfirm')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
+                                            <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
+                                        </button>
                                     </div>
-                                    <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
-                                        class="block w-full rounded-xl border-0 py-3 pl-10 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
-                                        placeholder="Ulangi password">
-                                    <button type="button" onclick="togglePasswordReg('password_confirmation', 'eyeIconConfirm')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
-                                        <i class="fa-solid fa-eye w-5 h-5 flex items-center justify-center"></i>
-                                    </button>
                                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                 </div>
+                            </div>
+                            <!-- Password Requirements Tips -->
+                            <div class="mt-2 flex items-start gap-2 text-[10px] text-gray-400 dark:text-gray-500">
+                                <i class="fa-solid fa-circle-info text-[9px] mt-0.5 flex-shrink-0"></i>
+                                <span>Minimal 8 karakter, 1 huruf besar (A-Z), dan 1 karakter spesial (@$!%*?&#). Contoh: <em class="text-gray-500 dark:text-gray-400">Sidata@2026</em></span>
                             </div>
                         </div>
 
@@ -740,7 +769,7 @@
                     </form>
                     
                     <div class="mt-8 text-center text-xs text-gray-400">
-                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('register_copyright', 'DISKOMINFO Kota Pekanbaru') }}.
+                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('register_copyright', 'Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.') }}
                     </div>
                 </div>
                 @endif
@@ -830,6 +859,6 @@
             });
         });
     </script>
-    </div>
+
 </body>
 </html>

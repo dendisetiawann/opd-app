@@ -52,9 +52,10 @@ return new class extends Migration
             // Footer
             ['key' => 'footer_org_name', 'value' => 'DISKOMINFO', 'type' => 'text', 'group' => 'footer', 'label' => 'Nama Organisasi', 'order' => 1],
             ['key' => 'footer_org_sub', 'value' => 'KOTA PEKANBARU', 'type' => 'text', 'group' => 'footer', 'label' => 'Sub Organisasi', 'order' => 2],
-            ['key' => 'footer_address', 'value' => 'Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Pekanbaru. Bencah Lesung, Kec. Tenayan Raya, Kota Pekanbaru, Riau.', 'type' => 'textarea', 'group' => 'footer', 'label' => 'Alamat', 'order' => 3],
-            ['key' => 'footer_phone', 'value' => '(0761) 123456', 'type' => 'text', 'group' => 'footer', 'label' => 'Telepon', 'order' => 4],
-            ['key' => 'footer_email', 'value' => 'diskominfo@pekanbaru.go.id', 'type' => 'text', 'group' => 'footer', 'label' => 'Email', 'order' => 5],
+            ['key' => 'footer_description', 'value' => 'Platform terpadu untuk inventarisasi, pengelolaan data aplikasi di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mewujudkan ekosistem SPBE yang cerdas dan terintegrasi.', 'type' => 'textarea', 'group' => 'footer', 'label' => 'Deskripsi Footer', 'order' => 3],
+            ['key' => 'footer_address', 'value' => 'Komplek Perkantoran Walikota Pekanbaru Lt. III Jalan Abdul Rahman Hamid, Kelurahan Tuah Negeri Kecamatan Tenayan Raya, Pekanbaru, Riau', 'type' => 'textarea', 'group' => 'footer', 'label' => 'Alamat', 'order' => 4],
+            ['key' => 'footer_phone', 'value' => '081367116222', 'type' => 'text', 'group' => 'footer', 'label' => 'Telepon', 'order' => 5],
+            ['key' => 'footer_email', 'value' => 'helpdesk@pekanbaru.go.id', 'type' => 'text', 'group' => 'footer', 'label' => 'Email', 'order' => 6],
             ['key' => 'footer_link_1_text', 'value' => 'Portal Pekanbaru', 'type' => 'text', 'group' => 'footer', 'label' => 'Link 1 — Teks', 'order' => 6],
             ['key' => 'footer_link_1_url', 'value' => '#', 'type' => 'text', 'group' => 'footer', 'label' => 'Link 1 — URL', 'order' => 7],
             ['key' => 'footer_link_2_text', 'value' => 'PPID Kota Pekanbaru', 'type' => 'text', 'group' => 'footer', 'label' => 'Link 2 — Teks', 'order' => 8],
@@ -62,14 +63,14 @@ return new class extends Migration
             ['key' => 'footer_link_3_text', 'value' => 'Layanan Pengaduan', 'type' => 'text', 'group' => 'footer', 'label' => 'Link 3 — Teks', 'order' => 10],
             ['key' => 'footer_link_3_url', 'value' => '#', 'type' => 'text', 'group' => 'footer', 'label' => 'Link 3 — URL', 'order' => 11],
             ['key' => 'footer_version', 'value' => 'Versi 1.0.0', 'type' => 'text', 'group' => 'footer', 'label' => 'Versi Aplikasi', 'order' => 12],
-            ['key' => 'footer_copyright', 'value' => 'Pemerintah Kota Pekanbaru. All rights reserved.', 'type' => 'text', 'group' => 'footer', 'label' => 'Teks Hak Cipta', 'order' => 13],
+            ['key' => 'footer_copyright', 'value' => 'Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.', 'type' => 'text', 'group' => 'footer', 'label' => 'Teks Hak Cipta', 'order' => 13],
 
             // Login Page
             ['key' => 'login_title', 'value' => 'Selamat Datang Kembali', 'type' => 'text', 'group' => 'login', 'label' => 'Judul Halaman Login', 'order' => 1],
             ['key' => 'login_description', 'value' => 'Silahkan masuk ke akun Anda untuk mengakses dashboard manajemen aplikasi.', 'type' => 'textarea', 'group' => 'login', 'label' => 'Deskripsi Login', 'order' => 2],
             ['key' => 'login_panel_title', 'value' => 'Sistem Manajemen Data Aplikasi', 'type' => 'text', 'group' => 'login', 'label' => 'Judul Panel Kanan', 'order' => 3],
             ['key' => 'login_panel_description', 'value' => 'Platform untuk pengelolaan aset digital dan inventarisasi aplikasi di lingkungan Pemerintah Kota Pekanbaru. Mendukung tata kelola SPBE yang lebih baik.', 'type' => 'textarea', 'group' => 'login', 'label' => 'Deskripsi Panel Kanan', 'order' => 4],
-            ['key' => 'login_copyright', 'value' => 'DISKOMINFO Kota Pekanbaru', 'type' => 'text', 'group' => 'login', 'label' => 'Teks Hak Cipta', 'order' => 5],
+            ['key' => 'login_copyright', 'value' => 'Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.', 'type' => 'text', 'group' => 'login', 'label' => 'Teks Hak Cipta', 'order' => 5],
 
             // Register Page
             ['key' => 'register_title', 'value' => 'Daftar Akun Baru', 'type' => 'text', 'group' => 'register', 'label' => 'Judul Halaman Register', 'order' => 1],
@@ -79,15 +80,15 @@ return new class extends Migration
             ['key' => 'register_feature_1', 'value' => 'Kelola data aplikasi OPD Anda', 'type' => 'text', 'group' => 'register', 'label' => 'Fitur 1', 'order' => 5],
             ['key' => 'register_feature_2', 'value' => 'Pantau status dan integrasi sistem', 'type' => 'text', 'group' => 'register', 'label' => 'Fitur 2', 'order' => 6],
             ['key' => 'register_feature_3', 'value' => 'Dokumentasi lengkap & terstruktur', 'type' => 'text', 'group' => 'register', 'label' => 'Fitur 3', 'order' => 7],
-            ['key' => 'register_copyright', 'value' => 'DISKOMINFO Kota Pekanbaru', 'type' => 'text', 'group' => 'register', 'label' => 'Teks Hak Cipta', 'order' => 8],
+            ['key' => 'register_copyright', 'value' => 'Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.', 'type' => 'text', 'group' => 'register', 'label' => 'Teks Hak Cipta', 'order' => 8],
 
             // Dashboard User
             ['key' => 'dashboard_user_description', 'value' => 'Lihat dan tambahkan data inventarisasi aplikasi', 'type' => 'textarea', 'group' => 'dashboard_user', 'label' => 'Deskripsi Dashboard', 'order' => 1],
-            ['key' => 'dashboard_user_copyright', 'value' => 'Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru', 'type' => 'text', 'group' => 'dashboard_user', 'label' => 'Teks Hak Cipta', 'order' => 2],
+            ['key' => 'dashboard_user_copyright', 'value' => 'Sistem Manajemen Data Aplikasi - Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.', 'type' => 'text', 'group' => 'dashboard_user', 'label' => 'Teks Hak Cipta', 'order' => 2],
 
             // Dashboard Admin
             ['key' => 'dashboard_admin_description', 'value' => 'Pantau dan kelola seluruh inventaris aplikasi Pemerintah Kota Pekanbaru dalam satu dashboard terintegrasi yang modern dan efisien.', 'type' => 'textarea', 'group' => 'dashboard_admin', 'label' => 'Deskripsi Dashboard', 'order' => 1],
-            ['key' => 'dashboard_admin_copyright', 'value' => 'Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru', 'type' => 'text', 'group' => 'dashboard_admin', 'label' => 'Teks Hak Cipta', 'order' => 2],
+            ['key' => 'dashboard_admin_copyright', 'value' => 'Sistem Manajemen Data Aplikasi - Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.', 'type' => 'text', 'group' => 'dashboard_admin', 'label' => 'Teks Hak Cipta', 'order' => 2],
         ];
 
         foreach ($settings as $s) {

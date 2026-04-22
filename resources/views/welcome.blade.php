@@ -461,49 +461,96 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-gray-900 border-t border-gray-800 text-white py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-4 gap-8">
-                    <div class="col-span-1 md:col-span-2">
-                        <div class="mb-6">
-                            <h3 class="font-bold text-xl text-white tracking-tight">{{ App\Models\SiteSetting::get('footer_org_name', 'DISKOMINFO') }}</h3>
-                            <p class="text-sm text-blue-500 font-semibold tracking-wide mt-1">{{ App\Models\SiteSetting::get('footer_org_sub', 'KOTA PEKANBARU') }}</p>
+        <footer class="bg-[#0a101f] border-t border-slate-800/60 text-white py-16 mt-20 relative overflow-hidden">
+            <!-- Subtle background glows -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div class="absolute -top-[10%] -right-[5%] w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-[-10%] -left-[5%] w-96 h-96 bg-cyan-600/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
+                    <!-- Left Column: Branding & Desc -->
+                    <div class="md:col-span-5 lg:col-span-4">
+                        <div class="flex items-center gap-3.5 mb-6">
+                            <!-- Logo -->
+                            <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl p-2 flex items-center justify-center border border-white/20 shadow-lg relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <img src="{{ asset(App\Models\SiteSetting::get('global_logo', 'images/logo-pekanbaru.png')) }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-lg relative z-10">
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300 tracking-tight leading-none mb-1">{{ App\Models\SiteSetting::get('global_app_name', 'SIDATA') }}</h3>
+                                <p class="text-[10px] text-blue-300/80 font-bold tracking-[0.2em] uppercase">{{ App\Models\SiteSetting::get('global_app_description', 'Sistem Informasi Data') }}</p>
+                            </div>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
-                            {{ App\Models\SiteSetting::get('footer_address', 'Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Pekanbaru. Bencah Lesung, Kec. Tenayan Raya, Kota Pekanbaru, Riau.') }}
+                        
+                        <p class="text-[13px] text-slate-300/90 leading-relaxed max-w-sm font-medium mb-5">
+                            {{ App\Models\SiteSetting::get('footer_description', 'Platform terpadu untuk inventarisasi, pengelolaan data aplikasi di seluruh Organisasi Perangkat Daerah (OPD) Kota Pekanbaru. Mewujudkan ekosistem SPBE yang cerdas dan terintegrasi.') }}
                         </p>
                     </div>
                     
-                    <div>
-                        <h4 class="font-semibold mb-4 text-gray-200">Kontak Kami</h4>
-                        <ul class="space-y-3 text-sm text-gray-400">
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-phone w-5 h-5 mr-2 text-blue-500 shrink-0 flex items-center justify-center"></i>
-                                {{ App\Models\SiteSetting::get('footer_phone', '(0761) 123456') }}
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-envelope w-5 h-5 mr-2 text-blue-500 shrink-0 flex items-center justify-center"></i>
-                                {{ App\Models\SiteSetting::get('footer_email', 'diskominfo@pekanbaru.go.id') }}
-                            </li>
-                        </ul>
+                    <!-- Middle Column: Contact & Links -->
+                    <div class="md:col-span-3 lg:col-span-4 lg:pl-10">
+                        <div class="mb-10">
+                            <h4 class="font-bold mb-5 text-white text-base tracking-wide">
+                                Kontak
+                            </h4>
+                            <div class="text-[13px] text-slate-300 mb-6 leading-relaxed pr-4">
+                                {{ App\Models\SiteSetting::get('footer_address', 'Komplek Perkantoran Walikota Pekanbaru Lt. III Jalan Abdul Rahman Hamid, Kelurahan Tuah Negeri Kecamatan Tenayan Raya, Pekanbaru, Riau') }}
+                            </div>
+                            <ul class="space-y-4 text-[13px] text-slate-300">
+                                <li class="flex items-center group cursor-pointer">
+                                    <i class="fa-solid fa-phone text-blue-500 mr-3 w-4 text-center"></i>
+                                    <span class="group-hover:text-blue-300 transition-colors">{{ App\Models\SiteSetting::get('footer_phone', '081367116222') }}</span>
+                                </li>
+                                <li class="flex items-center group cursor-pointer">
+                                    <i class="fa-regular fa-envelope text-blue-500 mr-3 w-4 text-center"></i>
+                                    <span class="group-hover:text-blue-300 transition-colors">{{ App\Models\SiteSetting::get('footer_email', 'helpdesk@pekanbaru.go.id') }}</span>
+                                </li>
+                                <li class="pt-2">
+                                    <span class="font-medium text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer">Hubungi via WhatsApp</span>
+                                </li>
+                                <li class="flex items-center text-slate-300">
+                                    <i class="fa-regular fa-clock text-blue-500 mr-3 w-4 text-center"></i>
+                                    <span>Senin - Jumat 08:00 - 16:00</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div>
-                        <h4 class="font-semibold mb-4 text-gray-200">Pranala Luar</h4>
-                        <ul class="space-y-3 text-sm text-gray-400">
-                            <li><a href="{{ App\Models\SiteSetting::get('footer_link_1_url', '#') }}" class="hover:text-blue-400 transition">{{ App\Models\SiteSetting::get('footer_link_1_text', 'Portal Pekanbaru') }}</a></li>
-                            <li><a href="{{ App\Models\SiteSetting::get('footer_link_2_url', '#') }}" class="hover:text-blue-400 transition">{{ App\Models\SiteSetting::get('footer_link_2_text', 'PPID Kota Pekanbaru') }}</a></li>
-                            <li><a href="{{ App\Models\SiteSetting::get('footer_link_3_url', '#') }}" class="hover:text-blue-400 transition">{{ App\Models\SiteSetting::get('footer_link_3_text', 'Layanan Pengaduan') }}</a></li>
-                        </ul>
+                    <!-- Right Column: Location Map -->
+                    <div class="md:col-span-4 lg:col-span-4">
+                        <h4 class="font-bold mb-5 text-white text-base tracking-wide">Lokasi</h4>
+                        <div class="bg-white/5 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-white/10 relative overflow-hidden group hover:border-white/20 transition-colors">
+                            <!-- Google Maps Iframe -->
+                            <div class="w-full h-56 bg-slate-800 rounded-xl overflow-hidden relative">
+                                <iframe 
+                                    src="https://maps.google.com/maps?q=Komplek%20Perkantoran%20Walikota%20Pekanbaru%20Tenayan%20Raya&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                    width="100%" 
+                                    height="100%" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    class="opacity-90 hover:opacity-100 transition-opacity duration-300">
+                                </iframe>
+                                <!-- Open in Maps Badge -->
+                                <a href="https://maps.google.com/?q=Komplek+Perkantoran+Walikota+Pekanbaru+Tenayan+Raya" target="_blank" class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-lg text-[11px] font-bold text-blue-600 shadow-lg hover:bg-blue-600 hover:text-white transition-all flex items-center gap-1.5 border border-white/50">
+                                    Open in Maps <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p class="text-sm text-gray-500 text-center md:text-left">
-                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('footer_copyright', 'Pemerintah Kota Pekanbaru. All rights reserved.') }}
+                <div class="border-t border-slate-800/80 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-sm text-slate-500 text-center md:text-left">
+                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('footer_copyright', 'Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.') }}
                     </p>
-                    <div class="text-xs text-gray-600">
-                        {{ App\Models\SiteSetting::get('footer_version', 'Versi 1.0.0') }}
+                    <div class="flex items-center gap-3">
+                        <div class="text-xs text-slate-600 font-medium px-3 py-1 bg-slate-800/50 rounded-full border border-slate-700/50">
+                            {{ App\Models\SiteSetting::get('footer_version', 'Versi 1.0.0') }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kode OTP Pendaftaran</title>
+    <title>Kode OTP Perubahan Email</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6;">
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f3f4f6; padding: 40px 20px;">
@@ -24,7 +24,7 @@
                             <p style="margin: 0 0 16px; color: #374151; font-size: 16px;">Halo <strong>{{ $name }}</strong>,</p>
                             
                             <p style="margin: 0 0 24px; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                                Berikut adalah kode OTP untuk menyelesaikan pendaftaran akun Anda di Sistem Manajemen Data Aplikasi OPD:
+                                Berikut adalah kode OTP untuk memverifikasi alamat email baru Anda di Sistem Manajemen Data Aplikasi OPD:
                             </p>
                             
                             <!-- OTP Code Box -->
@@ -41,7 +41,7 @@
                             </div>
                             
                             <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                                Jika Anda tidak melakukan pendaftaran, abaikan email ini.
+                                Jika Anda tidak melakukan perubahan alamat email, segera amankan akun Anda dengan mengubah password.
                             </p>
                         </td>
                     </tr>

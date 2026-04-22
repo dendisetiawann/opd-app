@@ -57,7 +57,7 @@
 <body class="h-full">
     <div class="flex min-h-full">
         <!-- Left Side: Login Form -->
-        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative">
+        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-[#0a0f1a] z-10 relative overflow-y-auto">
             <!-- Theme Toggle -->
             <button id="themeToggle" class="absolute top-6 right-6 theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Dark Mode">
                 <i id="sunIcon" class="fa-solid fa-sun w-6 h-6 text-amber-500 flex items-center justify-center"></i>
@@ -221,7 +221,7 @@
                     </div>
                     
                     <div class="mt-8 text-center text-xs text-gray-400">
-                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('login_copyright', 'DISKOMINFO Kota Pekanbaru') }}.
+                        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('login_copyright', 'Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.') }}
                     </div>
                 </div>
             </div>
@@ -279,6 +279,6 @@
             });
         });
     </script>
-    </div>
+
 </body>
 </html>

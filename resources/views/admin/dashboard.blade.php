@@ -287,6 +287,6 @@
 
     <!-- Footer Note -->
     <div class="mt-8 text-center text-xs text-gray-400 dark:text-zinc-600">
-        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('dashboard_admin_copyright', 'Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru') }}
+        &copy; {{ date('Y') }} {{ App\Models\SiteSetting::get('dashboard_admin_copyright', 'Sistem Manajemen Data Aplikasi - Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.') }}
     </div>
 </x-admin-layout>

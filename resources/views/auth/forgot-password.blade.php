@@ -62,7 +62,7 @@
         <div class="min-h-screen flex bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 transition-colors duration-500 relative">
             
             <!-- Left Side - Form -->
-            <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24 relative">
+            <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24 relative overflow-y-auto">
                 <!-- Theme Toggle (moved to panel) -->
                 <button id="themeToggle" class="absolute top-6 right-6 z-50 theme-toggle p-2 rounded-full bg-white/50 dark:bg-slate-800/50 backdrop-blur shadow-sm hover:bg-white dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 transition-all" title="Toggle Dark Mode">
                     <i id="sunIcon" class="fa-solid fa-sun w-6 h-6 text-amber-500 flex items-center justify-center"></i>
@@ -153,7 +153,7 @@
                         </div>
                         
                         <div class="mt-8 text-center text-xs text-gray-400">
-                            &copy; {{ date('Y') }} DISKOMINFO Kota Pekanbaru.
+                            &copy; {{ date('Y') }} Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.
                         </div>
                     </div>
                 </div>
@@ -232,6 +232,6 @@
                 });
             });
         </script>
-        </div>
+
     </body>
 </html>

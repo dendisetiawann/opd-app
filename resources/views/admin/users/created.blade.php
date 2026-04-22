@@ -94,7 +94,7 @@
         
         <!-- Footer -->
         <p class="text-center text-xs text-gray-400 mt-6">
-            &copy; {{ date('Y') }} Sistem Manajemen Data Aplikasi - DISKOMINFO Kota Pekanbaru
+            &copy; {{ date('Y') }} Sistem Manajemen Data Aplikasi - Dinas Komunikasi Informatika Statistik dan Persandian Kota Pekanbaru. All rights reserved.
         </p>
     </div>
 </div>

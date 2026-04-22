@@ -60,10 +60,24 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[A-Z]/',      // minimal 1 huruf besar
+                'regex:/[@$!%*?&#]/', // minimal 1 karakter spesial
+            ],
             'opd' => ['required', 'string', 'max:255'],
         ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'name.max' => 'Nama lengkap maksimal 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar di sistem.',
+            'password.required' => 'Password wajib diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung minimal 1 huruf besar dan 1 karakter spesial (@$!%*?&#).',
             'opd.required' => 'Pilih atau tambahkan OPD.',
         ]);
 
@@ -194,6 +208,12 @@ class RegisteredUserController extends Controller
         
         // Convert to lowercase first, then Title Case
         $name = ucwords(strtolower($name));
+        
+        // Ubah kata hubung dan kata depan menjadi huruf kecil (PUEBI)
+        $lowercaseWords = ['Dan', 'Di', 'Ke', 'Dari', 'Yang', 'Untuk', 'Pada', 'Atas', 'Bawah', 'Dengan', 'Atau'];
+        foreach ($lowercaseWords as $word) {
+            $name = str_replace(' ' . $word . ' ', ' ' . strtolower($word) . ' ', $name);
+        }
         
         return $name;
     }
