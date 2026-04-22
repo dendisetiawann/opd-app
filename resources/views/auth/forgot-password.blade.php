@@ -73,12 +73,12 @@
                     <div class="text-center mb-8">
                         <a href="{{ url('/') }}" class="inline-flex items-center gap-4 mb-6">
                             <!-- Logo Shield -->
-                            <div class="relative w-12 h-12 flex items-center justify-center">
+                            <div class="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
                                 <img src="{{ asset(App\Models\SiteSetting::get('global_logo', 'images/logo-pekanbaru.png')) }}" alt="Logo Pekanbaru" class="w-full h-full object-contain filter drop-shadow-sm">
                             </div>
             
                             <!-- Separator Line -->
-                            <div class="h-10 w-[2px] bg-slate-300 dark:bg-slate-600 rounded-full hidden sm:block"></div>
+                            <div class="h-10 w-[2px] bg-slate-300 dark:bg-slate-600 rounded-full hidden sm:block flex-shrink-0"></div>
             
                             <!-- Text Content -->
                             <div class="flex flex-col justify-center text-left">
@@ -117,7 +117,7 @@
 
                             <!-- Email -->
                             <div>
-                                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
+                                <label for="email" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">
                                     <span class="flex items-center gap-2">
                                         <i class="fa-regular fa-envelope w-4 h-4 text-blue-600 flex items-center justify-center"></i>
                                         Alamat Email
@@ -131,8 +131,8 @@
                                         class="block w-full rounded-xl border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-all"
                                         value="{{ old('email') }}"
                                         placeholder="contoh@email.com">
-                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
+                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
 
                             <!-- Submit Button -->

@@ -98,8 +98,12 @@
                                     <button type="button" onclick="togglePassword('password', 'eyeIcon1')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
                                         <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
                                     </button>
-                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
+                                <p class="mt-1.5 text-[11px] text-gray-500 flex items-start gap-1">
+                                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                                    <span>Minimal 8 karakter, wajib mengandung <strong>huruf besar</strong> dan <strong>simbol</strong> (@$!%*?&#)</span>
+                                </p>
+                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
                             </div>
 
                             <!-- Confirm Password -->
@@ -118,8 +122,8 @@
                                     <button type="button" onclick="togglePassword('password_confirmation', 'eyeIcon2')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
                                         <i class="fa-solid fa-circle-check w-5 h-5 flex items-center justify-center"></i>
                                     </button>
-                                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                 </div>
+                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                             </div>
 
                             <!-- Submit Button -->
