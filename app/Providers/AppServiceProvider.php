@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Route::resourceVerbs([
+            'create' => 'tambah',
+            'edit' => 'ubah',
+        ]);
     }
 }

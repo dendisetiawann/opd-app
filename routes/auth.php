@@ -20,32 +20,32 @@ Route::get('opd/search', [RegisteredUserController::class, 'searchOpd'])
     ->name('opd.search');
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
+    Route::get('daftar', [RegisteredUserController::class, 'create'])
         ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('daftar', [RegisteredUserController::class, 'store']);
 
-    Route::post('register/verify-otp', [RegisteredUserController::class, 'verifyOtp'])
+    Route::post('daftar/verify-otp', [RegisteredUserController::class, 'verifyOtp'])
         ->name('register.verify-otp');
 
-    Route::post('register/resend-otp', [RegisteredUserController::class, 'resendOtp'])
+    Route::post('daftar/resend-otp', [RegisteredUserController::class, 'resendOtp'])
         ->name('register.resend-otp');
 
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    Route::get('masuk', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('masuk', [AuthenticatedSessionController::class, 'store']);
 
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+    Route::get('lupa-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+    Route::post('lupa-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    Route::get('atur-ulang-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
+    Route::post('atur-ulang-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 });
 
@@ -68,6 +68,6 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    Route::post('keluar', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });

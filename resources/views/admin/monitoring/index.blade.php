@@ -982,7 +982,7 @@
                         return;
                     }
                     content.innerHTML = '<div class="space-y-2">' + data.apps.map((app, i) => `
-                        <a href="/admin/web-apps/${app.id}" class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-zinc-800 rounded-xl border border-gray-100 dark:border-zinc-700/50 hover:border-blue-300 dark:hover:border-blue-700 transition group">
+                        <a href="/admin/aplikasi-opd/${app.id}" class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-zinc-800 rounded-xl border border-gray-100 dark:border-zinc-700/50 hover:border-blue-300 dark:hover:border-blue-700 transition group">
                             <span class="w-7 h-7 flex items-center justify-center rounded-lg text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 flex-shrink-0">${i + 1}</span>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 truncate">${app.nama_aplikasi}</p>

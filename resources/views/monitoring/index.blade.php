@@ -1,4 +1,4 @@
-﻿<x-app-layout>
+<x-app-layout>
 
     <style>
         @keyframes pulse-ring {
@@ -1473,7 +1473,7 @@
                                             </div>
                                             <p class="text-sm font-medium text-gray-900 dark:text-gray-200 truncate">${app.nama_aplikasi}</p>
                                         </div>
-                                        <a href="/web-apps/${app.id}" class="inline-flex items-center gap-1 text-blue-500 hover:text-blue-700 text-sm font-medium flex-shrink-0 ml-3">
+                                        <a href="/aplikasi-opd/${app.id}" class="inline-flex items-center gap-1 text-blue-500 hover:text-blue-700 text-sm font-medium flex-shrink-0 ml-3">
                                             <i class="fa-solid fa-circle-check w-4 h-4 flex items-center justify-center"></i>
                                             Detail
                                         </a>

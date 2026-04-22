@@ -407,7 +407,7 @@
                     </div>
                     <div class="mt-5 pt-4 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between">
                         <span class="text-sm text-slate-500 dark:text-slate-400">Total: <span class="font-bold text-slate-800 dark:text-white">{{ $opdStats->sum('web_apps_count') }}</span> aplikasi</span>
-                        <a href="/admin/web-apps" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-purple-600 to-violet-600 rounded-lg hover:from-purple-700 hover:to-violet-700 transition shadow-sm">
+                        <a href="/admin/aplikasi-opd" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-purple-600 to-violet-600 rounded-lg hover:from-purple-700 hover:to-violet-700 transition shadow-sm">
                             Lihat Semua
                             <i class="fa-solid fa-arrow-right w-3.5 h-3.5 flex items-center justify-center"></i>
                         </a>
@@ -640,7 +640,7 @@
                                             <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">${app.nama_web_app}</p>
                                             ${app.alamat_tautan ? `<a href="${app.alamat_tautan}" target="_blank" class="text-[10px] text-blue-600 dark:text-blue-400 hover:underline truncate block">${app.alamat_tautan}</a>` : ''}
                                         </div>
-                                        <a href="/admin/web-apps/${app.id}" class="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition ring-1 ring-indigo-200 dark:ring-indigo-800 opacity-0 group-hover:opacity-100 flex-shrink-0">
+                                        <a href="/admin/aplikasi-opd/${app.id}" class="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition ring-1 ring-indigo-200 dark:ring-indigo-800 opacity-0 group-hover:opacity-100 flex-shrink-0">
                                             Lihat →
                                         </a>
                                     </div>
