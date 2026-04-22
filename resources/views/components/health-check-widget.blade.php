@@ -108,6 +108,7 @@ window.HCWidget = (function() {
     const LS_ROLE    = 'hcRole';
     const LS_STATE   = 'hcWidgetState'; // 'min' | 'max'
     const LS_STATUS  = 'hcBatchStatus';
+    const LS_TOTAL   = 'hcBatchTotal';
 
     let pollingInterval = null;
     let isVisible = false;
@@ -198,6 +199,7 @@ window.HCWidget = (function() {
         localStorage.removeItem(LS_ROLE);
         localStorage.removeItem(LS_STATE);
         localStorage.removeItem(LS_STATUS);
+        localStorage.removeItem(LS_TOTAL);
         hide();
     }
 
@@ -233,13 +235,16 @@ window.HCWidget = (function() {
 
         localStorage.setItem(LS_STATUS, 'completed');
 
+        // Save total for restoring later
+        const total = data.total || data.completed || 0;
+        localStorage.setItem(LS_TOTAL, total);
+
         // Switch body
         el.bodyProgress.style.display = 'none';
         el.bodyDone.style.display = '';
         el.bodyFailed.style.display = 'none';
 
         // Update summary
-        const total = data.total || data.completed || 0;
         el.doneSummary.textContent = `${total} website telah dicek`;
 
         // Update header
@@ -293,7 +298,7 @@ window.HCWidget = (function() {
         const status = localStorage.getItem(LS_STATUS);
         if (status === 'completed') {
             show();
-            showCompleted({ total: 0 }, true);
+            showCompleted({ total: parseInt(localStorage.getItem(LS_TOTAL)) || 0 }, true);
             return;
         }
         if (status === 'failed') {
