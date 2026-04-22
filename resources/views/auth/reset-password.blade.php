@@ -14,6 +14,27 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            body { font-family: 'Inter', sans-serif; transition: background-color 0.4s ease, color 0.4s ease; }
+            .dark body { background-color: #0a0f1a; color: #e2e8f0; }
+            .dark .bg-white\/80 { background-color: rgba(30, 41, 59, 0.8); border-color: rgba(51, 65, 85, 0.5); }
+            .dark .text-gray-900 { color: #f8fafc; }
+            .dark .text-gray-600 { color: #94a3b8; }
+            .dark input { background-color: #0f172a; border-color: #334155; color: #f1f5f9; }
+            .dark input:focus { border-color: #60a5fa; ring-color: #60a5fa; }
+            .dark .bg-amber-50 { background-color: rgba(120, 53, 15, 0.3); border-color: #78350f; }
+            .dark .text-amber-800 { color: #fcd34d; }
+            .dark .text-amber-600 { color: #fbbf24; }
+            .dark .bg-gradient-to-br.from-slate-50 { background-image: linear-gradient(to bottom right, #020617, #0f172a, #1e1b4b); }
+        </style>
+        <script>
+            if (localStorage.getItem('theme') === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        </script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen flex bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
