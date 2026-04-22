@@ -91,4 +91,20 @@ class User extends Authenticatable
     {
         return $this->role === 'user';
     }
+
+    /**
+     * Send the password reset notification using custom template.
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new \App\Notifications\CustomResetPasswordNotification($token));
+    }
+
+    /**
+     * Send the email verification notification using custom template.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new \App\Notifications\CustomVerifyEmailNotification());
+    }
 }
