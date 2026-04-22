@@ -587,25 +587,19 @@ class AdminMonitoringController extends Controller
      */
     public function getBulkProgress(string $batchId)
     {
-        try {
-            // Progressive checking: each poll checks next 10 URLs
-            $progress = CheckAllWebsitesJob::checkNextBatch($batchId);
+        $batch = HealthCheckBatch::where('batch_id', $batchId)->first();
 
-            if (isset($progress['error'])) {
-                return response()->json(['error' => $progress['error']], 404);
-            }
-
-            return response()->json($progress);
-        } catch (\Exception $e) {
-            \Log::error('getBulkProgress error: ' . $e->getMessage(), [
-                'batchId' => $batchId,
-                'file' => $e->getFile() . ':' . $e->getLine(),
-            ]);
-            return response()->json([
-                'error' => $e->getMessage(),
-                'status' => 'failed',
-            ], 500);
+        if (!$batch) {
+            return response()->json(['error' => 'Batch tidak ditemukan'], 404);
         }
+
+        return response()->json([
+            'batch_id'  => $batch->batch_id,
+            'total'     => $batch->total,
+            'completed' => $batch->completed,
+            'status'    => $batch->status,
+            'percent'   => $batch->progress_percent,
+        ]);
     }
 
     /**

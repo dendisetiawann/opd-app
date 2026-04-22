@@ -38,7 +38,7 @@ class UpdateWebAppRequest extends FormRequest
             'arsitektur_sistem' => 'required|in:monolith,be-fe',
             'framework' => 'required|string|max:255',
             // 'versi_framework' => 'required|string|max:50', // Deprecated
-            'daftar_library_package' => 'required|string',
+            'daftar_library_package' => 'nullable|string',
             
             // Repository & Backup
             'has_repository' => 'nullable|in:ya,tidak',
@@ -68,14 +68,26 @@ class UpdateWebAppRequest extends FormRequest
     public function messages(): array
     {
         return [
+            // Informasi Umum
             'nama_web_app.required' => 'Nama aplikasi wajib diisi.',
             'nama_web_app.max' => 'Nama aplikasi maksimal 255 karakter.',
-            'alamat_tautan.required' => 'Alamat website/link aplikasi wajib diisi.',
-            'arsitektur_sistem.in' => 'Arsitektur sistem harus monolith atau be-fe.',
-            'has_repository.in' => 'Pilihan repository harus ya atau tidak.',
-            'git_repository.in' => 'Status repository harus public atau private.',
+            'alamat_tautan.required' => 'Alamat tautan/URL wajib diisi.',
+            'alamat_tautan.max' => 'Alamat tautan maksimal 255 karakter.',
+            
+            // Stack Teknologi
+            'bahasa_pemrograman.required' => 'Bahasa pemrograman wajib diisi (tambahkan minimal satu).',
+            'arsitektur_sistem.required' => 'Arsitektur sistem wajib dipilih.',
+            'arsitektur_sistem.in' => 'Arsitektur sistem harus Monolith atau Backend-Frontend.',
+            'framework.required' => 'Framework wajib diisi (tambahkan minimal satu).',
+            'daftar_library_package.required' => 'Library/Package wajib diisi (tambahkan minimal satu).',
+            
+            // Repository & Backup
+            'has_repository.in' => 'Pilihan repository harus Ya atau Tidak.',
+            'git_repository.in' => 'Status repository harus Public atau Private.',
+            
+            // Database
             'lokasi_database.in' => 'Lokasi DBMS harus Server Kominfo atau Lainnya.',
-            'akses_database.in' => 'Akses database harus public atau private.',
+            'akses_database.in' => 'Akses database harus Public atau Private.',
         ];
     }
 }

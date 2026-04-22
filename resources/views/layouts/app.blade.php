@@ -16,6 +16,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <!-- SweetAlert2 for Error Handling UI -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <!-- Dark Mode Init -->
         <script>
             if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -250,6 +253,29 @@
                 0%, 100% { opacity: 0.15; filter: blur(40px); }
                 50% { opacity: 0.3; filter: blur(50px); }
             }
+
+            /* ✨ Error Handling Animations ✨ */
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+                20%, 40%, 60%, 80% { transform: translateX(4px); }
+            }
+            .animate-shake {
+                animation: shake 0.5s ease-in-out;
+            }
+            @keyframes error-pulse {
+                0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+                50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15); }
+            }
+            .field-has-error {
+                border-color: #ef4444 !important;
+                background-color: rgba(239, 68, 68, 0.04) !important;
+                animation: error-pulse 2s ease-in-out 1;
+            }
+            .dark .field-has-error {
+                border-color: #f87171 !important;
+                background-color: rgba(239, 68, 68, 0.08) !important;
+            }
         </style>
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-black transition-colors duration-300">
@@ -451,5 +477,173 @@
                 });
             }
         </script>
+
+        {{-- ✨ Global Validation Error & Flash Message Handler ✨ --}}
+        @if($errors->any())
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Build error list HTML with icons
+            const errorMessages = @json($errors->all());
+            const errorKeys = @json($errors->keys());
+            
+            let errorListHtml = '<div style="text-align:left; max-height: 300px; overflow-y: auto; padding: 0 8px;">';
+            errorMessages.forEach(function(msg, i) {
+                errorListHtml += `
+                    <div style="display:flex; align-items:flex-start; gap:10px; padding:10px 12px; margin-bottom:8px; background: rgba(239,68,68,0.06); border-left: 3px solid #ef4444; border-radius: 0 8px 8px 0;">
+                        <span style="color:#ef4444; font-size:16px; flex-shrink:0; margin-top:1px;">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </span>
+                        <span style="color:#64748b; font-size:14px; line-height:1.5;">${msg}</span>
+                    </div>
+                `;
+            });
+            errorListHtml += '</div>';
+
+            // Show centered SweetAlert2 popup
+            const isDark = document.documentElement.classList.contains('dark');
+            Swal.fire({
+                icon: 'error',
+                title: '<span style="font-size:20px; font-weight:700;">Data Belum Lengkap!</span>',
+                html: `
+                    <p style="color:#94a3b8; font-size:14px; margin-bottom:16px;">
+                        Mohon lengkapi <strong style="color:#ef4444;">${errorMessages.length} isian</strong> berikut sebelum menyimpan:
+                    </p>
+                    ${errorListHtml}
+                `,
+                confirmButtonText: '<i class="fa-solid fa-arrow-down mr-2"></i> Perbaiki Sekarang',
+                confirmButtonColor: '#3b82f6',
+                background: isDark ? '#18181b' : '#ffffff',
+                color: isDark ? '#f5f5f5' : '#1e293b',
+                backdrop: 'rgba(0,0,0,0.6)',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown animate__faster'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp animate__faster'
+                },
+                customClass: {
+                    popup: 'rounded-2xl shadow-2xl',
+                    confirmButton: 'rounded-xl px-6 py-2.5 font-semibold text-sm',
+                },
+                width: '520px',
+                padding: '2em 1.5em',
+            }).then(function() {
+                // After closing popup, scroll to first error field
+                scrollToFirstError();
+            });
+
+            // Highlight all error fields with red border + pulse
+            errorKeys.forEach(function(fieldName) {
+                // Try to find by name attribute
+                let field = document.querySelector(`[name="${fieldName}"]`);
+                // Try by ID as fallback
+                if (!field) {
+                    field = document.getElementById(fieldName);
+                }
+                // Try common variations (e.g. search input that maps to hidden field)
+                if (!field) {
+                    field = document.querySelector(`[name="${fieldName}_search"]`) ||
+                            document.getElementById(`${fieldName}_search`);
+                }
+                if (field) {
+                    field.classList.add('field-has-error');
+                    // Also highlight parent wrapper if it's a custom component
+                    const wrapper = field.closest('.relative');
+                    if (wrapper) {
+                        const customInput = wrapper.querySelector('input, select, textarea');
+                        if (customInput && customInput !== field) {
+                            customInput.classList.add('field-has-error');
+                        }
+                    }
+                }
+            });
+
+            function scrollToFirstError() {
+                // Find the first visible error message element
+                const firstError = document.querySelector('.field-has-error');
+                if (firstError) {
+                    const scrollContainer = document.querySelector('main.overflow-auto') || window;
+                    const rect = firstError.getBoundingClientRect();
+                    
+                    if (scrollContainer !== window && scrollContainer) {
+                        const containerRect = scrollContainer.getBoundingClientRect();
+                        const scrollTop = scrollContainer.scrollTop + (rect.top - containerRect.top) - 120;
+                        scrollContainer.scrollTo({ top: scrollTop, behavior: 'smooth' });
+                    } else {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    
+                    // Focus the field
+                    setTimeout(function() {
+                        firstError.focus();
+                    }, 600);
+                }
+            }
+
+            // Remove error highlight when user starts typing/interacting
+            document.querySelectorAll('.field-has-error').forEach(function(field) {
+                const events = ['input', 'change', 'focus'];
+                events.forEach(function(evt) {
+                    field.addEventListener(evt, function() {
+                        this.classList.remove('field-has-error');
+                    }, { once: true });
+                });
+            });
+        });
+        </script>
+        @endif
+
+        {{-- Flash Success Message --}}
+        @if(session('success'))
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDark = document.documentElement.classList.contains('dark');
+            Swal.fire({
+                icon: 'success',
+                title: '<span style="font-size:20px; font-weight:700;">Berhasil!</span>',
+                html: '<p style="color:#94a3b8; font-size:14px;">{{ session("success") }}</p>',
+                confirmButtonText: 'Oke, Mengerti',
+                confirmButtonColor: '#10b981',
+                background: isDark ? '#18181b' : '#ffffff',
+                color: isDark ? '#f5f5f5' : '#1e293b',
+                backdrop: 'rgba(0,0,0,0.4)',
+                timer: 4000,
+                timerProgressBar: true,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown animate__faster'
+                },
+                customClass: {
+                    popup: 'rounded-2xl shadow-2xl',
+                    confirmButton: 'rounded-xl px-6 py-2.5 font-semibold text-sm',
+                },
+                width: '420px',
+            });
+        });
+        </script>
+        @endif
+
+        {{-- Flash Error Message --}}
+        @if(session('error'))
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDark = document.documentElement.classList.contains('dark');
+            Swal.fire({
+                icon: 'error',
+                title: '<span style="font-size:20px; font-weight:700;">Terjadi Kesalahan</span>',
+                html: '<p style="color:#94a3b8; font-size:14px;">{{ session("error") }}</p>',
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#ef4444',
+                background: isDark ? '#18181b' : '#ffffff',
+                color: isDark ? '#f5f5f5' : '#1e293b',
+                backdrop: 'rgba(0,0,0,0.5)',
+                customClass: {
+                    popup: 'rounded-2xl shadow-2xl',
+                    confirmButton: 'rounded-xl px-6 py-2.5 font-semibold text-sm',
+                },
+                width: '420px',
+            });
+        });
+        </script>
+        @endif
     </body>
 </html>

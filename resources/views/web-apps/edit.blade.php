@@ -70,7 +70,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
                                 <x-input-label for="nama_web_app" :value="__('Nama Aplikasi *')" />
-                                <x-text-input id="nama_web_app" class="block mt-1 w-full text-sm" type="text" name="nama_web_app" :value="old('nama_web_app', $webApp->nama_web_app)" required placeholder="Misal: Sistem Informasi Kepegawaian" />
+                                <x-text-input id="nama_web_app" class="block mt-1 w-full text-sm" type="text" name="nama_web_app" :value="old('nama_web_app', $webApp->nama_web_app)" placeholder="Misal: Sistem Informasi Kepegawaian" />
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Nama resmi aplikasi sesuai SK atau penggunaan umum di instansi.</p>
                                 <x-input-error :messages="$errors->get('nama_web_app')" class="mt-2" />
                             </div>
@@ -78,7 +78,7 @@
                             <div>
                                 <x-input-label for="alamat_tautan" :value="__('Alamat Tautan *')" />
                                 <div class="relative mt-1">
-                                    <x-text-input id="alamat_tautan" class="block w-full text-sm" type="url" name="alamat_tautan" :value="old('alamat_tautan', $webApp->alamat_tautan)" required placeholder="https://example.id atau tautan akses lainnya" />
+                                    <x-text-input id="alamat_tautan" class="block w-full text-sm" type="url" name="alamat_tautan" :value="old('alamat_tautan', $webApp->alamat_tautan)" placeholder="https://example.id atau tautan akses lainnya" />
                                 </div>
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">URL atau tautan untuk mengakses aplikasi ini.</p>
                                 <x-input-error :messages="$errors->get('alamat_tautan')" class="mt-2" />
@@ -87,7 +87,7 @@
                             <!-- Jenis Aplikasi -->
                             <div>
                                 <x-input-label for="jenis_aplikasi" :value="__('Jenis Aplikasi')" />
-                                <select id="jenis_aplikasi" name="jenis_aplikasi" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                <select id="jenis_aplikasi" name="jenis_aplikasi" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
                                     <option value="">— Pilih jenis aplikasi —</option>
                                     <option value="Web Application" {{ old('jenis_aplikasi', $webApp->jenis_aplikasi) == 'Web Application' ? 'selected' : '' }}>Web Application</option>
                                     <option value="Mobile Application" {{ old('jenis_aplikasi', $webApp->jenis_aplikasi) == 'Mobile Application' ? 'selected' : '' }}>Mobile Application</option>
@@ -99,7 +99,7 @@
 
                             <div class="md:col-span-2">
                                 <x-input-label for="deskripsi_singkat" :value="__('Deskripsi Singkat Kegunaan *')" />
-                                <textarea id="deskripsi_singkat" name="deskripsi_singkat" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" required placeholder="Jelaskan fungsi utama aplikasi ini...">{{ old('deskripsi_singkat', $webApp->deskripsi_singkat) }}</textarea>
+                                <textarea id="deskripsi_singkat" name="deskripsi_singkat" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" placeholder="Jelaskan fungsi utama aplikasi ini...">{{ old('deskripsi_singkat', $webApp->deskripsi_singkat) }}</textarea>
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Jelaskan secara singkat tujuan dan fungsi utama dari aplikasi ini.</p>
                                 <x-input-error :messages="$errors->get('deskripsi_singkat')" class="mt-2" />
                             </div>
@@ -121,7 +121,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <x-input-label for="data_tim_programmer" :value="__('Data Tim Pengembang *')" />
-                                <textarea id="data_tim_programmer" name="data_tim_programmer" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" required placeholder="Sebutkan nama programmer...">{{ old('data_tim_programmer', $webApp->data_tim_programmer) }}</textarea>
+                                <textarea id="data_tim_programmer" name="data_tim_programmer" rows="3" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm transition-all text-sm" placeholder="Sebutkan nama programmer...">{{ old('data_tim_programmer', $webApp->data_tim_programmer) }}</textarea>
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Daftar nama programmer.</p>
                                 <x-input-error :messages="$errors->get('data_tim_programmer')" class="mt-2" />
                             </div>
@@ -133,7 +133,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-regular fa-envelope h-4 w-4 text-gray-400 flex items-center justify-center"></i>
                                     </div>
-                                    <x-text-input id="email_narahubung" class="block w-full text-sm pl-9" type="email" name="email_narahubung" :value="old('email_narahubung', $webApp->email_narahubung)" required placeholder="contoh@pekanbaru.go.id" />
+                                    <x-text-input id="email_narahubung" class="block w-full text-sm pl-9" type="email" name="email_narahubung" :value="old('email_narahubung', $webApp->email_narahubung)" placeholder="contoh@pekanbaru.go.id" />
                                 </div>
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Email aktif untuk komunikasi resmi.</p>
                                 <x-input-error :messages="$errors->get('email_narahubung')" class="mt-2" />
@@ -146,7 +146,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-brands fa-whatsapp h-4 w-4 text-green-500 flex items-center justify-center"></i>
                                     </div>
-                                    <x-text-input id="whatsapp_narahubung" class="block w-full text-sm pl-9" type="text" name="whatsapp_narahubung" :value="old('whatsapp_narahubung', $webApp->whatsapp_narahubung)" required placeholder="081234567890" />
+                                    <x-text-input id="whatsapp_narahubung" class="block w-full text-sm pl-9" type="text" name="whatsapp_narahubung" :value="old('whatsapp_narahubung', $webApp->whatsapp_narahubung)" placeholder="081234567890" />
                                 </div>
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Nomor WA aktif tanpa spasi atau tanda baca.</p>
                                 <x-input-error :messages="$errors->get('whatsapp_narahubung')" class="mt-2" />
@@ -269,8 +269,8 @@
                                                     autocomplete="off"
                                                 >
                                                 <button type="button" x-show="selectedLang" @click="clearLang()"
-                                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                                    <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </div>
 
@@ -285,7 +285,7 @@
                                                         class="px-4 py-2.5 cursor-pointer transition-all duration-150 flex items-center gap-3 group"
                                                         :class="{ 'bg-cyan-50 dark:bg-cyan-900/30': langHighlightedIndex === index, 'hover:bg-gray-50 dark:hover:bg-zinc-700/50': langHighlightedIndex !== index }">
                                                         <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/40 dark:to-teal-900/40 flex items-center justify-center">
-                                                            <span class="text-cyan-700 dark:text-cyan-400 text-xs font-bold" x-text="lang.name.substring(0,2).toUpperCase()"></span>
+                                                            <i class="fa-solid fa-code w-4 h-4 text-cyan-600 dark:text-cyan-400 flex items-center justify-center"></i>
                                                         </div>
                                                         <div>
                                                             <div class="text-sm font-medium text-slate-800 dark:text-slate-200" x-text="lang.name"></div>
@@ -353,8 +353,8 @@
                                                     :disabled="!selectedLang && !isNewLang"
                                                 >
                                                 <button type="button" x-show="selectedVersiLang" @click="clearVersiLang()"
-                                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                                    <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </div>
 
@@ -398,8 +398,8 @@
                                             <span class="lang-badge-enter inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-cyan-100 to-teal-100 dark:from-cyan-900/40 dark:to-teal-900/40 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800/30 shadow-sm">
                                                 <span x-text="lang.name + ' ' + lang.version"></span>
                                                 <button type="button" @click="removeLang(index)"
-                                                    class="ml-0.5 text-cyan-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
-                                                    <i class="fa-solid fa-star w-3.5 h-3.5 flex items-center justify-center"></i>
+                                                    class="ml-0.5 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                    <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </span>
                                         </template>
@@ -419,7 +419,7 @@
                                         x-transition:enter-end="opacity-100 translate-y-0">
                                         <button type="button" @click="showPicker = true"
                                             class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl border border-emerald-200 dark:border-emerald-800/30 hover:from-emerald-100 hover:to-teal-100 dark:hover:from-emerald-900/40 dark:hover:to-teal-900/40 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md transition-all shadow-sm">
-                                            <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                            <i class="fa-solid fa-plus w-4 h-4 flex items-center justify-center"></i>
                                             Tambah Bahasa Lain
                                         </button>
                                     </div>
@@ -606,7 +606,7 @@
                             
                             <div>
                                 <x-input-label for="arsitektur_sistem" :value="__('Arsitektur Sistem *')" />
-                                <select id="arsitektur_sistem" name="arsitektur_sistem" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                <select id="arsitektur_sistem" name="arsitektur_sistem" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
                                     <option value="">-- Pilih --</option>
                                     <option value="monolith" {{ old('arsitektur_sistem', $webApp->arsitektur_sistem) == 'monolith' ? 'selected' : '' }}>Monolith (Satu codebase)</option>
                                     <option value="be-fe" {{ old('arsitektur_sistem', $webApp->arsitektur_sistem) == 'be-fe' ? 'selected' : '' }}>Terpisah (Backend & Frontend)</option>
@@ -724,9 +724,9 @@
                                                     type="button"
                                                     x-show="selectedFw"
                                                     @click="clearFw()"
-                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors"
+                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-red-500 hover:text-red-700 transition-colors"
                                                 >
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </div>
 
@@ -755,13 +755,13 @@
                                                     >
                                                         <div class="flex items-center gap-3">
                                                             <div class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center flex-shrink-0">
-                                                                <i class="fa-solid fa-layer-group w-4 h-4 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"></i>
+                                                                <i class="fa-solid fa-gears w-4 h-4 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"></i>
                                                             </div>
                                                             <div class="flex-1">
                                                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="fw.name"></div>
 
                                                             </div>
-                                                            <i class="fa-solid fa-star w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedFwId === fw.name"></i>
+                                                            <i class="fa-solid fa-check w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedFwId === fw.name"></i>
                                                         </div>
                                                     </div>
                                                 </template>
@@ -776,7 +776,7 @@
                                                 >
                                                     <div class="flex items-center gap-3">
                                                         <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                                                            <i class="fa-solid fa-star w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                                            <i class="fa-solid fa-plus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
                                                         </div>
                                                         <div class="flex-1">
                                                             <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
@@ -794,7 +794,7 @@
                                                 >
                                                     <div class="flex items-center gap-3">
                                                         <div class="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/50 flex items-center justify-center flex-shrink-0">
-                                                            <i class="fa-solid fa-star w-4 h-4 text-red-500 dark:text-red-400 flex items-center justify-center"></i>
+                                                            <i class="fa-solid fa-ban w-4 h-4 text-red-500 dark:text-red-400 flex items-center justify-center"></i>
                                                         </div>
                                                         <div class="flex-1">
                                                             <div class="text-sm font-medium text-red-600 dark:text-red-400">
@@ -809,8 +809,10 @@
                                             <!-- Selected Framework Badge -->
                                             <div x-show="selectedFw && !isNewFw" class="mt-2 flex items-center gap-2">
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
                                                     <span x-text="selectedFw"></span>
+                                                    <button type="button" @click="clearFw()" class="text-red-500 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
+                                                    </button>
                                                 </span>
                                                 <span class="text-xs text-gray-500">terpilih</span>
                                             </div>
@@ -818,8 +820,10 @@
                                             <!-- New Framework Indicator -->
                                             <div x-show="isNewFw && fwSearch" class="mt-2 flex items-center gap-2">
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
                                                     <span x-text="fwSearch"></span>
+                                                    <button type="button" @click="clearFw()" class="text-red-500 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
+                                                    </button>
                                                 </span>
                                                 <span class="text-xs text-emerald-600">(Framework Baru)</span>
                                             </div>
@@ -850,9 +854,9 @@
                                                     type="button"
                                                     x-show="selectedVersiFw"
                                                     @click="clearVersiFw()"
-                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors"
+                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-red-500 hover:text-red-700 transition-colors"
                                                 >
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </div>
 
@@ -881,13 +885,13 @@
                                                     >
                                                         <div class="flex items-center gap-3">
                                                             <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center flex-shrink-0">
-                                                                <i class="fa-solid fa-star w-4 h-4 text-purple-600 dark:text-purple-400 flex items-center justify-center"></i>
+                                                                <i class="fa-solid fa-check w-4 h-4 text-purple-600 dark:text-purple-400 flex items-center justify-center"></i>
                                                             </div>
                                                             <div class="flex-1">
                                                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="versi"></div>
                                                                 <div class="text-xs text-gray-500 dark:text-gray-400">Versi tersedia</div>
                                                             </div>
-                                                            <i class="fa-solid fa-star w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedVersiFw === versi"></i>
+                                                            <i class="fa-solid fa-check w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedVersiFw === versi"></i>
                                                         </div>
                                                     </div>
                                                 </template>
@@ -902,7 +906,7 @@
                                                 >
                                                     <div class="flex items-center gap-3">
                                                         <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                                                            <i class="fa-solid fa-star w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                                            <i class="fa-solid fa-plus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
                                                         </div>
                                                         <div class="flex-1">
                                                             <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
@@ -917,8 +921,10 @@
                                             <!-- Selected Versi Badge -->
                                             <div x-show="selectedVersiFw" class="mt-2 flex items-center gap-2">
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
                                                     <span x-text="selectedVersiFw"></span>
+                                                    <button type="button" @click="clearVersiFw()" class="text-red-500 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
+                                                    </button>
                                                 </span>
                                                 <span x-show="!isNewVersiFw" class="text-xs text-gray-500">terpilih</span>
                                                 <span x-show="isNewVersiFw" class="text-xs text-purple-600">(versi baru)</span>
@@ -939,10 +945,10 @@
                                         <div class="flex flex-wrap gap-2">
                                             <template x-for="(fw, index) in addedFrameworks" :key="index">
                                                 <span class="fw-badge-enter inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700/50 shadow-sm">
-                                                    <i class="fa-solid fa-layer-group w-3.5 h-3.5 text-indigo-500 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-gears w-3.5 h-3.5 text-indigo-500 flex items-center justify-center"></i>
                                                     <span x-text="fw.name + ' ' + fw.version"></span>
                                                     <button type="button" @click="removeFramework(index)" class="ml-0.5 text-indigo-400 hover:text-red-500 dark:text-indigo-500 dark:hover:text-red-400 transition-colors" title="Hapus framework">
-                                                        <i class="fa-solid fa-star w-3.5 h-3.5 flex items-center justify-center"></i>
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
                                                     </button>
                                                 </span>
                                             </template>
@@ -959,7 +965,7 @@
                                         x-transition:leave-end="opacity-0"
                                     >
                                         <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30">
-                                            <i class="fa-solid fa-star w-4 h-4 text-red-500 flex-shrink-0"></i>
+                                            <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex-shrink-0"></i>
                                             <span class="text-sm font-medium text-red-600 dark:text-red-400" x-text="duplicateError"></span>
                                         </div>
                                     </div>
@@ -975,7 +981,7 @@
                                     >
                                         <button type="button" @click="showPicker = true"
                                             class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl border border-emerald-200 dark:border-emerald-800/30 hover:from-emerald-100 hover:to-teal-100 dark:hover:from-emerald-900/40 dark:hover:to-teal-900/40 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md transition-all shadow-sm">
-                                            <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                            <i class="fa-solid fa-plus w-4 h-4 flex items-center justify-center"></i>
                                             Tambah Framework Lain
                                         </button>
                                     </div>
@@ -1408,7 +1414,10 @@
                             </div>
                             
                             <div class="md:col-span-2" x-data="librarySelectorEdit()" x-init="init()">
-                                <x-input-label for="daftar_library_package" :value="__('Filelist libraly / Package yang terinstall pada sistem *')" />
+                                <x-input-label for="daftar_library_package">
+                                    Library / Package yang terinstall pada sistem
+                                    <span class="ml-1 text-xs font-normal text-slate-400 dark:text-slate-500 italic">(boleh dikosongkan)</span>
+                                </x-input-label>
                                 <style>
                                     @keyframes libBadgeEnter {
                                         0% { opacity: 0; transform: scale(0.5) translateY(8px); }
@@ -1485,7 +1494,7 @@
                                         <!-- Library Search (Left) -->
                                         <div class="relative">
                                             <label class="block text-xs font-semibold text-violet-700 dark:text-violet-400 mb-1.5 flex items-center gap-1">
-                                                <i class="fa-solid fa-layer-group w-3.5 h-3.5 flex items-center justify-center"></i>
+                                                <i class="fa-solid fa-box w-3.5 h-3.5 flex items-center justify-center"></i>
                                                 Library / Package
                                             </label>
                                             <div class="relative">
@@ -1505,8 +1514,8 @@
                                                 >
                                                 <!-- Clear Button -->
                                                 <button type="button" x-show="selectedLib" @click="clearLib()"
-                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-red-500 hover:text-red-700 transition-colors">
+                                                    <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </div>
 
@@ -1521,7 +1530,7 @@
                                                         class="px-4 py-2.5 cursor-pointer transition-all duration-150 flex items-center gap-3"
                                                         :class="{ 'bg-violet-50 dark:bg-violet-900/30': libHighlightedIndex === index, 'hover:bg-gray-50 dark:hover:bg-zinc-700/50': libHighlightedIndex !== index }">
                                                         <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/40 dark:to-purple-900/40 flex items-center justify-center">
-                                                            <i class="fa-solid fa-layer-group w-4 h-4 text-violet-600 dark:text-violet-400 flex items-center justify-center"></i>
+                                                            <i class="fa-solid fa-box w-4 h-4 text-violet-600 dark:text-violet-400 flex items-center justify-center"></i>
                                                         </div>
                                                         <div>
                                                             <span class="text-sm font-medium text-slate-800 dark:text-slate-200" x-text="lib.name"></span>
@@ -1554,7 +1563,7 @@
                                         <!-- Version Search (Right) -->
                                         <div class="relative" x-show="selectedLib" x-transition>
                                             <label class="block text-xs font-semibold text-blue-700 dark:text-blue-400 mb-1.5 flex items-center gap-1">
-                                                <i class="fa-solid fa-star w-3.5 h-3.5 flex items-center justify-center"></i>
+                                                <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
                                                 Versi Library
                                             </label>
                                             <div class="relative">
@@ -1572,8 +1581,8 @@
                                                 >
                                                 <!-- Clear Button -->
                                                 <button type="button" x-show="versiLibSearch" @click="clearVersiLib()"
-                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors">
-                                                    <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-red-500 hover:text-red-700 transition-colors">
+                                                    <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </div>
 
@@ -1588,7 +1597,7 @@
                                                         class="px-4 py-2.5 cursor-pointer transition-all duration-150 flex items-center gap-3"
                                                         :class="{ 'bg-blue-50 dark:bg-blue-900/30': versiLibHighlightedIndex === index, 'hover:bg-gray-50 dark:hover:bg-zinc-700/50': versiLibHighlightedIndex !== index }">
                                                         <span class="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
-                                                            <i class="fa-solid fa-star w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
+                                                            <i class="fa-solid fa-check w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
                                                         </span>
                                                         <span class="text-sm font-medium text-slate-800 dark:text-slate-200" x-text="versi"></span>
                                                     </div>
@@ -1619,7 +1628,7 @@
                                                 <span x-text="lib.name + ' ' + lib.version"></span>
                                                 <button type="button" @click="removeLib(index)"
                                                     class="ml-0.5 text-violet-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
-                                                    <i class="fa-solid fa-star w-3.5 h-3.5 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
                                                 </button>
                                             </span>
                                         </template>
@@ -1639,7 +1648,7 @@
                                         x-transition:enter-end="opacity-100 translate-y-0">
                                         <button type="button" @click="showPicker = true"
                                             class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl border border-emerald-200 dark:border-emerald-800/30 hover:from-emerald-100 hover:to-teal-100 dark:hover:from-emerald-900/40 dark:hover:to-teal-900/40 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md transition-all shadow-sm">
-                                            <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                            <i class="fa-solid fa-plus w-4 h-4 flex items-center justify-center"></i>
                                             Tambah Library Lain
                                         </button>
                                     </div>
@@ -1880,7 +1889,7 @@
 
                          <!-- Educational Note -->
                          <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 rounded-xl p-4 mb-6 flex items-start gap-3">
-                            <i class="fa-solid fa-star h-5 w-5 text-amber-500 dark:text-amber-400 mt-0.5 flex-shrink-0"></i>
+                            <i class="fa-solid fa-circle-exclamation h-5 w-5 text-amber-500 dark:text-amber-400 mt-0.5 flex-shrink-0"></i>
                             <div>
                                 <p class="text-xs font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wide mb-1">Rekomendasi Keamanan</p>
                                 <p class="text-sm text-amber-700 dark:text-amber-400">
@@ -1898,11 +1907,11 @@
                                 <x-input-label :value="__('Memiliki Repository Git? *')" class="mb-2" />
                                 <div class="flex items-center gap-4">
                                     <label class="group relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-zinc-700 cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all">
-                                        <input type="radio" name="has_repository" value="ya" required class="w-4 h-4 text-indigo-600 border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 focus:ring-indigo-500" {{ $hasRepo == 'ya' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
+                                        <input type="radio" name="has_repository" value="ya" class="w-4 h-4 text-indigo-600 border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 focus:ring-indigo-500" {{ $hasRepo == 'ya' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
                                         <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Ya, Ada</span>
                                     </label>
                                     <label class="group relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-zinc-700 cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all">
-                                        <input type="radio" name="has_repository" value="tidak" required class="w-4 h-4 text-indigo-600 border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 focus:ring-indigo-500" {{ $hasRepo == 'tidak' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
+                                        <input type="radio" name="has_repository" value="tidak" class="w-4 h-4 text-indigo-600 border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 focus:ring-indigo-500" {{ $hasRepo == 'tidak' ? 'checked' : '' }} onchange="toggleRepositoryStatus()">
                                         <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Tidak Ada</span>
                                     </label>
                                 </div>
@@ -1934,12 +1943,12 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <x-input-label for="metode_backup_source_code" :value="__('Backup Source Code *')" />
-                                    <x-text-input id="metode_backup_source_code" class="block mt-1 w-full text-sm" type="text" name="metode_backup_source_code" :value="old('metode_backup_source_code', $webApp->metode_backup_source_code)" required placeholder="Misal: Git Push Harian" />
+                                    <x-text-input id="metode_backup_source_code" class="block mt-1 w-full text-sm" type="text" name="metode_backup_source_code" :value="old('metode_backup_source_code', $webApp->metode_backup_source_code)" placeholder="Misal: Git Push Harian" />
                                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Strategi pengamanan kode sumber.</p>
                                 </div>
                                 <div>
                                     <x-input-label for="metode_backup_asset" :value="__('Backup Assets (File/Gambar) *')" />
-                                    <x-text-input id="metode_backup_asset" class="block mt-1 w-full text-sm" type="text" name="metode_backup_asset" :value="old('metode_backup_asset', $webApp->metode_backup_asset)" required placeholder="Contoh: Sinkronisasi ke Object Storage, Backup Harian ke Server Lain, atau Copy Manual ke HDD Eksternal" />
+                                    <x-text-input id="metode_backup_asset" class="block mt-1 w-full text-sm" type="text" name="metode_backup_asset" :value="old('metode_backup_asset', $webApp->metode_backup_asset)" placeholder="Contoh: Sinkronisasi ke Object Storage, Backup Harian ke Server Lain, atau Copy Manual ke HDD Eksternal" />
                                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Jelaskan metode pengamanan file upload (foto/dokumen) agar data tetap aman jika terjadi gangguan server.</p>
                                 </div>
                             </div>
@@ -1961,7 +1970,7 @@
                         <!-- Panduan Penggunaan DBMS -->
                         <div class="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-4">
                             <div class="flex items-center gap-2 mb-3">
-                                <i class="fa-solid fa-star w-5 h-5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
+                                <i class="fa-solid fa-check w-5 h-5 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
                                 <span class="font-semibold text-sm text-gray-800 dark:text-gray-200">Panduan Pengisian DBMS</span>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
@@ -1982,7 +1991,7 @@
                                     </div>
                                     <div class="text-gray-600 dark:text-gray-400">
                                         <span class="font-medium text-gray-700 dark:text-gray-300">Pilih Versi</span>
-                                        <p class="mt-0.5">Setelah DBMS terpilih, pilih versi yang tersedia atau tambah versi custom</p>
+                                        <p class="mt-0.5">Setelah DBMS terpilih, pilih versi yang tersedia atau tambah versi custom. (Klik tanda silang <i class="fa-solid fa-xmark text-red-500 mx-0.5"></i> untuk menghapus pilihan)</p>
                                     </div>
                                 </div>
                             </div>
@@ -2013,9 +2022,9 @@
                                         type="button"
                                         x-show="selectedDbms"
                                         @click="clearDbms()"
-                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors"
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-red-500 hover:text-red-700 transition-colors"
                                     >
-                                        <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                        <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                     </button>
                                 </div>
 
@@ -2044,13 +2053,13 @@
                                         >
                                             <div class="flex items-center gap-3">
                                                 <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                                                    <i class="fa-solid fa-star w-4 h-4 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-database w-4 h-4 text-blue-600 dark:text-blue-400 flex items-center justify-center"></i>
                                                 </div>
                                                 <div class="flex-1">
                                                     <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="dbms.name"></div>
 
                                                 </div>
-                                                <i class="fa-solid fa-star w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedDbmsId === dbms.name"></i>
+                                                <i class="fa-solid fa-check w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedDbmsId === dbms.name"></i>
                                             </div>
                                         </div>
                                     </template>
@@ -2065,7 +2074,7 @@
                                     >
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                                                <i class="fa-solid fa-star w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                                <i class="fa-solid fa-plus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
                                             </div>
                                             <div class="flex-1">
                                                 <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
@@ -2080,8 +2089,10 @@
                                 <!-- Selected DBMS Badge -->
                                 <div x-show="selectedDbms && !isNewDbms" class="mt-2 flex items-center gap-2">
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
-                                        <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
-                                        <span x-text="selectedDbms"></span>
+                                                    <span x-text="selectedDbms"></span>
+                                        <button type="button" @click="clearDbms()" class="text-red-500 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
+                                                    </button>
                                     </span>
                                     <span class="text-xs text-gray-500">terpilih</span>
                                 </div>
@@ -2089,8 +2100,10 @@
                                 <!-- New DBMS Indicator -->
                                 <div x-show="isNewDbms && dbmsSearch" class="mt-2 flex items-center gap-2">
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
-                                        <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
-                                        <span x-text="dbmsSearch"></span>
+                                                    <span x-text="dbmsSearch"></span>
+                                        <button type="button" @click="clearDbms()" class="text-red-500 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
+                                                    </button>
                                     </span>
                                     <span class="text-xs text-emerald-600">(DBMS Baru)</span>
                                 </div>
@@ -2124,9 +2137,9 @@
                                         type="button"
                                         x-show="selectedVersi"
                                         @click="clearVersi()"
-                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500 transition-colors"
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-red-500 hover:text-red-700 transition-colors"
                                     >
-                                        <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
+                                        <i class="fa-solid fa-xmark w-4 h-4 text-red-500 flex items-center justify-center"></i>
                                     </button>
                                 </div>
 
@@ -2155,13 +2168,13 @@
                                         >
                                             <div class="flex items-center gap-3">
                                                 <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center flex-shrink-0">
-                                                    <i class="fa-solid fa-star w-4 h-4 text-purple-600 dark:text-purple-400 flex items-center justify-center"></i>
+                                                    <i class="fa-solid fa-check w-4 h-4 text-purple-600 dark:text-purple-400 flex items-center justify-center"></i>
                                                 </div>
                                                 <div class="flex-1">
                                                     <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="versi"></div>
                                                     <div class="text-xs text-gray-500 dark:text-gray-400">Versi tersedia</div>
                                                 </div>
-                                                <i class="fa-solid fa-star w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedVersi === versi"></i>
+                                                <i class="fa-solid fa-check w-5 h-5 text-blue-600 flex items-center justify-center" x-show="selectedVersi === versi"></i>
                                             </div>
                                         </div>
                                     </template>
@@ -2176,7 +2189,7 @@
                                     >
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                                                <i class="fa-solid fa-star w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
+                                                <i class="fa-solid fa-plus w-4 h-4 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"></i>
                                             </div>
                                             <div class="flex-1">
                                                 <div class="text-sm font-medium text-emerald-700 dark:text-emerald-400">
@@ -2191,8 +2204,10 @@
                                 <!-- Selected Versi Badge -->
                                 <div x-show="selectedVersi" class="mt-2 flex items-center gap-2">
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
-                                        <i class="fa-solid fa-star w-4 h-4 flex items-center justify-center"></i>
-                                        <span x-text="selectedVersi"></span>
+                                                    <span x-text="selectedVersi"></span>
+                                        <button type="button" @click="clearVersi()" class="text-red-500 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors">
+                                                        <i class="fa-solid fa-xmark w-3.5 h-3.5 text-red-500 flex items-center justify-center"></i>
+                                                    </button>
                                     </span>
                                     <span x-show="!isNewVersi" class="text-xs text-gray-500">terpilih</span>
                                     <span x-show="isNewVersi" class="text-xs text-purple-600">(versi baru)</span>
@@ -2204,7 +2219,7 @@
 
                             <div>
                                 <x-input-label for="lokasi_database" :value="__('Lokasi Server DBMS *')" />
-                                <select id="lokasi_database" name="lokasi_database" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                <select id="lokasi_database" name="lokasi_database" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
                                     <option value="">-- Pilih --</option>
                                     <option value="Server Kominfo" {{ old('lokasi_database', $webApp->lokasi_database) == 'Server Kominfo' ? 'selected' : '' }}>Server Kominfo</option>
                                     <option value="Lainnya" {{ old('lokasi_database', $webApp->lokasi_database) == 'Lainnya' ? 'selected' : '' }}>Lainnya (di luar Server Kominfo)</option>
@@ -2214,7 +2229,7 @@
 
                             <div>
                                 <x-input-label for="akses_database" :value="__('Akses Database *')" />
-                                <select id="akses_database" name="akses_database" required class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
+                                <select id="akses_database" name="akses_database" class="block mt-1 w-full border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-slate-900 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-xl shadow-sm text-sm">
                                     <option value="">-- Pilih --</option>
                                     <option value="public" {{ old('akses_database', $webApp->akses_database) == 'public' ? 'selected' : '' }}>Public (Terbuka)</option>
                                     <option value="private" {{ old('akses_database', $webApp->akses_database) == 'private' ? 'selected' : '' }}>Private (Tertutup)</option>
@@ -2224,7 +2239,7 @@
 
                             <div class="md:col-span-2">
                                 <x-input-label for="metode_backup_database" :value="__('Strategi Backup DB *')" />
-                                <x-text-input id="metode_backup_database" class="block mt-1 w-full text-sm" type="text" name="metode_backup_database" :value="old('metode_backup_database', $webApp->metode_backup_database)" required placeholder="Misal: Auto-dump setiap jam 00:00" />
+                                <x-text-input id="metode_backup_database" class="block mt-1 w-full text-sm" type="text" name="metode_backup_database" :value="old('metode_backup_database', $webApp->metode_backup_database)" placeholder="Misal: Auto-dump setiap jam 00:00" />
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Prosedur penyelamatan data jika terjadi kerusakan.</p>
                             </div>
                         </div>
