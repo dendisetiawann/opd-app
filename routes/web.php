@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::post('/pengguna', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('users.store');
     Route::delete('/pengguna/{user}', [\App\Http\Controllers\AdminUserController::class, 'destroy'])->name('users.destroy');
     Route::get('/opd/search', [\App\Http\Controllers\AdminUserController::class, 'searchOpd'])->name('opd.search');
+    Route::get('/pengguna/search', [\App\Http\Controllers\AdminUserController::class, 'searchUsers'])->name('users.search');
     Route::get('/pengguna/{user}/created', [\App\Http\Controllers\AdminUserController::class, 'created'])->name('users.created');
     Route::get('/pengguna/{user}/export-pdf', [\App\Http\Controllers\AdminUserController::class, 'exportPdf'])->name('users.export-pdf');
     Route::get('/pengguna/{user}', [\App\Http\Controllers\AdminUserController::class, 'show'])->name('users.show');

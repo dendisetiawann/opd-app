@@ -4,7 +4,7 @@
     </x-slot>
 
     <!-- Premium Header Card (Light Glassmorphism) -->
-    <div class="relative mb-8 rounded-3xl p-0.5 bg-gradient-to-br from-white/60 to-white/30 dark:from-black dark:to-black border border-white/50 dark:border-zinc-800 shadow-xl shadow-blue-900/5 dark:shadow-2xl backdrop-blur-xl overflow-hidden">
+    <div class="relative mb-8 rounded-3xl p-0.5 bg-gradient-to-br from-white/60 to-white/30 dark:from-black dark:to-black border border-white/50 dark:border-zinc-800 shadow-xl shadow-blue-900/5 dark:shadow-2xl backdrop-blur-xl overflow-visible">
         <!-- Floating Abstract Shapes (Light Mode) -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden dark:hidden">
             <div class="absolute -top-6 -right-6 w-32 h-32 bg-blue-200/40 rounded-full mix-blend-multiply filter blur-2xl"></div>
@@ -98,13 +98,26 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="flex-1 flex flex-col gap-1">
+                <div class="flex-1 flex flex-col gap-1 relative" id="searchContainer">
                     <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pencarian</label>
                     <div class="relative">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, email, atau OPD..." 
-                            class="w-full pl-12 pr-4 py-3 bg-white/80 dark:bg-black/80 backdrop-blur-sm border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-700 dark:text-zinc-200 placeholder-slate-400 dark:placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        <input type="text" name="search" id="userSearchInput" value="{{ request('search') }}" placeholder="Cari nama, email, atau OPD..." 
+                            class="w-full pl-12 pr-4 py-3 bg-white/80 dark:bg-black/80 backdrop-blur-sm border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-700 dark:text-zinc-200 placeholder-slate-400 dark:placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            autocomplete="off">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 flex items-center justify-center"></i>
+                            <i id="searchIcon" class="fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 flex items-center justify-center"></i>
+                        </div>
+                    </div>
+                    <!-- Autocomplete Dropdown -->
+                    <div id="searchDropdown" class="hidden absolute top-full left-0 right-0 mt-1 z-50 bg-white dark:bg-zinc-900 rounded-xl shadow-2xl border border-gray-200 dark:border-zinc-700 max-h-80 overflow-y-auto">
+                        <div id="searchResults"></div>
+                        <div id="searchLoading" class="hidden p-4 text-center">
+                            <i class="fa-solid fa-spinner fa-spin text-blue-500 mr-2"></i>
+                            <span class="text-xs text-slate-500">Mencari...</span>
+                        </div>
+                        <div id="searchEmpty" class="hidden p-4 text-center">
+                            <i class="fa-solid fa-inbox text-slate-300 dark:text-zinc-600 text-xl mb-1"></i>
+                            <p class="text-xs text-slate-400 dark:text-zinc-500">Tidak ditemukan hasil</p>
                         </div>
                     </div>
                 </div>
@@ -120,10 +133,18 @@
             
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    const searchInput = document.querySelector('input[name="search"]');
+                    const searchInput = document.getElementById('userSearchInput');
                     const opdSelect = document.querySelector('select[name="opd_id"]');
                     const resetBtn = document.getElementById('resetBtn');
+                    const dropdown = document.getElementById('searchDropdown');
+                    const resultsDiv = document.getElementById('searchResults');
+                    const loadingDiv = document.getElementById('searchLoading');
+                    const emptyDiv = document.getElementById('searchEmpty');
+                    const searchIcon = document.getElementById('searchIcon');
                     
+                    let debounceTimer = null;
+                    let abortCtrl = null;
+
                     function toggleResetBtn() {
                         if (searchInput.value.trim() !== '' || opdSelect.value !== '') {
                             resetBtn.classList.remove('hidden');
@@ -132,35 +153,174 @@
                         }
                     }
                     
-                    searchInput.addEventListener('input', toggleResetBtn);
+                    searchInput.addEventListener('input', function() {
+                        toggleResetBtn();
+                        const q = this.value.trim();
+                        
+                        if (q.length < 2) {
+                            hideDropdown();
+                            return;
+                        }
+                        
+                        clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(() => fetchSuggestions(q), 250);
+                    });
+                    
+                    searchInput.addEventListener('focus', function() {
+                        if (this.value.trim().length >= 2 && resultsDiv.innerHTML.trim()) {
+                            showDropdown();
+                        }
+                    });
+
                     opdSelect.addEventListener('change', toggleResetBtn);
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!document.getElementById('searchContainer').contains(e.target)) {
+                            hideDropdown();
+                        }
+                    });
+
+                    // Keyboard navigation
+                    searchInput.addEventListener('keydown', function(e) {
+                        const items = dropdown.querySelectorAll('.search-item');
+                        let active = dropdown.querySelector('.search-item.bg-blue-50, .search-item.dark\\:bg-blue-900\\/20');
+                        let idx = Array.from(items).indexOf(active);
+                        
+                        if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            if (idx < items.length - 1) idx++;
+                            else idx = 0;
+                            highlightItem(items, idx);
+                        } else if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            if (idx > 0) idx--;
+                            else idx = items.length - 1;
+                            highlightItem(items, idx);
+                        } else if (e.key === 'Enter' && idx >= 0 && dropdown.classList.contains('hidden') === false) {
+                            e.preventDefault();
+                            items[idx].click();
+                        } else if (e.key === 'Escape') {
+                            hideDropdown();
+                        }
+                    });
+
+                    function highlightItem(items, idx) {
+                        items.forEach(i => { i.classList.remove('bg-blue-50', 'dark:bg-blue-900/20'); });
+                        if (items[idx]) {
+                            items[idx].classList.add('bg-blue-50', 'dark:bg-blue-900/20');
+                            items[idx].scrollIntoView({ block: 'nearest' });
+                        }
+                    }
+
+                    async function fetchSuggestions(q) {
+                        if (abortCtrl) abortCtrl.abort();
+                        abortCtrl = new AbortController();
+                        
+                        showDropdown();
+                        loadingDiv.classList.remove('hidden');
+                        emptyDiv.classList.add('hidden');
+                        resultsDiv.innerHTML = '';
+                        searchIcon.className = 'fa-solid fa-spinner fa-spin h-5 w-5 text-blue-500 flex items-center justify-center';
+
+                        try {
+                            const res = await fetch(`{{ route('admin.users.search') }}?q=${encodeURIComponent(q)}`, {
+                                signal: abortCtrl.signal
+                            });
+                            const data = await res.json();
+                            loadingDiv.classList.add('hidden');
+                            searchIcon.className = 'fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 flex items-center justify-center';
+                            
+                            if (data.length === 0) {
+                                emptyDiv.classList.remove('hidden');
+                                return;
+                            }
+                            
+                            resultsDiv.innerHTML = data.map(user => `
+                                <a href="/admin/pengguna/${user.id}" 
+                                   class="search-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer border-b border-gray-100 dark:border-zinc-800 last:border-b-0">
+                                    ${user.photo 
+                                        ? `<img src="${user.photo}" class="w-9 h-9 rounded-lg object-cover ring-2 ring-blue-100 dark:ring-blue-900/50 flex-shrink-0">`
+                                        : `<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-sm">${user.initial}</div>`
+                                    }
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-slate-800 dark:text-zinc-200 truncate">${user.name}</p>
+                                        <p class="text-[11px] text-slate-500 dark:text-zinc-500 truncate">${user.email}</p>
+                                    </div>
+                                    <span class="text-[10px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2 py-1 rounded-full flex-shrink-0 max-w-[120px] truncate">${user.opd}</span>
+                                </a>
+                            `).join('');
+                            
+                        } catch (e) {
+                            if (e.name !== 'AbortError') {
+                                loadingDiv.classList.add('hidden');
+                                searchIcon.className = 'fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 flex items-center justify-center';
+                            }
+                        }
+                    }
+
+                    function showDropdown() { dropdown.classList.remove('hidden'); }
+                    function hideDropdown() { dropdown.classList.add('hidden'); }
                 });
             </script>
         </div>
     </div>
 
-    <!-- Success Message -->
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 dark:bg-emerald-500/10 border border-green-200 dark:border-emerald-500/25 rounded-xl">
-            <div class="flex items-start">
-                <i class="fa-solid fa-check w-5 h-5 text-green-500 mr-3 mt-0.5 flex items-center justify-center"></i>
-                <div>
-                    <p class="text-sm font-medium text-green-800 dark:text-emerald-300">{{ session('success') }}</p>
+    <!-- Toast Notification Popup -->
+    @if(session('success') || session('error'))
+    <div id="toastNotif" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
+        <div class="pointer-events-auto px-6 py-4 rounded-2xl shadow-2xl border backdrop-blur-xl max-w-sm w-full mx-4 transform transition-all duration-500 ease-out
+            {{ session('success') ? 'bg-white/95 dark:bg-zinc-900/95 border-emerald-200 dark:border-emerald-500/30 shadow-emerald-500/20' : 'bg-white/95 dark:bg-zinc-900/95 border-red-200 dark:border-red-500/30 shadow-red-500/20' }}"
+            id="toastBox">
+            <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
+                    {{ session('success') ? 'bg-emerald-100 dark:bg-emerald-500/15' : 'bg-red-100 dark:bg-red-500/15' }}">
+                    <i class="fa-solid {{ session('success') ? 'fa-circle-check text-emerald-500' : 'fa-circle-xmark text-red-500' }} text-lg"></i>
                 </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold {{ session('success') ? 'text-emerald-800 dark:text-emerald-300' : 'text-red-800 dark:text-red-300' }}">
+                        {{ session('success') ? 'Berhasil!' : 'Gagal!' }}
+                    </p>
+                    <p class="text-xs {{ session('success') ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }} mt-0.5">
+                        {{ session('success') ?? session('error') }}
+                    </p>
+                </div>
+                <button onclick="closeToast()" class="flex-shrink-0 w-7 h-7 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </div>
+            <!-- Auto-dismiss progress bar -->
+            <div class="mt-3 h-1 rounded-full overflow-hidden {{ session('success') ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-red-100 dark:bg-red-900/30' }}">
+                <div id="toastProgress" class="h-full rounded-full transition-all duration-[3000ms] ease-linear
+                    {{ session('success') ? 'bg-emerald-400' : 'bg-red-400' }}" style="width: 100%"></div>
             </div>
         </div>
-    @endif
-
-    <!-- Error Message -->
-    @if(session('error'))
-        <div class="mb-6 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/25 rounded-xl">
-            <div class="flex items-start">
-                <i class="fa-solid fa-xmark w-5 h-5 text-red-500 mr-3 mt-0.5 flex items-center justify-center"></i>
-                <div>
-                    <p class="text-sm font-medium text-red-800 dark:text-red-300">{{ session('error') }}</p>
-                </div>
-            </div>
-        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const box = document.getElementById('toastBox');
+            const progress = document.getElementById('toastProgress');
+            // Animate in
+            box.style.opacity = '0';
+            box.style.transform = 'scale(0.9)';
+            requestAnimationFrame(() => {
+                box.style.opacity = '1';
+                box.style.transform = 'scale(1)';
+                // Start progress bar countdown
+                requestAnimationFrame(() => { progress.style.width = '0%'; });
+            });
+            // Auto-dismiss after 3s
+            setTimeout(closeToast, 3200);
+        });
+        function closeToast() {
+            const el = document.getElementById('toastNotif');
+            const box = document.getElementById('toastBox');
+            if (!el || !box) return;
+            box.style.opacity = '0';
+            box.style.transform = 'scale(0.9)';
+            setTimeout(() => el.remove(), 300);
+        }
+    </script>
     @endif
 
     <!-- Data Table -->
@@ -846,7 +1006,7 @@
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-gray-900 dark:text-white">Hapus User</h3>
-                                <p class="text-sm text-gray-500 dark:text-zinc-400">Penghapusan bersifat soft delete</p>
+                                <p class="text-sm text-gray-500 dark:text-zinc-400">Tindakan ini tidak dapat dibatalkan</p>
                             </div>
                         </div>
                         <button type="button" onclick="closeDeleteModal()" class="text-gray-400 hover:text-gray-500">
@@ -900,7 +1060,7 @@
             const userEmail = button.getAttribute('data-user-email');
             
             // Build action URL
-            const actionUrl = '/admin/users/' + userId;
+            const actionUrl = '/admin/pengguna/' + userId;
             document.getElementById('deleteUserForm').action = actionUrl;
             document.getElementById('deleteUserName').textContent = userName;
             document.getElementById('deleteUserEmail').textContent = userEmail;

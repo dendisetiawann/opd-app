@@ -32,6 +32,41 @@ class AdminUserController extends Controller
         
         return response()->json($opds);
     }
+    /**
+     * Search users for autocomplete (AJAX).
+     */
+    public function searchUsers(Request $request)
+    {
+        $query = trim($request->get('q', ''));
+
+        if (strlen($query) < 1) {
+            return response()->json([]);
+        }
+
+        $users = User::with('opd')
+            ->where('role', 'user')
+            ->where(function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%")
+                  ->orWhere('email', 'like', "%{$query}%")
+                  ->orWhereHas('opd', function ($opdQ) use ($query) {
+                      $opdQ->where('nama_opd', 'like', "%{$query}%");
+                  });
+            })
+            ->limit(8)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id'    => $user->id,
+                    'name'  => $user->name,
+                    'email' => $user->email,
+                    'opd'   => $user->opd->nama_opd ?? 'N/A',
+                    'photo' => $user->profile_photo ? asset('storage/' . $user->profile_photo) : null,
+                    'initial' => strtoupper(substr($user->name, 0, 1)),
+                ];
+            });
+
+        return response()->json($users);
+    }
 
     /**
      * Display a listing of users.
